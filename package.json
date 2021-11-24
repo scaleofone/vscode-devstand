@@ -1,0 +1,16 @@
+{
+  "private": true,
+  "name": "kitchen-sink",
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "standalone-build": "mkdir -p dist/standalone && rm -rf dist/standalone/* && cp -r src/standalone/* dist/standalone",
+    "webview-build": "rm -rf dist/webview/* && node esbuild-webview.js",
+    "webview-watch": "rm -rf dist/webview/* && node esbuild-webview.js --watch"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.60.0",
+    "esbuild": "^0.12.25",
+    "svelte": "^3.42.4"
+  }
+}
