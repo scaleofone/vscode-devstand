@@ -4,3 +4,8 @@
 .w-auto {
     width: auto;
 }
+
+.snippet-textarea {
+    font-family: var(--vscode-editor-font-family);
+    border: 1px solid var(--vscode-input-border);
+}
