@@ -11,6 +11,7 @@
   "devDependencies": {
     "@types/vscode": "^1.60.0",
     "esbuild": "^0.12.25",
-    "svelte": "^3.42.4"
+    "svelte": "^3.42.4",
+    "throttle-debounce": "^3.0.1"
   }
 }

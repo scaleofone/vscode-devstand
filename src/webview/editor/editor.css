@@ -1,6 +1,38 @@
-.d-inline-block {
-    display: inline-block;
+.wrapper {
+    position: relative;
 }
-.w-auto {
-    width: auto;
+
+.area {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    background-color: var(--vscode-input-border);
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.point {
+    width: 5px;
+    height: 5px;
+    border-radius: 5px;
+    background: red;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+input[type=range].axis-left {
+    width: 200px;
+    position: absolute;
+    top: 0;
+    left: 20px;
+}
+
+input[type=range].axis-top {
+    width: 200px;
+    position: absolute;
+    top: 20px;
+    left: 0;
+    transform: rotate(90deg);
+    transform-origin: left;
 }
