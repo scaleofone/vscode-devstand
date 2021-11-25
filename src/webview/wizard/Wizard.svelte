@@ -1,4 +1,7 @@
 <script>
+    import { getContext } from 'svelte'
+    const vscodeApi = getContext('vscodeApi')
+
     import '../vscode.css';
     import './wizard.css';
     
@@ -16,12 +19,9 @@
         }
     }
     const emitFiles = () => {
-        console.log('====== emitFiles ======')
-        console.info('index.html')
-        console.log(htmlContent)
+        vscodeApi.postMessage({ command: 'info', text: 'index.html'})
         if (cssContent.trim()) {
-            console.info('style.css')
-            console.log(cssContent)
+            vscodeApi.postMessage({ command: 'info', text: 'style.css'})
         }
     }
 

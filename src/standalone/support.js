@@ -60,4 +60,8 @@
         }, 50)
     }
 
+    window.addEventListener('message', (event) => {
+        console.log('MessageEvent', event.data)
+    })
+
 })()

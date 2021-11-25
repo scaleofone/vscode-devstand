@@ -1,6 +1,9 @@
 <script>
     import { throttle } from 'throttle-debounce'
 
+    import { getContext } from 'svelte'
+    const vscodeApi = getContext('vscodeApi')
+
     import '../vscode.css'
     import './editor.css'
     
@@ -17,7 +20,7 @@
     $: updatePointPosition(top, left)
 
     const saveEditor = () => {
-        console.log('saveEditor', top, left)
+        vscodeApi.postMessage({ command: 'info', text: `top=${top}, left=${left}`})
     }
     
     const recenter = () => {
