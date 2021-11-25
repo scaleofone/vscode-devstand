@@ -3,7 +3,26 @@
   "name": "kitchen-sink",
   "version": "0.0.1",
   "type": "module",
+  "main": "./dist/extension/extension.cjs",
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "KitchenSink.wizardOpen",
+        "title": "Open wizard",
+        "category": "Kitchen Sink"
+      }
+    ]
+  },
+  "activationEvents": [
+    "onWebviewPanel:KitchenSink.WizardWebview",
+    "onCommand:KitchenSink.wizardOpen"
+  ],
   "scripts": {
+    "extension-build": "rm -rf dist/extension/* && node esbuild-extension.js",
+    "extension-watch": "rm -rf dist/extension/* && node esbuild-extension.js --watch",
     "standalone-build": "mkdir -p dist/standalone && rm -rf dist/standalone/* && cp -r src/standalone/* dist/standalone",
     "webview-build": "rm -rf dist/webview/* && node esbuild-webview.js",
     "webview-watch": "rm -rf dist/webview/* && node esbuild-webview.js --watch"
