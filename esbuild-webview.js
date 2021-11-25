@@ -16,7 +16,6 @@ esbuild
         minify: !! options.minify,
         splitting: false,
         sourcemap: false,
-        watch: !! options.watch,
         loader: {
             '.svg': 'text',
         },
@@ -28,5 +27,16 @@ esbuild
                 }
             }),
         ],
+        watch: (options.watch ? {
+            onRebuild(error, result) {
+                console.log('[watch] build started')
+                if (error) {
+                    error.errors.forEach(error => console.error(`> ${error.location.file}:${error.location.line}:${error.location.column}: error: ${error.text}`))
+                } else {
+                    console.log('[watch] build sucessfull')
+                }
+            },
+        } : false),
     })
+    .then(() => options.watch && console.log('[watch] build sucessfull'))
     .catch(() => process.exit(1))
