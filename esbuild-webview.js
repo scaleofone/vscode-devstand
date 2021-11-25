@@ -6,8 +6,8 @@ esbuild
     .build({
         outdir: 'dist/webview/',
         entryPoints: [
-            'src/webview/editor/entrypoint.js',
-            'src/webview/wizard/entrypoint.js',
+            'src/webview/editor/editor.js',
+            'src/webview/wizard/wizard.js',
         ],
         metafile: true,
         platform: 'browser',
