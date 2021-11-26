@@ -79,6 +79,9 @@ class WizardWebview {
             case 'requestListing':
                 this.requestListing(message.directory).then(this.resolveListing.bind(this))
                 return
+            case 'requestFindFiles':
+                this.requestFindFiles(message.pattern).then(this.resolveFindFiles.bind(this))
+                return
         }
     }
 
@@ -86,6 +89,12 @@ class WizardWebview {
         this.panel.webview.postMessage({
             command: 'resolveListing',
             listing
+        })
+    }
+    resolveFindFiles(files: Array<string>) {
+        this.panel.webview.postMessage({
+            command: 'resolveFindFiles',
+            files
         })
     }
 
@@ -101,6 +110,24 @@ class WizardWebview {
                 }
             })
             .filter(notempty => notempty)
+    }
+
+    async requestFindFiles(pattern: string | { pattern: string, exclude?: string }): Promise<Array<string>> {
+        if (! Array.isArray(vscode.workspace.workspaceFolders)) {
+            return Promise.resolve([])
+        }
+        console.log(pattern)
+        if (typeof pattern == 'string') {
+            pattern = { pattern }
+        }
+        let folder: vscode.WorkspaceFolder = vscode.workspace.workspaceFolders[0]
+        return Array.from(
+            await vscode.workspace.findFiles(
+                new vscode.RelativePattern(folder, pattern.pattern),
+                pattern.exclude,
+                500
+            )
+        ).map((uri: Uri) => uri.path.replace(folder.uri.path+'/', ''))
     }
 }
 

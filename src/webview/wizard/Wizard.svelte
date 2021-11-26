@@ -36,12 +36,18 @@
     const requestListing = (directory) => {
         vscodeApi.postMessage({ command: 'requestListing', directory })
     }
+    const requestFindFiles = (pattern) => {
+        vscodeApi.postMessage({ command: 'requestFindFiles', pattern })
+    }
 
     window.addEventListener('message', (event) => {
         const message = event.data
         switch (message.command) {
             case 'resolveListing':
                 listing = message.listing.join("\n")
+                break
+            case 'resolveFindFiles':
+                listing = message.files.sort().join("\n")
                 break
         }
     })
@@ -90,5 +96,7 @@
 
     <button on:click="{()=>requestListing('/')}" class="w-auto">Request listing /</button>
     <button on:click="{()=>requestListing('/vendor')}" class="w-auto">Request listing /vendor</button>
+    <button on:click="{()=>requestFindFiles({ pattern: '**/composer.json', exclude: '**​/node_modules/**' })}" class="w-auto">Find all composer.json files</button>
+    <button on:click="{()=>requestFindFiles({ pattern: '**/.gitignore', exclude: '{**​/node_modules/**,vendor/**}' })}" class="w-auto">Find all .gitignore files</button>
 
 </div>
