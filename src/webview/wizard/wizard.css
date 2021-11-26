@@ -5,6 +5,12 @@
     width: auto;
 }
 
+.grid-snippets {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 1.5em;
+}
+
 .snippet-textarea {
     font-family: var(--vscode-editor-font-family);
     border: 1px solid var(--vscode-input-border);

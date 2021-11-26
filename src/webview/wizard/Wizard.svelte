@@ -4,10 +4,10 @@
 
     import '../vscode.css';
     import './wizard.css';
-    
+
     let htmlContent = "<html>\n  hello world\n</html>";
     let cssContent = ".red {\n  color: red;\n}";
-    
+
     const pasteCssLinkIfNecessary = () => {
         const cssLink = "\n  <link href=style.css rel=stylesheet>";
         if (cssContent.trim()) {
@@ -33,23 +33,31 @@
 </script>
 
 <div>
-    index.html
-    <textarea
-        bind:value={htmlContent}
-        cols="30" rows="10" spellcheck="false"
-        class="snippet-textarea"
-    ></textarea>
+
+    <div class="grid-snippets">
+        <div>
+
+            index.html
+            <textarea
+                bind:value={htmlContent}
+                rows="5" spellcheck="false"
+                class="snippet-textarea"
+            ></textarea>
+
+        </div>
+        <div>
+
+            style.css
+            <textarea
+                bind:value={cssContent}
+                rows="5" spellcheck="false"
+                class="snippet-textarea"
+            ></textarea>
+
+        </div>
+    </div>
 
     <br>
 
-    style.css
-    <textarea
-        bind:value={cssContent}
-        cols="30" rows="10" spellcheck="false"
-        class="snippet-textarea"
-    ></textarea>
-
-    <br>
-
-    <button on:click={runWizard}>Run wizard</button> 
+    <button on:click={runWizard}>Run wizard</button>
 </div>
