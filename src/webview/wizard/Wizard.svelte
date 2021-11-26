@@ -33,8 +33,8 @@
 
     let listing = ''
 
-    const requestListingRoot = () => {
-        vscodeApi.postMessage({ command: 'requestListing', directory: '/' })
+    const requestListing = (directory) => {
+        vscodeApi.postMessage({ command: 'requestListing', directory })
     }
 
     window.addEventListener('message', (event) => {
@@ -82,12 +82,13 @@
 
     Listing
     <pre
-        style="min-height:16em"
+        style="min-height:10em"
         class="snippet-textarea"
     >{listing}</pre>
 
     <br>
 
-    <button on:click={requestListingRoot}>Request root directory listing</button>
+    <button on:click="{()=>requestListing('/')}" class="w-auto">Request listing /</button>
+    <button on:click="{()=>requestListing('/vendor')}" class="w-auto">Request listing /vendor</button>
 
 </div>
