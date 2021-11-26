@@ -30,6 +30,22 @@
         emitFiles()
     }
 
+
+    let listing = ''
+
+    const requestListingRoot = () => {
+        vscodeApi.postMessage({ command: 'requestListing', directory: '/' })
+    }
+
+    window.addEventListener('message', (event) => {
+        const message = event.data
+        switch (message.command) {
+            case 'resolveListing':
+                listing = message.listing.join("\n")
+                break
+        }
+    })
+
 </script>
 
 <div>
@@ -60,4 +76,18 @@
     <br>
 
     <button on:click={runWizard}>Run wizard</button>
+
+    <br>
+    <br>
+
+    Listing
+    <pre
+        style="min-height:16em"
+        class="snippet-textarea"
+    >{listing}</pre>
+
+    <br>
+
+    <button on:click={requestListingRoot}>Request root directory listing</button>
+
 </div>

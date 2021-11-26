@@ -23,12 +23,12 @@
     function createSwitcherElement(themes, currentTheme) {
         let selectElement = document.createElement('select')
         selectElement.setAttribute('style', `
-            color: var(--vscode-input-foreground); 
-            background-color: var(--vscode-input-background); 
-            position: absolute; 
-            bottom: 1rem; 
-            right: 1rem; 
-            outline :none !important; 
+            color: var(--vscode-input-foreground);
+            background-color: var(--vscode-input-background);
+            position: absolute;
+            bottom: 1rem;
+            right: 1rem;
+            outline :none !important;
             opacity: 0.3;
         `)
         selectElement.innerHTML = themes.reduce((html, theme) => {
@@ -60,8 +60,22 @@
         }, 50)
     }
 
+
+    function resolveListing(directory) {
+        window.postMessage({
+            command: 'resolveListing',
+            listing: ['support'+directory+'index.html', 'support'+directory+'style.css', 'support'+directory+'composer.json']
+        })
+    }
+
     window.addEventListener('message', (event) => {
         console.log('MessageEvent', event.data)
+        const message = event.data
+        switch (message.command) {
+            case 'requestListing':
+                resolveListing(message.directory)
+                break
+        }
     })
 
 })()

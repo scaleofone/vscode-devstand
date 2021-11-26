@@ -3,7 +3,7 @@ import { window, Disposable, Uri, ViewColumn, WebviewPanel } from 'vscode'
 class WizardWebview {
     public static readonly viewType = 'KitchenSink.WizardWebview'
     public static instance: WizardWebview | undefined
-    
+
     private readonly panel: WebviewPanel
     private readonly extensionUri: Uri
     private disposables: Disposable[] = []
@@ -32,6 +32,7 @@ class WizardWebview {
                 'WizardWebview title',
                 viewColumn || ViewColumn.One,
                 {
+                    retainContextWhenHidden: true,
                     enableScripts: true,
                     localResourceRoots: [Uri.joinPath(extensionUri, 'dist')],
                 }
@@ -67,13 +68,23 @@ class WizardWebview {
             }
         }
     }
-    
+
     onDidReceiveMessage(message) {
         switch (message.command) {
             case 'info':
                 window.showInformationMessage(message.text)
                 return
+            case 'requestListing':
+                this.resolveListing(message.directory)
+                return
         }
+    }
+
+    resolveListing(directory: string) {
+        this.panel.webview.postMessage({
+            command: 'resolveListing',
+            listing: [directory+'index.html', directory+'style.css', directory+'composer.json']
+        })
     }
 }
 
