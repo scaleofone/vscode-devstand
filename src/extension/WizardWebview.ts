@@ -73,13 +73,14 @@ class WizardWebview {
     }
 
     onDidReceiveMessage(message) {
-        if (message.__is == 'void') {
+        if (message.__is == 'void' && message.__from === 'webview') {
             this[message.command].apply(this, [message.payload])
-        } else if (message.__is == 'request') {
+        } else if (message.__is == 'request' && message.__from === 'webview') {
             this[message.command].apply(this, [message.payload])
                 .then(responsePayload => {
                     this.panel.webview.postMessage({
                         __is: 'response',
+                        __from: 'domain',
                         __requestId: message.__requestId,
                         payload: responsePayload
                     })
@@ -88,14 +89,14 @@ class WizardWebview {
     }
 
     postVoidPayload(command, payload) {
-        this.panel.webview.postMessage({ __is: 'void', command, payload })
+        this.panel.webview.postMessage({ __is: 'void', __from: 'domain', command, payload })
     }
 
     async postRequestPayload(command, payload) {
         return new Promise((resolve, reject) => {
             let __requestId = ++this.requestIdSequence
             let disposable = this.panel.webview.onDidReceiveMessage((message) => {
-                if (message.__requestId === __requestId && message.__is === 'response') {
+                if (message.__requestId === __requestId && message.__is === 'response' && message.__from === 'webview') {
                     let givenDisposableIndex = this.disposables.findIndex(given => given === disposable)
                     if (givenDisposableIndex > -1) {
                         this.disposables[givenDisposableIndex].dispose()
@@ -104,7 +105,7 @@ class WizardWebview {
                     resolve(message.payload)
                 }
             }, this, this.disposables)
-            this.panel.webview.postMessage({ __is: 'request', command, payload, __requestId })
+            this.panel.webview.postMessage({ __is: 'request', __from: 'domain', command, payload, __requestId })
         })
     }
 

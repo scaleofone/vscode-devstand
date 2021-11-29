@@ -8,13 +8,14 @@ class WebviewFacade {
     }
 
     onDidReceiveMessage(message) {
-        if (message.__is == 'void') {
+        if (message.__is == 'void' && message.__from === 'domain') {
             this[message.command].apply(this, [message.payload])
-        } else if (message.__is == 'request') {
+        } else if (message.__is == 'request' && message.__from === 'domain') {
             this[message.command].apply(this, [message.payload])
                 .then(responsePayload => {
                     vscodeApi.postMessage({
                         __is: 'response',
+                        __from: 'webview',
                         __requestId: message.__requestId,
                         payload: responsePayload
                     })
