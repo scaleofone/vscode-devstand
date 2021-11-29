@@ -7,10 +7,10 @@ class VsCodeApi {
             this.acquired = false
         }
     }
-    postMessage(payload) {
+    postMessage(data) {
         this.acquired
-            ? this.api.postMessage(payload)
-            : window.postMessage(payload)
+            ? this.api.postMessage(data)
+            : window.postMessage(data)
     }
 }
 
