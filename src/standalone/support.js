@@ -60,22 +60,4 @@
         }, 50)
     }
 
-
-    function resolveListing(directory) {
-        window.postMessage({
-            command: 'resolveListing',
-            listing: ['support'+directory+'index.html', 'support'+directory+'style.css', 'support'+directory+'composer.json']
-        })
-    }
-
-    window.addEventListener('message', (event) => {
-        console.log('MessageEvent', event.data)
-        const message = event.data
-        switch (message.command) {
-            case 'requestListing':
-                resolveListing(message.directory)
-                break
-        }
-    })
-
 })()
