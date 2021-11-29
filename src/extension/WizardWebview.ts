@@ -77,25 +77,18 @@ class WizardWebview {
                 window.showInformationMessage(message.text)
                 return
             case 'requestListing':
-                this.requestListing(message.directory).then(this.resolveListing.bind(this))
+                this.requestListing(message.payload.directory)
+                    .then(payload => this.postResponsePayload(message.__requestId, payload))
                 return
             case 'requestFindFiles':
-                this.requestFindFiles(message.pattern).then(this.resolveFindFiles.bind(this))
+                this.requestFindFiles(message.payload.pattern)
+                    .then(payload => this.postResponsePayload(message.__requestId, payload))
                 return
         }
     }
 
-    resolveListing(listing: Array<string>) {
-        this.panel.webview.postMessage({
-            command: 'resolveListing',
-            listing
-        })
-    }
-    resolveFindFiles(files: Array<string>) {
-        this.panel.webview.postMessage({
-            command: 'resolveFindFiles',
-            files
-        })
+    postResponsePayload(__requestId: any, payload: any) {
+        this.panel.webview.postMessage({ __is: 'response', __requestId, payload })
     }
 
     async requestListing(directory: string): Promise<Array<string>> {

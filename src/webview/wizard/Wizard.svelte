@@ -1,6 +1,6 @@
 <script>
     import { getContext } from 'svelte'
-    const vscodeApi = getContext('vscodeApi')
+    const domainApi = getContext('domainApi')
 
     import '../vscode.css';
     import './wizard.css';
@@ -19,9 +19,9 @@
         }
     }
     const emitFiles = () => {
-        vscodeApi.postMessage({ command: 'info', text: 'index.html'})
+        domainApi.info('index.html')
         if (cssContent.trim()) {
-            vscodeApi.postMessage({ command: 'info', text: 'style.css'})
+            domainApi.info('style.css')
         }
     }
 
@@ -33,24 +33,19 @@
 
     let listing = ''
 
+    let listingPromise = null
     const requestListing = (directory) => {
-        vscodeApi.postMessage({ command: 'requestListing', directory })
+        listingPromise = domainApi.requestListing(directory)
+        listingPromise.then((items) => {
+            listing = "resolveListing\n\n"+items.join("\n")
+        })
     }
     const requestFindFiles = (pattern) => {
-        vscodeApi.postMessage({ command: 'requestFindFiles', pattern })
+        listingPromise = domainApi.requestFindFiles(pattern)
+        listingPromise.then((items) => {
+            listing = "resolveFindFiles\n\n"+items.join("\n")
+        })
     }
-
-    window.addEventListener('message', (event) => {
-        const message = event.data
-        switch (message.command) {
-            case 'resolveListing':
-                listing = message.listing.join("\n")
-                break
-            case 'resolveFindFiles':
-                listing = message.files.sort().join("\n")
-                break
-        }
-    })
 
 </script>
 
@@ -87,6 +82,11 @@
     <br>
 
     Listing
+
+    {#if listingPromise !== null}
+        {#await listingPromise} ...fetching {:then items} fethed {items.length} items {:catch error} <b>{error.message}</b> {/await}
+    {/if}
+
     <pre
         style="min-height:10em"
         class="snippet-textarea"
