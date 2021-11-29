@@ -5,6 +5,8 @@ class WizardDomainApi {
         this.requestIdSequence = 1;
     }
 
+    /************** Pass commands to webview **************/
+
     showMessage(text) {
         this.postVoidPayload('showMessage', text)
     }

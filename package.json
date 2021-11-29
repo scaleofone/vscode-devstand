@@ -10,6 +10,16 @@
   "contributes": {
     "commands": [
       {
+        "command": "KitchenSink.truncateListing",
+        "title": "truncateListing",
+        "category": "Kitchen Sink"
+      },
+      {
+        "command": "KitchenSink.resetListing",
+        "title": "resetListing",
+        "category": "Kitchen Sink"
+      },
+      {
         "command": "KitchenSink.wizardOpen",
         "title": "Open wizard",
         "category": "Kitchen Sink"
@@ -18,6 +28,8 @@
   },
   "activationEvents": [
     "onWebviewPanel:KitchenSink.WizardWebview",
+    "onCommand:KitchenSink.truncateListing",
+    "onCommand:KitchenSink.resetListing",
     "onCommand:KitchenSink.wizardOpen"
   ],
   "scripts": {

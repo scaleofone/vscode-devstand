@@ -1,4 +1,5 @@
 import domainApi from './WizardDomainApi.js'
+import './WebviewFacade.js'
 
 import Wizard from './Wizard.svelte'
 

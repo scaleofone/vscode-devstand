@@ -6,6 +6,7 @@ class WizardWebview {
     public static readonly viewType = 'KitchenSink.WizardWebview'
     public static instance: WizardWebview | undefined
 
+    private requestIdSequence: number = 1
     private readonly panel: WebviewPanel
     private readonly extensionUri: Uri
     private disposables: Disposable[] = []
@@ -17,7 +18,7 @@ class WizardWebview {
         this.redraw()
 
         this.panel.onDidDispose(this.onDidDispose.bind(this), null, this.disposables)
-        this.panel.webview.onDidReceiveMessage(this.onDidReceiveMessage.bind(this), null, this.disposables)
+        this.panel.webview.onDidReceiveMessage(this.onDidReceiveMessage, this, this.disposables)
     }
 
     static instantiateOrReveal(extensionUri: Uri) {
@@ -86,10 +87,29 @@ class WizardWebview {
         }
     }
 
+    postVoidPayload(command, payload) {
+        this.panel.webview.postMessage({ __is: 'void', command, payload })
+    }
+
+    async postRequestPayload(command, payload) {
+        return new Promise((resolve, reject) => {
+            let __requestId = ++this.requestIdSequence
+            let disposable = this.panel.webview.onDidReceiveMessage((message) => {
+                if (message.__requestId === __requestId && message.__is === 'response') {
+                    let givenDisposableIndex = this.disposables.findIndex(given => given === disposable)
+                    if (givenDisposableIndex > -1) {
+                        this.disposables[givenDisposableIndex].dispose()
+                        this.disposables.splice(givenDisposableIndex, 1)
+                    }
+                    resolve(message.payload)
+                }
+            }, this, this.disposables)
+            this.panel.webview.postMessage({ __is: 'request', command, payload, __requestId })
+        })
+    }
 
 
-
-    /************** Commands **************/
+    /************** Handle commands passed from webview **************/
 
     showMessage(payload: string) {
         window.showInformationMessage(payload)
@@ -124,6 +144,17 @@ class WizardWebview {
                 500
             )
         ).map((uri: Uri) => uri.path.replace(folder.uri.path+'/', ''))
+    }
+
+
+    /************** Pass commands to webview **************/
+
+    resetListing() {
+        this.postVoidPayload('resetListing', null)
+    }
+    truncateListing() {
+        this.postRequestPayload('truncateListing', 3)
+            .then(responsePayload => this.showMessage(responsePayload.toString()))
     }
 }
 
