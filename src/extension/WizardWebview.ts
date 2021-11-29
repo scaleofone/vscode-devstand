@@ -72,23 +72,27 @@ class WizardWebview {
     }
 
     onDidReceiveMessage(message) {
-        switch (message.command) {
-            case 'info':
-                window.showInformationMessage(message.text)
-                return
-            case 'requestListing':
-                this.requestListing(message.payload.directory)
-                    .then(payload => this.postResponsePayload(message.__requestId, payload))
-                return
-            case 'requestFindFiles':
-                this.requestFindFiles(message.payload.pattern)
-                    .then(payload => this.postResponsePayload(message.__requestId, payload))
-                return
+        if (message.__is == 'void') {
+            this[message.command].apply(this, [message.payload])
+        } else if (message.__is == 'request') {
+            this[message.command].apply(this, [message.payload])
+                .then(responsePayload => {
+                    this.panel.webview.postMessage({
+                        __is: 'response',
+                        __requestId: message.__requestId,
+                        payload: responsePayload
+                    })
+                })
         }
     }
 
-    postResponsePayload(__requestId: any, payload: any) {
-        this.panel.webview.postMessage({ __is: 'response', __requestId, payload })
+
+
+
+    /************** Commands **************/
+
+    showMessage(payload: string) {
+        window.showInformationMessage(payload)
     }
 
     async requestListing(directory: string): Promise<Array<string>> {
@@ -109,7 +113,6 @@ class WizardWebview {
         if (! Array.isArray(vscode.workspace.workspaceFolders)) {
             return Promise.resolve([])
         }
-        console.log(pattern)
         if (typeof pattern == 'string') {
             pattern = { pattern }
         }

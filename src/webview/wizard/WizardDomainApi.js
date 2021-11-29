@@ -4,19 +4,23 @@ class WizardDomainApi {
     constructor() {
         this.requestIdSequence = 1;
     }
-    postMessage(payload) {
-        console.warn('direct access to vscode api')
+
+    showMessage(text) {
+        this.postVoidPayload('showMessage', text)
     }
 
-    info(text) {
-        vscodeApi.postMessage({ command: 'info', text })
-    }
     async requestListing(directory) {
-        return this.postRequestPayload('requestListing', { directory })
+        return this.postRequestPayload('requestListing', directory)
     }
+
     async requestFindFiles(pattern) {
-        return this.postRequestPayload('requestFindFiles', { pattern })
+        return this.postRequestPayload('requestFindFiles', pattern)
     }
+
+    postVoidPayload(command, payload) {
+        vscodeApi.postMessage({ __is: 'void', command, payload })
+    }
+
     async postRequestPayload(command, payload) {
         return new Promise((resolve, reject) => {
             let __requestId = ++this.requestIdSequence
@@ -27,7 +31,7 @@ class WizardDomainApi {
                 }
             }
             window.addEventListener('message', responseHandler)
-            vscodeApi.postMessage({ command, payload, __requestId })
+            vscodeApi.postMessage({ __is: 'request', command, payload, __requestId })
         })
     }
 }

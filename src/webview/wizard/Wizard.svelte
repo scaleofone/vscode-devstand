@@ -1,5 +1,8 @@
 <script>
     import { getContext } from 'svelte'
+
+    /** @typedef { import('./WizardDomainApi.js').WizardDomainApi } WizardDomainApi */
+    /** @type WizardDomainApi */
     const domainApi = getContext('domainApi')
 
     import { listing, listingPromise, listingAsString } from './stores/listing.js'
@@ -21,9 +24,9 @@
         }
     }
     const emitFiles = () => {
-        domainApi.info('index.html')
+        domainApi.showMessage('index.html')
         if (cssContent.trim()) {
-            domainApi.info('style.css')
+            domainApi.showMessage('style.css')
         }
     }
 
