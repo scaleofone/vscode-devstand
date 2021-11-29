@@ -1,6 +1,7 @@
+import vscodeApi from '../vscode.js'
+
 class WizardDomainApi {
-    constructor(win) {
-        this.parent = win
+    constructor() {
         this.requestIdSequence = 1;
     }
     postMessage(payload) {
@@ -8,7 +9,7 @@ class WizardDomainApi {
     }
 
     info(text) {
-        this.parent.postMessage({ command: 'info', text })
+        vscodeApi.postMessage({ command: 'info', text })
     }
     async requestListing(directory) {
         return this.postRequestPayload('requestListing', { directory })
@@ -26,9 +27,10 @@ class WizardDomainApi {
                 }
             }
             window.addEventListener('message', responseHandler)
-            this.parent.postMessage({ command, payload, __requestId })
+            vscodeApi.postMessage({ command, payload, __requestId })
         })
     }
 }
 
-export default WizardDomainApi
+export default new WizardDomainApi()
+export { WizardDomainApi }

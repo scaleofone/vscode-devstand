@@ -1,28 +1,18 @@
-class VscodeApiReal {
-    constructor(api) {
-        this.api = api
-    }
-    postMessage(payload) {
-        this.api.postMessage(payload) 
-    }
-}
-
-class VscodeApiEmulated {
-    postMessage(payload) {
-        window.postMessage(payload)
-    }
-}
-
-let acquiredVsCodeApi = null;
-const vscodeApiFactory = () => {
-    if (typeof acquireVsCodeApi == 'function') {
-        if (acquiredVsCodeApi === null) {
-            acquiredVsCodeApi = acquireVsCodeApi()
+class VsCodeApi {
+    constructor() {
+        if (typeof acquireVsCodeApi == 'function') {
+            this.acquired = true
+            this.api = acquireVsCodeApi()
+        } else {
+            this.acquired = false
         }
-        return new VscodeApiReal(acquiredVsCodeApi)
-    } else {
-        return new VscodeApiEmulated()
+    }
+    postMessage(payload) {
+        this.acquired
+            ? this.api.postMessage(payload)
+            : window.postMessage(payload)
     }
 }
 
-export { vscodeApiFactory }
+export default new VsCodeApi()
+export { VsCodeApi }

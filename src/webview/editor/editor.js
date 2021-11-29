@@ -1,5 +1,4 @@
-import { vscodeApiFactory } from '../vscode.js'
-const vscodeApi = vscodeApiFactory()
+import vscodeApi from '../vscode.js'
 
 import Editor from './Editor.svelte'
 
