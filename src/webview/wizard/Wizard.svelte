@@ -2,6 +2,8 @@
     import { getContext } from 'svelte'
     const domainApi = getContext('domainApi')
 
+    import { listing, listingPromise, listingAsString } from './stores/listing.js'
+
     import '../vscode.css';
     import './wizard.css';
 
@@ -28,23 +30,6 @@
     const runWizard = () => {
         pasteCssLinkIfNecessary()
         emitFiles()
-    }
-
-
-    let listing = ''
-
-    let listingPromise = null
-    const requestListing = (directory) => {
-        listingPromise = domainApi.requestListing(directory)
-        listingPromise.then((items) => {
-            listing = "resolveListing\n\n"+items.join("\n")
-        })
-    }
-    const requestFindFiles = (pattern) => {
-        listingPromise = domainApi.requestFindFiles(pattern)
-        listingPromise.then((items) => {
-            listing = "resolveFindFiles\n\n"+items.join("\n")
-        })
     }
 
 </script>
@@ -83,20 +68,22 @@
 
     Listing
 
-    {#if listingPromise !== null}
-        {#await listingPromise} ...fetching {:then items} fethed {items.length} items {:catch error} <b>{error.message}</b> {/await}
+    {#if $listingPromise !== null }
+        {#await $listingPromise} ...fetching {:then} fetched {:catch error} <b>{error.message}</b> {/await}
     {/if}
 
     <pre
         style="min-height:10em"
         class="snippet-textarea"
-    >{listing}</pre>
+    >{ $listingAsString }</pre>
 
     <br>
 
-    <button on:click="{()=>requestListing('/')}" class="w-auto">Request listing /</button>
-    <button on:click="{()=>requestListing('/vendor')}" class="w-auto">Request listing /vendor</button>
-    <button on:click="{()=>requestFindFiles({ pattern: '**/composer.json', exclude: '**​/node_modules/**' })}" class="w-auto">Find all composer.json files</button>
-    <button on:click="{()=>requestFindFiles({ pattern: '**/.gitignore', exclude: '{**​/node_modules/**,vendor/**}' })}" class="w-auto">Find all .gitignore files</button>
+    <button on:click="{ () => listing.requestDirectory('/') }" class="w-auto">Request listing /</button>
+    <button on:click="{ () => listing.requestDirectory('/vendor') }" class="w-auto">Request listing /vendor</button>
+    <button on:click="{ () => listing.requestFindFiles({ pattern: '**/composer.json', exclude: '**​/node_modules/**' })}" class="w-auto">Find all composer.json files</button>
+    <button on:click="{ () => listing.requestFindFiles({ pattern: '**/.gitignore', exclude: '{**​/node_modules/**,vendor/**}' })}" class="w-auto">Find all .gitignore files</button>
+    <button on:click="{ () => listing.truncate(2)}" class="w-auto">Truncate 2 items from listing</button>
+    <button on:click="{ () => listing.reset()}" class="w-auto">Reset listing</button>
 
 </div>
