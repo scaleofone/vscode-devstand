@@ -1,5 +1,5 @@
 import { writable, derived } from 'svelte/store'
-import domainApi from './../WizardDomainApi.js'
+import domainApi from './../KickerDomainApi.js'
 
 export const listingPromise = writable(null)
 

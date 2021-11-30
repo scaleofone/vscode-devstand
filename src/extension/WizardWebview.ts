@@ -21,7 +21,7 @@ class WizardWebview {
         this.panel.webview.onDidReceiveMessage(this.onDidReceiveMessage, this, this.disposables)
     }
 
-    static instantiateOrReveal(extensionUri: Uri) {
+    static instantiateOrReveal(extensionUri: Uri, title: string) {
         const viewColumn = window.activeTextEditor ? window.activeTextEditor.viewColumn : undefined
 
         if (WizardWebview.instance) {
@@ -32,7 +32,7 @@ class WizardWebview {
         WizardWebview.instance = new WizardWebview(
             window.createWebviewPanel(
                 WizardWebview.viewType,
-                'WizardWebview title',
+                title,
                 viewColumn || ViewColumn.One,
                 {
                     retainContextWhenHidden: true,
@@ -46,14 +46,15 @@ class WizardWebview {
 
     redraw() {
         const webviewUri = (uri: string) => this.panel.webview.asWebviewUri(Uri.joinPath(this.extensionUri, uri))
+        const basename = this.panel.title // TODO dirty hack
         this.panel.webview.html = `<!DOCTYPE html>
             <html lang="en">
                 <head>
                     <meta charset="UTF-8">
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
                     <meta content="default-src ${this.panel.webview.cspSource};" http-equiv="Content-Security-Policy">
-                    <link href="${webviewUri('dist/webview/wizard/wizard.css')}" rel="stylesheet">
-                    <script defer src="${webviewUri('dist/webview/wizard/wizard.js')}"></script>
+                    <link href="${webviewUri('dist/webview/'+basename+'/'+basename+'.css')}" rel="stylesheet">
+                    <script defer src="${webviewUri('dist/webview/'+basename+'/'+basename+'.js')}"></script>
                 </head>
                 <body></body>
             </html>`

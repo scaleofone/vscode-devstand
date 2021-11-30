@@ -1,6 +1,8 @@
 import vscodeApi from '../vscode.js'
+import { listing } from './stores/listing.js'
+import { get_store_value } from 'svelte/internal'
 
-class WebviewFacade {
+class KickerFacade {
 
     /********************* Messenger **********************/
 
@@ -26,8 +28,15 @@ class WebviewFacade {
 
     /************** Handle commands passed from extension **************/
 
-    // TBD
+    truncateListing(count) {
+        listing.truncate(count)
+        return Promise.resolve(get_store_value(listing).length)
+    }
+
+    resetListing() {
+        listing.reset()
+    }
 }
 
-export default new WebviewFacade()
-export { WebviewFacade }
+export default new KickerFacade()
+export { KickerFacade }

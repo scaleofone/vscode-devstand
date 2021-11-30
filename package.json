@@ -20,6 +20,11 @@
         "category": "Kitchen Sink"
       },
       {
+        "command": "KitchenSink.kickerOpen",
+        "title": "Open kicker",
+        "category": "Kitchen Sink"
+      },
+      {
         "command": "KitchenSink.wizardOpen",
         "title": "Open wizard",
         "category": "Kitchen Sink"
@@ -30,6 +35,7 @@
     "onWebviewPanel:KitchenSink.WizardWebview",
     "onCommand:KitchenSink.truncateListing",
     "onCommand:KitchenSink.resetListing",
+    "onCommand:KitchenSink.kickerOpen",
     "onCommand:KitchenSink.wizardOpen"
   ],
   "scripts": {

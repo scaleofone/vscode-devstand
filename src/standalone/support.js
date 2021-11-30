@@ -25,7 +25,7 @@
         selectElement.setAttribute('style', `
             color: var(--vscode-input-foreground);
             background-color: var(--vscode-input-background);
-            position: absolute;
+            position: fixed;
             bottom: 1rem;
             right: 1rem;
             outline :none !important;

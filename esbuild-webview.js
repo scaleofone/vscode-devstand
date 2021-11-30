@@ -8,6 +8,7 @@ esbuild
         entryPoints: [
             'src/webview/editor/editor.js',
             'src/webview/wizard/wizard.js',
+            'src/webview/kicker/kicker.js',
         ],
         metafile: true,
         platform: 'browser',

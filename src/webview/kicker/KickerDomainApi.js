@@ -1,6 +1,6 @@
 import vscodeApi from '../vscode.js'
 
-class WizardDomainApi {
+class KickerDomainApi {
     constructor() {
         this.requestIdSequence = 1;
     }
@@ -9,6 +9,14 @@ class WizardDomainApi {
 
     showMessage(text) {
         this.postVoidPayload('showMessage', text)
+    }
+
+    async requestListing(directory) {
+        return this.postRequestPayload('requestListing', directory)
+    }
+
+    async requestFindFiles(pattern) {
+        return this.postRequestPayload('requestFindFiles', pattern)
     }
 
 
@@ -33,5 +41,5 @@ class WizardDomainApi {
     }
 }
 
-export default new WizardDomainApi()
-export { WizardDomainApi }
+export default new KickerDomainApi()
+export { KickerDomainApi }
