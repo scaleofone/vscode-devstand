@@ -53,13 +53,13 @@ class StandaloneDomainFacade {
     }
 
     async requestListing(directory) {
-        return fetch('backend/requestListing.php?directory='+directory)
+        return fetch('/backend/requestListing.php?directory='+directory)
             .then(res => res.json())
     }
 
     async requestFindFiles(pattern) {
-        console.error('not implemented yet!')
-        return Promise.resolve([])
+        return fetch('/backend/requestFindFiles.php', { method: 'POST', body: JSON.stringify(pattern) })
+            .then(res => res.json())
     }
 
 

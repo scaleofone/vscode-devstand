@@ -1,0 +1,12 @@
+{
+    "name": "devstand/stanalone-backend",
+    "description": "backend for standalone vscode ext",
+    "require": {
+        "webmozart/glob": "^4.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Devstand\\": "/"
+        }
+    }
+}
