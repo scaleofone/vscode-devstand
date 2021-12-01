@@ -23,7 +23,7 @@ class Messenger {
         window.addEventListener('message', (event: MessageEvent) => this.onDidReceiveMessage(event.data))
     }
 
-    private onDidReceiveMessage(message: MessengerMessage) {
+    onDidReceiveMessage(message: MessengerMessage) {
         if (message.__is == 'void' && message.__from === 'domain') {
             this.facade[message.command].apply(this.facade, [message.payload])
         } else if (message.__is == 'request' && message.__from === 'domain') {

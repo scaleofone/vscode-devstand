@@ -30,7 +30,6 @@ class KickerContext
 
 const context = KickerContext.singleton()
 const gateway = context.gateway
-const messenger = context.messenger
 const facade = context.facade
 
-export { gateway, messenger, facade }
+export { gateway, facade }
