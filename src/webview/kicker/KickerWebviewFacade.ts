@@ -1,11 +1,11 @@
 import { listing } from './stores/listing.js'
 import { get_store_value } from 'svelte/internal'
-import { MessengerContext } from './shared'
+import { KickerExtensionGateway } from './KickerExtensionGateway'
 
 class KickerWebviewFacade {
-    context: MessengerContext
-    constructor(context: MessengerContext) {
-        this.context = context
+    private gateway: KickerExtensionGateway
+    constructor(gateway: KickerExtensionGateway) {
+        this.gateway = gateway
     }
 
     /************** Handle commands passed from extension **************/

@@ -1,5 +1,5 @@
 import { writable, derived } from 'svelte/store'
-import context from '../KickerContext'
+import { gateway } from '../KickerContext'
 
 export const listingPromise = writable(null)
 
@@ -20,14 +20,14 @@ export const listing = (() => {
 
         requestDirectory: (directory: string) => {
             listingPromise.set(
-                context.gateway.requestListing(directory)
+                gateway.requestListing(directory)
                     .then(payload => set(payload))
             )
         },
 
         requestFindFiles: (pattern: string | { pattern:string, exclude?:string }) => {
             listingPromise.set(
-                context.gateway.requestFindFiles(pattern)
+                gateway.requestFindFiles(pattern)
                     .then(payload => set(payload))
             )
         },

@@ -1,23 +1,23 @@
-import { MessengerContext } from './shared'
+import { Messenger } from './Messenger'
 
 class KickerExtensionGateway {
-    context: MessengerContext
-    constructor(context: MessengerContext) {
-        this.context = context
+    private messenger: Messenger
+    constructor(messenger: Messenger) {
+        this.messenger = messenger
     }
 
     /************** Pass commands to extension **************/
 
     showMessage(text: string): void {
-        this.context.messenger.postVoidPayload('showMessage', text)
+        this.messenger.postVoidPayload('showMessage', text)
     }
 
     async requestListing(directory: string): Promise<string[]> {
-        return this.context.messenger.postRequestPayload('requestListing', directory)
+        return this.messenger.postRequestPayload('requestListing', directory)
     }
 
     async requestFindFiles(pattern: string | { pattern:string, exclude?:string }): Promise<string[]> {
-        return this.context.messenger.postRequestPayload('requestFindFiles', pattern)
+        return this.messenger.postRequestPayload('requestFindFiles', pattern)
     }
 
 }
