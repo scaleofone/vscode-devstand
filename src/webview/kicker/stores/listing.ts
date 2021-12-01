@@ -1,5 +1,5 @@
 import { writable, derived } from 'svelte/store'
-import domainApi from './../KickerDomainApi.js'
+import context from '../KickerContext'
 
 export const listingPromise = writable(null)
 
@@ -13,21 +13,21 @@ export const listing = (() => {
             set([])
         },
 
-        truncate: (count) => update(arr => {
+        truncate: (count: number) => update(arr => {
             arr.splice(0, count)
             return arr
         }),
 
-        requestDirectory: (directory) => {
+        requestDirectory: (directory: string) => {
             listingPromise.set(
-                domainApi.requestListing(directory)
+                context.gateway.requestListing(directory)
                     .then(payload => set(payload))
             )
         },
 
-        requestFindFiles: (pattern) => {
+        requestFindFiles: (pattern: string | { pattern:string, exclude?:string }) => {
             listingPromise.set(
-                domainApi.requestFindFiles(pattern)
+                context.gateway.requestFindFiles(pattern)
                     .then(payload => set(payload))
             )
         },

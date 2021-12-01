@@ -1,5 +1,5 @@
 <script>
-    import { listing, listingPromise, listingAsString } from './stores/listing.js'
+    import { listing, listingPromise, listingAsString } from './stores/listing'
 </script>
 
 <div>
