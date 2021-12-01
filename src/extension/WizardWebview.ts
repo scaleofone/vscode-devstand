@@ -93,7 +93,7 @@ class WizardWebview {
         this.panel.webview.postMessage({ __is: 'void', __from: 'domain', command, payload })
     }
 
-    async postRequestPayload(command, payload) {
+    async postRequestPayload(command, payload) : Promise<unknown> {
         return new Promise((resolve, reject) => {
             let __requestId = ++this.requestIdSequence
             let disposable = this.panel.webview.onDidReceiveMessage((message) => {
@@ -148,6 +148,19 @@ class WizardWebview {
         ).map((uri: Uri) => uri.path.replace(folder.uri.path+'/', ''))
     }
 
+    async saveSnippets() {
+        const filesToSave = await this.postRequestPayload('getFilesToSave', null)
+        if (Array.isArray(filesToSave)) {
+            filesToSave.forEach(filename => {
+                this.postRequestPayload('getFileContent', filename)
+                    .then(content => this.saveFile(filename, content))
+            })
+        }
+    }
+
+    saveFile(filename : string, content) {
+        this.showMessage(filename)
+    }
 
     /************** Pass commands to webview **************/
 

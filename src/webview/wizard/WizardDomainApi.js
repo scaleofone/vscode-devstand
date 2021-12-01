@@ -7,6 +7,10 @@ class WizardDomainApi {
 
     /************** Pass commands to webview **************/
 
+    saveSnippets() {
+        this.postVoidPayload('saveSnippets', null)
+    }
+
     showMessage(text) {
         this.postVoidPayload('showMessage', text)
     }

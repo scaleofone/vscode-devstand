@@ -62,6 +62,20 @@ class StandaloneDomainFacade {
             .then(res => res.json())
     }
 
+    async saveSnippets() {
+        const filesToSave = await this.postRequestPayload('getFilesToSave', null)
+        if (Array.isArray(filesToSave)) {
+            filesToSave.forEach(filename => {
+                this.postRequestPayload('getFileContent', filename)
+                    .then(content => this.saveFile(filename, content))
+            })
+        }
+    }
+
+    saveFile(filename, content) {
+        this.showMessage(filename)
+    }
+
 
     /************** Pass commands to webview **************/
 
