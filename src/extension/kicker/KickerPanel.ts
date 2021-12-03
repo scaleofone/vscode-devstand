@@ -63,7 +63,7 @@ class KickerPanel {
     }
 
     onDidDispose() {
-        // TODO this.context.dispose()
+        // PERF this.context.dispose()
 
         KickerPanel.instance = undefined
 

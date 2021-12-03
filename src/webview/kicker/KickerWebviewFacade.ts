@@ -10,7 +10,7 @@ class KickerWebviewFacade {
 
     /************** Handle commands passed from extension **************/
 
-    truncateListing(count: number): Promise<number> {
+    async truncateListing(count: number): Promise<number> {
         listing.truncate(count)
         return Promise.resolve(get_store_value(listing).length)
     }

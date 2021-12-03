@@ -61,7 +61,7 @@ class WizardPanel {
     }
 
     onDidDispose() {
-        // TODO this.context.dispose()
+        // PERF this.context.dispose()
 
         WizardPanel.instance = undefined
 
