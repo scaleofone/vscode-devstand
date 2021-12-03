@@ -1,20 +1,18 @@
 import vscode from 'vscode'
 
-import { window, Disposable, Uri, ViewColumn, WebviewPanel } from 'vscode'
-
 import { KickerExtensionContext } from './KickerExtensionContext'
 
-class WizardWebview {
-    public static readonly viewType = 'KitchenSink.WizardWebview'
-    public static instance: WizardWebview | undefined
+class KickerPanel {
+    public static readonly viewType = 'KitchenSink.KickerPanel'
+    public static instance: KickerPanel | undefined
 
-    private readonly panel: WebviewPanel
-    private readonly extensionUri: Uri
-    private disposables: Disposable[] = []
+    private readonly panel: vscode.WebviewPanel
+    private readonly extensionUri: vscode.Uri
+    private disposables: vscode.Disposable[] = []
 
     private context: KickerExtensionContext
 
-    private constructor(panel: WebviewPanel, extensionUri: Uri) {
+    private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri) {
         this.panel = panel
         this.extensionUri = extensionUri
 
@@ -25,23 +23,23 @@ class WizardWebview {
         this.context = new KickerExtensionContext(this.panel.webview, this.disposables)
     }
 
-    static instantiateOrReveal(extensionUri: Uri, title: string) {
-        const viewColumn = window.activeTextEditor ? window.activeTextEditor.viewColumn : undefined
+    static instantiateOrReveal(extensionUri: vscode.Uri) {
+        const viewColumn = vscode.window.activeTextEditor ? vscode.window.activeTextEditor.viewColumn : undefined
 
-        if (WizardWebview.instance) {
-            WizardWebview.instance.panel.reveal(viewColumn)
+        if (KickerPanel.instance) {
+            KickerPanel.instance.panel.reveal(viewColumn)
             return
         }
 
-        WizardWebview.instance = new WizardWebview(
-            window.createWebviewPanel(
-                WizardWebview.viewType,
-                title,
-                viewColumn || ViewColumn.One,
+        KickerPanel.instance = new KickerPanel(
+            vscode.window.createWebviewPanel(
+                KickerPanel.viewType,
+                'KitchenSink.KickerPanel title',
+                viewColumn || vscode.ViewColumn.One,
                 {
                     retainContextWhenHidden: true,
                     enableScripts: true,
-                    localResourceRoots: [Uri.joinPath(extensionUri, 'dist')],
+                    localResourceRoots: [vscode.Uri.joinPath(extensionUri, 'dist')],
                 }
             ),
             extensionUri
@@ -49,8 +47,8 @@ class WizardWebview {
     }
 
     redraw() {
-        const webviewUri = (uri: string) => this.panel.webview.asWebviewUri(Uri.joinPath(this.extensionUri, uri))
-        const basename = this.panel.title // TODO dirty hack
+        const webviewUri = (uri: string) => this.panel.webview.asWebviewUri(vscode.Uri.joinPath(this.extensionUri, uri))
+        const basename = 'kicker'
         this.panel.webview.html = `<!DOCTYPE html>
             <html lang="en">
                 <head>
@@ -65,7 +63,9 @@ class WizardWebview {
     }
 
     onDidDispose() {
-        WizardWebview.instance = undefined
+        // TODO this.context.dispose()
+
+        KickerPanel.instance = undefined
 
         this.panel.dispose()
 
@@ -77,15 +77,15 @@ class WizardWebview {
         }
     }
 
-    /************** handle commands from command palette **************/
-
+    // TODO not related to the class
     resetListing() {
         this.context.gateway.resetListing()
     }
+    // TODO not related to the class
     truncateListing() {
         this.context.gateway.truncateListing(3)
             .then(countRemaining => vscode.window.showInformationMessage(countRemaining.toString()))
     }
 }
 
-export default WizardWebview
+export default KickerPanel

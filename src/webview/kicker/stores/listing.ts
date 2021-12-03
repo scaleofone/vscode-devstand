@@ -1,5 +1,5 @@
 import { writable, derived } from 'svelte/store'
-import { gateway } from '../KickerContext'
+import { gateway } from '../KickerWebviewContext'
 
 export const listingPromise = writable(null)
 

@@ -32,7 +32,8 @@
     ]
   },
   "activationEvents": [
-    "onWebviewPanel:KitchenSink.WizardWebview",
+    "onWebviewPanel:KitchenSink.KickerPanel",
+    "onWebviewPanel:KitchenSink.WizardPanel",
     "onCommand:KitchenSink.truncateListing",
     "onCommand:KitchenSink.resetListing",
     "onCommand:KitchenSink.kickerOpen",

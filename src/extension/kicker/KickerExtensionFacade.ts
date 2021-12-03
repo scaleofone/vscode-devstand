@@ -44,18 +44,6 @@ class KickerExtensionFacade {
             )
         ).map((uri: vscode.Uri) => uri.path.replace(folder.uri.path+'/', ''))
     }
-
-    async saveSnippets() {
-        const filesToSave = await this.gateway.getFilesToSave()
-        filesToSave.forEach(filename => {
-            this.gateway.getFileContent(filename)
-                .then(content => this.saveFile(filename, content))
-        })
-    }
-
-    private saveFile(filename: string, content: string) {
-        vscode.window.showInformationMessage(filename)
-    }
 }
 
 export { KickerExtensionFacade }

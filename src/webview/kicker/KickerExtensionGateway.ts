@@ -1,4 +1,4 @@
-import { Messenger } from './Messenger'
+import { Messenger } from '../Messenger'
 
 class KickerExtensionGateway {
     private messenger: Messenger

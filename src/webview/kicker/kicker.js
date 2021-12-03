@@ -1,7 +1,7 @@
 import '../vscode.css';
 import './kicker.css';
 
-import './KickerContext'
+import './KickerWebviewContext'
 import Kicker from './Kicker.svelte'
 
 const app = new Kicker({

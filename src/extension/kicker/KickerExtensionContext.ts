@@ -1,6 +1,6 @@
 import vscode from 'vscode'
 
-import { Messenger } from './Messenger'
+import { Messenger } from '../Messenger'
 import { KickerExtensionFacade } from './KickerExtensionFacade'
 import { KickerWebviewGateway } from './KickerWebviewGateway'
 

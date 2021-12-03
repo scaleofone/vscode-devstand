@@ -1,9 +1,9 @@
 import vscodeApi from '../vscode.js'
-import { Messenger } from './Messenger'
+import { Messenger } from '../Messenger'
 import { KickerExtensionGateway } from './KickerExtensionGateway'
 import { KickerWebviewFacade } from './KickerWebviewFacade'
 
-class KickerContext
+class KickerWebviewContext
 {
     messenger: Messenger
     gateway: KickerExtensionGateway
@@ -19,17 +19,16 @@ class KickerContext
         this.messenger.subscribe()
     }
 
-    private static instance: KickerContext | undefined
-    public static singleton(): KickerContext {
-        if (typeof KickerContext.instance == 'undefined') {
-            KickerContext.instance = new KickerContext()
+    private static instance: KickerWebviewContext | undefined
+    public static singleton(): KickerWebviewContext {
+        if (typeof KickerWebviewContext.instance == 'undefined') {
+            KickerWebviewContext.instance = new KickerWebviewContext()
         }
-        return KickerContext.instance
+        return KickerWebviewContext.instance
     }
 }
 
-const context = KickerContext.singleton()
+const context = KickerWebviewContext.singleton()
 const gateway = context.gateway
-const facade = context.facade
 
-export { gateway, facade }
+export { gateway }

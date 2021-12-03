@@ -1,14 +1,13 @@
 <script>
     import { htmlContent, cssContent } from './stores/snippets.js'
 
+    import { WizardExtensionGateway } from './WizardExtensionGateway'
     import { getContext } from 'svelte'
-
-    /** @typedef { import('./WizardDomainApi.js').WizardDomainApi } WizardDomainApi */
-    /** @type WizardDomainApi */
-    const domainApi = getContext('domainApi')
+    /** @type WizardExtensionGateway */
+    const gateway = getContext('gateway')
 
     const runWizard = () => {
-        domainApi.saveSnippets()
+        gateway.saveSnippets()
     }
 
 </script>
