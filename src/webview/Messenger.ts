@@ -1,7 +1,7 @@
 interface MessengerMessage {
-    __is: string
-    __from: string
-    __requestId?: number
+    is: 'void' | 'request' | 'response'
+    from: 'webview' | 'extension'
+    requestId?: number
     payload?: any
     command?: string
 }
@@ -10,13 +10,13 @@ class Messenger {
     requestIdSequence: number = 1
 
     private facade: object
-    applyMessagesTo(facade: object) {
+    applyReceivedMessagesTo(facade: object) {
         this.facade = facade
     }
 
-    private receiver: { postMessage:Function }
-    postMessagesVia(receiver: { postMessage:Function }) {
-        this.receiver = receiver
+    private sender: { postMessage:Function }
+    sendMessagesTo(sender: { postMessage:Function }) {
+        this.sender = sender
     }
 
     subscribe() {
@@ -24,15 +24,15 @@ class Messenger {
     }
 
     onDidReceiveMessage(message: MessengerMessage) {
-        if (message.__is == 'void' && message.__from === 'domain') {
+        if (message.is == 'void' && message.from === 'extension') {
             this.facade[message.command].apply(this.facade, [message.payload])
-        } else if (message.__is == 'request' && message.__from === 'domain') {
+        } else if (message.is == 'request' && message.from === 'extension') {
             this.facade[message.command].apply(this.facade, [message.payload])
                 .then(responseFromFacade => {
-                    this.receiver.postMessage({
-                        __is: 'response',
-                        __from: 'webview',
-                        __requestId: message.__requestId,
+                    this.sender.postMessage({
+                        is: 'response',
+                        from: 'webview',
+                        requestId: message.requestId,
                         payload: responseFromFacade
                     })
                 })
@@ -40,22 +40,26 @@ class Messenger {
     }
 
     postVoidPayload(command: string, payload: any): void {
-        this.receiver.postMessage({ __is: 'void', __from: 'webview', command, payload })
+        this.sender.postMessage({ is: 'void', from: 'webview', command, payload })
     }
 
     async postRequestPayload(command: string, payload: any): Promise<any> {
         return new Promise((resolve, reject) => {
-            let __requestId = ++this.requestIdSequence
+            let requestId = ++this.requestIdSequence
             let responseHandler = (event: MessageEvent) => {
-                const message: MessengerMessage = event.data
-                if (message && message.__requestId === __requestId && message.__is === 'response' && message.__from === 'domain') {
-                    window.removeEventListener('message', responseHandler)
+                let message: MessengerMessage = event.data
+                if (message && message.requestId === requestId && message.is === 'response' && message.from === 'extension') {
+                    this.removeListener(responseHandler)
                     resolve(message.payload)
                 }
             }
             window.addEventListener('message', responseHandler)
-            this.receiver.postMessage({ __is: 'request', __from: 'webview', command, payload, __requestId })
+            this.sender.postMessage({ is: 'request', from: 'webview', command, payload, requestId })
         })
+    }
+
+    private removeListener(responseHandler) {
+        window.removeEventListener('message', responseHandler)
     }
 }
 

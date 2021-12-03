@@ -14,8 +14,8 @@ class WizardWebviewContext
         this.gateway = new WizardExtensionGateway(this.messenger)
         this.facade = new WizardWebviewFacade(this.gateway)
 
-        this.messenger.applyMessagesTo(this.facade)
-        this.messenger.postMessagesVia(vscodeApi)
+        this.messenger.applyReceivedMessagesTo(this.facade)
+        this.messenger.sendMessagesTo(vscodeApi)
         this.messenger.subscribe()
     }
 

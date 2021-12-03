@@ -1,9 +1,9 @@
 import vscode from 'vscode'
 
 interface MessengerMessage {
-    __is: string
-    __from: string
-    __requestId?: number
+    is: 'void' | 'request' | 'response'
+    from: 'webview' | 'extension'
+    requestId?: number
     payload?: any
     command?: string
 }
@@ -17,34 +17,34 @@ class Messenger {
     }
 
     private facade: object
-    applyMessagesTo(facade: object) {
+    applyReceivedMessagesTo(facade: object) {
         this.facade = facade
     }
 
-    private receiver: { postMessage:Function }
-    postMessagesVia(receiver: { postMessage:Function }) {
+    private sender: { postMessage:Function }
+    sendMessagesTo(sender: { postMessage:Function }) {
+        this.sender = sender
+    }
+
+    private receiver: { onDidReceiveMessage:Function }
+    receiveMessagesFrom(receiver: { onDidReceiveMessage:Function }) {
         this.receiver = receiver
     }
 
-    private disposer: { onDidReceiveMessage:Function }
-    subscribeVia(disposer: { onDidReceiveMessage:Function }) {
-        this.disposer = disposer
-    }
-
     subscribe() {
-        this.disposer.onDidReceiveMessage(this.onDidReceiveMessage, this, this.disposables)
+        this.receiver.onDidReceiveMessage(this.onDidReceiveMessage, this, this.disposables)
     }
 
     onDidReceiveMessage(message: MessengerMessage) {
-        if (message.__is == 'void' && message.__from === 'webview') {
+        if (message.is == 'void' && message.from === 'webview') {
             this.facade[message.command].apply(this.facade, [message.payload])
-        } else if (message.__is == 'request' && message.__from === 'webview') {
+        } else if (message.is == 'request' && message.from === 'webview') {
             this.facade[message.command].apply(this.facade, [message.payload])
                 .then(responseFromFacade => {
-                    this.receiver.postMessage({
-                        __is: 'response',
-                        __from: 'domain',
-                        __requestId: message.__requestId,
+                    this.sender.postMessage({
+                        is: 'response',
+                        from: 'extension',
+                        requestId: message.requestId,
                         payload: responseFromFacade
                     })
                 })
@@ -52,24 +52,28 @@ class Messenger {
     }
 
     postVoidPayload(command: string, payload: any): void {
-        this.receiver.postMessage({ __is: 'void', __from: 'domain', command, payload })
+        this.sender.postMessage({ is: 'void', from: 'extension', command, payload })
     }
 
     async postRequestPayload(command: string, payload: any): Promise<any> {
         return new Promise((resolve, reject) => {
-            let __requestId = ++this.requestIdSequence
-            let disposable = this.disposer.onDidReceiveMessage((message: MessengerMessage) => {
-                if (message.__requestId === __requestId && message.__is === 'response' && message.__from === 'webview') {
-                    let givenDisposableIndex = this.disposables.findIndex(given => given === disposable)
-                    if (givenDisposableIndex > -1) {
-                        this.disposables[givenDisposableIndex].dispose()
-                        this.disposables.splice(givenDisposableIndex, 1)
-                    }
+            let requestId = ++this.requestIdSequence
+            let disposable = this.receiver.onDidReceiveMessage((message: MessengerMessage) => {
+                if (message.requestId === requestId && message.is === 'response' && message.from === 'webview') {
+                    this.removeListener(disposable)
                     resolve(message.payload)
                 }
             }, this, this.disposables)
-            this.receiver.postMessage({ __is: 'request', __from: 'domain', command, payload, __requestId })
+            this.sender.postMessage({ is: 'request', from: 'extension', command, payload, requestId })
         })
+    }
+
+    private removeListener(disposable: vscode.Disposable) {
+        let givenDisposableIndex = this.disposables.findIndex(given => given === disposable)
+        if (givenDisposableIndex > -1) {
+            this.disposables[givenDisposableIndex].dispose()
+            this.disposables.splice(givenDisposableIndex, 1)
+        }
     }
 }
 

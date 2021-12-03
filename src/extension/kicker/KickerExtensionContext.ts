@@ -15,9 +15,9 @@ class KickerExtensionContext
         this.gateway = new KickerWebviewGateway(this.messenger)
         this.facade = new KickerExtensionFacade(this.gateway)
 
-        this.messenger.applyMessagesTo(this.facade)
-        this.messenger.postMessagesVia(webview)
-        this.messenger.subscribeVia(webview)
+        this.messenger.applyReceivedMessagesTo(this.facade)
+        this.messenger.receiveMessagesFrom(webview)
+        this.messenger.sendMessagesTo(webview)
         this.messenger.subscribe()
     }
 }
