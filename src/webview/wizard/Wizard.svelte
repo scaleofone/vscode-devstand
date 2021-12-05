@@ -1,15 +1,10 @@
 <script>
     import { htmlContent, cssContent } from './stores/snippets.js'
-
-    import { WizardExtensionGateway } from './WizardExtensionGateway'
-    import { getContext } from 'svelte'
-    /** @type WizardExtensionGateway */
-    const gateway = getContext('gateway')
+    import { extension } from './transport'
 
     const runWizard = () => {
-        gateway.saveSnippets()
+        extension.saveSnippets()
     }
-
 </script>
 
 <div>

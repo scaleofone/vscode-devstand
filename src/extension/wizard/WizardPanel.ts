@@ -1,6 +1,5 @@
 import vscode from 'vscode'
-
-import { WizardExtensionContext } from './WizardExtensionContext'
+import { setup as setupTransport, teardown as teardownTransport, webview } from './transport'
 
 class WizardPanel {
     public static readonly viewType = 'KitchenSink.WizardPanel'
@@ -10,8 +9,6 @@ class WizardPanel {
     private readonly extensionUri: vscode.Uri
     private disposables: vscode.Disposable[] = []
 
-    private context: WizardExtensionContext
-
     private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri) {
         this.panel = panel
         this.extensionUri = extensionUri
@@ -20,7 +17,7 @@ class WizardPanel {
 
         this.panel.onDidDispose(this.onDidDispose, this, this.disposables)
 
-        this.context = new WizardExtensionContext(this.panel.webview, this.disposables)
+        setupTransport(this.panel.webview)
     }
 
     static instantiateOrReveal(extensionUri: vscode.Uri) {
@@ -61,7 +58,7 @@ class WizardPanel {
     }
 
     onDidDispose() {
-        // PERF this.context.dispose()
+        teardownTransport()
 
         WizardPanel.instance = undefined
 

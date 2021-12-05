@@ -1,6 +1,5 @@
 import vscode from 'vscode'
-
-import { KickerExtensionContext } from './KickerExtensionContext'
+import { setup as setupTransport, teardown as teardownTransport, webview } from './transport'
 
 class KickerPanel {
     public static readonly viewType = 'KitchenSink.KickerPanel'
@@ -10,8 +9,6 @@ class KickerPanel {
     private readonly extensionUri: vscode.Uri
     private disposables: vscode.Disposable[] = []
 
-    private context: KickerExtensionContext
-
     private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri) {
         this.panel = panel
         this.extensionUri = extensionUri
@@ -20,7 +17,7 @@ class KickerPanel {
 
         this.panel.onDidDispose(this.onDidDispose, this, this.disposables)
 
-        this.context = new KickerExtensionContext(this.panel.webview, this.disposables)
+        setupTransport(this.panel.webview)
     }
 
     static instantiateOrReveal(extensionUri: vscode.Uri) {
@@ -63,7 +60,7 @@ class KickerPanel {
     }
 
     onDidDispose() {
-        // PERF this.context.dispose()
+        teardownTransport()
 
         KickerPanel.instance = undefined
 
@@ -77,13 +74,12 @@ class KickerPanel {
         }
     }
 
-    // TODO not related to the class
-    resetListing() {
-        this.context.gateway.resetListing()
+    commandResetListing() {
+        webview.resetListing()
     }
-    // TODO not related to the class
-    truncateListing() {
-        this.context.gateway.truncateListing(3)
+
+    commandTruncateListing() {
+        webview.truncateListing(3)
             .then(countRemaining => vscode.window.showInformationMessage(countRemaining.toString()))
     }
 }

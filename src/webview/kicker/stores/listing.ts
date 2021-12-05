@@ -1,5 +1,5 @@
 import { writable, derived } from 'svelte/store'
-import { gateway } from '../KickerWebviewContext'
+import { extension } from '../transport'
 
 export const listingPromise = writable(null)
 
@@ -20,14 +20,14 @@ export const listing = (() => {
 
         requestDirectory: (directory: string) => {
             listingPromise.set(
-                gateway.requestListing(directory)
+                extension.requestListing(directory)
                     .then(payload => set(payload))
             )
         },
 
         requestFindFiles: (pattern: string | { pattern:string, exclude?:string }) => {
             listingPromise.set(
-                gateway.requestFindFiles(pattern)
+                extension.requestFindFiles(pattern)
                     .then(payload => set(payload))
             )
         },

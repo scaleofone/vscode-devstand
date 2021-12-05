@@ -11,28 +11,34 @@ interface MessengerMessage {
 class Messenger {
     requestIdSequence: number = 1
 
-    private disposables: vscode.Disposable[]
-    constructor(disposables: vscode.Disposable[]) {
-        this.disposables = disposables
-    }
+    private disposables: vscode.Disposable[] = []
 
-    private facade: object
+    private facade: object | undefined
     applyReceivedMessagesTo(facade: object) {
         this.facade = facade
     }
 
-    private sender: { postMessage:Function }
+    private sender: { postMessage:Function } | undefined
     sendMessagesTo(sender: { postMessage:Function }) {
         this.sender = sender
     }
 
-    private receiver: { onDidReceiveMessage:Function }
+    private receiver: { onDidReceiveMessage:Function } | undefined
     receiveMessagesFrom(receiver: { onDidReceiveMessage:Function }) {
         this.receiver = receiver
     }
 
     subscribe() {
         this.receiver.onDidReceiveMessage(this.onDidReceiveMessage, this, this.disposables)
+    }
+
+    dispose() {
+        while (this.disposables.length) {
+            const x = this.disposables.pop()
+            if (x) {
+                x.dispose()
+            }
+        }
     }
 
     onDidReceiveMessage(message: MessengerMessage) {

@@ -28,7 +28,6 @@ export const filesToSave = derived(
     []
 )
 
-// TODO not related to the class
 export const getFileContent = (filename) => {
     if (filename == 'index.html') {
         return get_store_value(htmlContent)
