@@ -13,11 +13,9 @@ class WizardPanel {
         this.panel = panel
         this.extensionUri = extensionUri
 
-        this.redraw()
-
-        this.panel.onDidDispose(this.onDidDispose, this, this.disposables)
-
+        this.setWebviewHtml()
         setupTransport(this.panel.webview)
+        this.panel.onDidDispose(this.onDidDispose, this, this.disposables)
     }
 
     static instance(extensionUri: vscode.Uri) {
@@ -44,34 +42,21 @@ class WizardPanel {
         return this
     }
 
-    redraw() {
+    setWebviewHtml() {
         const webviewUri = (uri: string) => this.panel.webview.asWebviewUri(vscode.Uri.joinPath(this.extensionUri, uri))
-        const basename = 'wizard'
-        this.panel.webview.html = `<!DOCTYPE html>
-            <html lang="en">
-                <head>
-                    <meta charset="UTF-8">
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <meta content="default-src ${this.panel.webview.cspSource};" http-equiv="Content-Security-Policy">
-                    <link href="${webviewUri('dist/webview/'+basename+'/'+basename+'.css')}" rel="stylesheet">
-                    <script defer src="${webviewUri('dist/webview/'+basename+'/'+basename+'.js')}"></script>
-                </head>
-                <body></body>
-            </html>`
+        this.panel.webview.html = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta content="default-src ${this.panel.webview.cspSource};" http-equiv="Content-Security-Policy">
+            <link href="${webviewUri('dist/webview/wizard/wizard.css')}" rel="stylesheet">
+            <script defer src="${webviewUri('dist/webview/wizard/wizard.js')}"></script>
+        </head><body></body></html>`
     }
 
     onDidDispose() {
         teardownTransport()
-
         WizardPanel.singleton = undefined
-
         this.panel.dispose()
-
         while (this.disposables.length) {
-            const x = this.disposables.pop()
-            if (x) {
-                x.dispose()
-            }
+            this.disposables.pop()?.dispose()
         }
     }
 }

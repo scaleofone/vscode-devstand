@@ -34,10 +34,7 @@ class Messenger {
 
     dispose() {
         while (this.disposables.length) {
-            const x = this.disposables.pop()
-            if (x) {
-                x.dispose()
-            }
+            this.disposables.pop()?.dispose()
         }
     }
 
