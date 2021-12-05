@@ -3,7 +3,7 @@ import { setup as setupTransport, teardown as teardownTransport, webview } from 
 
 class WizardPanel {
     public static readonly viewType = 'KitchenSink.WizardPanel'
-    public static instance: WizardPanel | undefined
+    public static singleton: WizardPanel | undefined
 
     private readonly panel: vscode.WebviewPanel
     private readonly extensionUri: vscode.Uri
@@ -20,16 +20,13 @@ class WizardPanel {
         setupTransport(this.panel.webview)
     }
 
-    static instantiateOrReveal(extensionUri: vscode.Uri) {
-        const viewColumn = vscode.window.activeTextEditor ? vscode.window.activeTextEditor.viewColumn : undefined
-        if (WizardPanel.instance) {
-            WizardPanel.instance.panel.reveal(viewColumn)
-        } else {
-            WizardPanel.instance = new WizardPanel(
+    static instance(extensionUri: vscode.Uri) {
+        if (typeof WizardPanel.singleton == 'undefined') {
+            WizardPanel.singleton = new WizardPanel(
                 vscode.window.createWebviewPanel(
                     WizardPanel.viewType,
                     'KitchenSink.WizardPanel title',
-                    viewColumn || vscode.ViewColumn.One,
+                    (vscode.window.activeTextEditor ? vscode.window.activeTextEditor.viewColumn : vscode.ViewColumn.One),
                     {
                         retainContextWhenHidden: true,
                         enableScripts: true,
@@ -39,6 +36,12 @@ class WizardPanel {
                 extensionUri
             )
         }
+        return WizardPanel.singleton
+    }
+
+    reveal(): WizardPanel {
+        this.panel.reveal(this.panel.viewColumn || vscode.ViewColumn.One)
+        return this
     }
 
     redraw() {
@@ -60,7 +63,7 @@ class WizardPanel {
     onDidDispose() {
         teardownTransport()
 
-        WizardPanel.instance = undefined
+        WizardPanel.singleton = undefined
 
         this.panel.dispose()
 

@@ -3,7 +3,7 @@ import { setup as setupTransport, teardown as teardownTransport, webview } from 
 
 class KickerPanel {
     public static readonly viewType = 'KitchenSink.KickerPanel'
-    public static instance: KickerPanel | undefined
+    public static singleton: KickerPanel | undefined
 
     private readonly panel: vscode.WebviewPanel
     private readonly extensionUri: vscode.Uri
@@ -20,27 +20,28 @@ class KickerPanel {
         setupTransport(this.panel.webview)
     }
 
-    static instantiateOrReveal(extensionUri: vscode.Uri) {
-        const viewColumn = vscode.window.activeTextEditor ? vscode.window.activeTextEditor.viewColumn : undefined
-
-        if (KickerPanel.instance) {
-            KickerPanel.instance.panel.reveal(viewColumn)
-            return
+    static instance(extensionUri: vscode.Uri) {
+        if (typeof KickerPanel.singleton == 'undefined') {
+            KickerPanel.singleton = new KickerPanel(
+                vscode.window.createWebviewPanel(
+                    KickerPanel.viewType,
+                    'KitchenSink.KickerPanel title',
+                    (vscode.window.activeTextEditor ? vscode.window.activeTextEditor.viewColumn : vscode.ViewColumn.One),
+                    {
+                        retainContextWhenHidden: true,
+                        enableScripts: true,
+                        localResourceRoots: [vscode.Uri.joinPath(extensionUri, 'dist')],
+                    }
+                ),
+                extensionUri
+            )
         }
+        return KickerPanel.singleton
+    }
 
-        KickerPanel.instance = new KickerPanel(
-            vscode.window.createWebviewPanel(
-                KickerPanel.viewType,
-                'KitchenSink.KickerPanel title',
-                viewColumn || vscode.ViewColumn.One,
-                {
-                    retainContextWhenHidden: true,
-                    enableScripts: true,
-                    localResourceRoots: [vscode.Uri.joinPath(extensionUri, 'dist')],
-                }
-            ),
-            extensionUri
-        )
+    reveal(): KickerPanel {
+        this.panel.reveal(this.panel.viewColumn || vscode.ViewColumn.One)
+        return this
     }
 
     redraw() {
@@ -62,7 +63,7 @@ class KickerPanel {
     onDidDispose() {
         teardownTransport()
 
-        KickerPanel.instance = undefined
+        KickerPanel.singleton = undefined
 
         this.panel.dispose()
 
