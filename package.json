@@ -11,6 +11,21 @@
   "contributes": {
     "commands": [
       {
+        "command": "KitchenSink.recenter",
+        "title": "Recenter",
+        "category": "Kitchen Sink"
+      },
+      {
+        "command": "KitchenSink.getTopLeft",
+        "title": "Get top/left",
+        "category": "Kitchen Sink"
+      },
+      {
+        "command": "KitchenSink.editorOpen",
+        "title": "Open editor",
+        "category": "Kitchen Sink"
+      },
+      {
         "command": "KitchenSink.truncateListing",
         "title": "truncateListing",
         "category": "Kitchen Sink"
@@ -33,6 +48,8 @@
     ]
   },
   "activationEvents": [
+    "onCommand:KitchenSink.recenter",
+    "onCommand:KitchenSink.editorOpen",
     "onCommand:KitchenSink.truncateListing",
     "onCommand:KitchenSink.resetListing",
     "onCommand:KitchenSink.kickerOpen",
