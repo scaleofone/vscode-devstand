@@ -44,11 +44,14 @@ class KickerPanel {
 
     setWebviewHtml() {
         const webviewUri = (uri: string) => this.panel.webview.asWebviewUri(vscode.Uri.joinPath(this.extensionUri, uri))
-        this.panel.webview.html = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <meta content="default-src ${this.panel.webview.cspSource};" http-equiv="Content-Security-Policy">
-            <link href="${webviewUri('dist/webview/kicker/kicker.css')}" rel="stylesheet">
-            <script defer src="${webviewUri('dist/webview/kicker/kicker.js')}"></script>
-        </head><body></body></html>`
+        this.panel.webview.html = [
+            '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">',
+                '<meta name="viewport" content="width=device-width, initial-scale=1.0">',
+                '<meta content="default-src ', this.panel.webview.cspSource, ';" http-equiv="Content-Security-Policy">',
+                '<link rel="stylesheet" href="', webviewUri('dist/webview/kicker/kicker.css'), '">',
+                '<script defer src="', webviewUri('dist/webview/kicker/kicker.js'), '"></script>',
+            '</head><body></body></html>',
+        ].join('')
     }
 
     onDidDispose() {

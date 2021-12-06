@@ -40,11 +40,11 @@
     "onCommand:KitchenSink.wizardOpen"
   ],
   "scripts": {
-    "extension-build": "rm -rf dist/extension/* && node esbuild-extension.js",
-    "extension-watch": "rm -rf dist/extension/* && node esbuild-extension.js --watch",
+    "extension-build": "node esbuild-extension.js",
+    "extension-watch": "node esbuild-extension.js --watch",
     "standalone-build": "mkdir -p dist/standalone && rm -rf dist/standalone/* && cp -r src/standalone/* dist/standalone",
-    "webview-build": "rm -rf dist/webview/* && node esbuild-webview.js",
-    "webview-watch": "rm -rf dist/webview/* && node esbuild-webview.js --watch"
+    "webview-build": "node esbuild-webview.js",
+    "webview-watch": "node esbuild-webview.js --watch"
   },
   "devDependencies": {
     "@types/vscode": "^1.60.0",

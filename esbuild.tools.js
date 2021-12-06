@@ -2,7 +2,7 @@
 import { compile } from 'svelte/compiler'
 import { dirname, relative } from 'path'
 import { promisify } from 'util'
-import { readFile, readFileSync, writeFileSync, unlinkSync } from 'fs'
+import fs from 'fs'
 
 const sleep = (delay) => new Promise(resolve => setTimeout(resolve, delay))
 
@@ -19,7 +19,7 @@ const sveltePlugin = function (options) {
             const cssCode = new Map()
 
             build.onLoad({ filter: /\.svelte$/ }, async (args) => {
-                let source = await promisify(readFile)(args.path, 'utf8')
+                let source = await promisify(fs.readFile)(args.path, 'utf8')
                 let filename = relative(process.cwd(), args.path)
 
                 try {
@@ -37,7 +37,7 @@ const sveltePlugin = function (options) {
                         cssCode.set(cssPath, css.code)
                         contents = contents + `\nimport "${cssPath}";`
                     }
-                    
+
                     return { contents, warnings: warnings.map(convertMessage) }
 
                 } catch (e) {
@@ -82,8 +82,33 @@ const noopPlugin = () => ({
     setup(build) {},
 })
 
-export { 
+const rmrf = (dirPath, removeDirectoryItself) => {
+    if (fs.existsSync(dirPath)) {
+        let files = fs.readdirSync(dirPath)
+        if (files && files.length > 0) {
+            for (let i = 0; i < files.length; i++) {
+                let filePath = dirPath + '/' + files[i]
+                if (fs.lstatSync(filePath).isDirectory()) {
+                    rmrf(filePath)
+                } else {
+                    fs.unlinkSync(filePath)
+                }
+            }
+        }
+        if (removeDirectoryItself) {
+            fs.rmdirSync(dirPath)
+        }
+    }
+}
+
+const cleanDir = (dirPath) => {
+    rmrf(dirPath, false)
+}
+
+export {
     sveltePlugin,
     noopPlugin,
     parseCliParams,
+    rmrf,
+    cleanDir,
 }

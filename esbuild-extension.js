@@ -1,7 +1,11 @@
 import esbuild from 'esbuild'
 
-import { parseCliParams } from './esbuild.tools.js'
+import { parseCliParams, cleanDir } from './esbuild.tools.js'
 const { options } = parseCliParams()
+
+if (! options.noclean) {
+    cleanDir('dist/extension')
+}
 
 esbuild
     .build({
