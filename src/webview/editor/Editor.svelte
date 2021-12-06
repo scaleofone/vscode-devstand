@@ -1,30 +1,18 @@
 <script>
+    import { top, left, recenter } from './stores/point.js'
     import { throttle } from 'throttle-debounce'
 
-    import { getContext } from 'svelte'
-    const vscodeApi = getContext('vscodeApi')
-
-    import '../vscode.css'
-    import './editor.css'
-    
-    let top = 0
-    let left = 0
     let pointElement
-
-    const updatePointPosition = throttle(20, (top, left) => {
+    const updatePointPosition = throttle(2000, (top, left) => {
         if (pointElement) {
             pointElement.style.top = top + 'px'
             pointElement.style.left = left + 'px'
         }
     })
-    $: updatePointPosition(top, left)
+    $: updatePointPosition($top, $left)
 
     const saveEditor = () => {
-        vscodeApi.postMessage({ command: 'info', text: `top=${top}, left=${left}`})
-    }
-    
-    const recenter = () => {
-        left = top = 100
+        console.log('saveEditor')
     }
 
 </script>
@@ -33,16 +21,16 @@
 
     <input type="range" min="0" max="200" step="1"
         class="axis-left"
-        bind:value={left}
+        bind:value={$left}
     >
-    
+
     <br>
-    
+
     <input type="range" min="0" max="200" step="1"
         class="axis-top"
-        bind:value={top}
+        bind:value={$top}
     >
-    
+
     <div class="area">
         <div class="point"
             bind:this={pointElement}
@@ -52,8 +40,8 @@
     <br>
 
     <button on:click={saveEditor}>Save editor</button>
-    
+
     <br><br>
-    
+
     <button on:click={recenter}>Recenter</button>
 </div>

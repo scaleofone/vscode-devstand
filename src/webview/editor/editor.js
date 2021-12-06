@@ -1,12 +1,11 @@
-import vscodeApi from '../vscode.js'
+import '../vscode.css'
+import './editor.css'
 
+import './transport'
 import Editor from './Editor.svelte'
 
 const app = new Editor({
     target: document.body,
-    context: new Map([
-        ['vscodeApi', vscodeApi]
-    ]),
     // props: { }
 })
 
