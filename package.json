@@ -4,6 +4,7 @@
   "version": "0.0.1",
   "type": "module",
   "main": "./dist/extension/extension.cjs",
+  "browser": "./dist/extension/extension.js",
   "engines": {
     "vscode": "^1.60.0"
   },
@@ -42,6 +43,9 @@
   "scripts": {
     "extension-build": "node esbuild-extension.js",
     "extension-watch": "node esbuild-extension.js --watch",
+    "extension-web-build": "node esbuild-extension.js --web",
+    "extension-web-watch": "node esbuild-extension.js --web --watch",
+    "extension-build-prod": "node esbuild-extension.js --minify && node esbuild-extension.js --noclean --web --minify",
     "standalone-build": "mkdir -p dist/standalone && rm -rf dist/standalone/* && cp -r src/standalone/* dist/standalone",
     "webview-build": "node esbuild-webview.js",
     "webview-watch": "node esbuild-webview.js --watch"

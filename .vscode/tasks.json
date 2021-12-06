@@ -32,7 +32,55 @@
         },
         {
             "type": "npm",
+            "script": "extension-web-watch",
+            "isBackground": true,
+            "presentation": {
+                "reveal": "never",
+                "revealProblems": "onProblem"
+            },
+            "problemMatcher": {
+                "source": "esbuild",
+                "pattern": {
+                    "regexp": "> (.*?):([0-9]+):([0-9]+): (warning|error): (.+)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "severity": 4,
+                    "message": 5
+                },
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": {
+                        "regexp": "\\[watch\\] build started"
+                    },
+                    "endsPattern": {
+                        "regexp": "\\[watch\\] build sucessfull"
+                    }
+                }
+            }
+        },
+        {
+            "type": "npm",
             "script": "extension-build",
+            "presentation": {
+                "close": true,
+                "revealProblems": "onProblem"
+            },
+            "problemMatcher": {
+                "source": "esbuild",
+                "pattern": {
+                    "regexp": "> (.*?):([0-9]+):([0-9]+): (warning|error): (.+)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "severity": 4,
+                    "message": 5
+                },
+            }
+        },
+        {
+            "type": "npm",
+            "script": "extension-web-build",
             "presentation": {
                 "close": true,
                 "revealProblems": "onProblem"

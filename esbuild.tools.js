@@ -82,6 +82,7 @@ const noopPlugin = () => ({
     setup(build) {},
 })
 
+// taken from here: https://github.com/mrDarcyMurphy/node-rmrf/blob/master/index.js
 const rmrf = (dirPath, removeDirectoryItself) => {
     if (fs.existsSync(dirPath)) {
         let files = fs.readdirSync(dirPath)

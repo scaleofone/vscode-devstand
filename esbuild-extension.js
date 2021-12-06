@@ -13,11 +13,18 @@ esbuild
         entryPoints: [
             'src/extension/extension.ts'
         ],
-        platform: 'node',
-        format: 'cjs',
-        outExtension: {
-            '.js': '.cjs'
-        },
+        ...(
+            options.web ? {
+                platform: 'browser',
+                format: 'cjs',
+            } : {
+                platform: 'node',
+                format: 'cjs',
+                outExtension: {
+                    '.js': '.cjs'
+                },
+            }
+        ),
         external: [
             'vscode'
         ],

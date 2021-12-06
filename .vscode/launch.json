@@ -2,13 +2,32 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Watch & Run Extension",
+            "name": "Watch & run extension",
             "type": "extensionHost",
             "request": "launch",
             "runtimeExecutable": "${execPath}",
-            "args": ["--extensionDevelopmentPath=${workspaceRoot}"],
-            "outFiles": ["${workspaceFolder}/dist/extension/**/*.js"],
+            "args": [
+                "--extensionDevelopmentPath=${workspaceRoot}",
+            ],
+            "outFiles": [
+                "${workspaceFolder}/dist/extension/**/*.cjs",
+            ],
             "preLaunchTask": "npm: extension-watch",
-        }
+        },
+        {
+            "name": "Watch & run WEB extension",
+            "type": "pwa-extensionHost",
+            "debugWebWorkerHost": true,
+            "request": "launch",
+            "runtimeExecutable": "${execPath}",
+            "args": [
+                "--extensionDevelopmentPath=${workspaceRoot}",
+                "--extensionDevelopmentKind=web",
+            ],
+            "outFiles": [
+                "${workspaceFolder}/dist/extension/**/*.js",
+            ],
+            "preLaunchTask": "npm: extension-web-watch",
+        },
     ]
 }
