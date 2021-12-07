@@ -1,5 +1,5 @@
 <script>
-    import { top, left, recenter } from './stores/point.js'
+    import { top, left, recenter, updateDocument } from './stores/point.js'
     import { throttle } from 'throttle-debounce'
 
     let pointElement
@@ -7,13 +7,10 @@
         if (pointElement) {
             pointElement.style.top = top + 'px'
             pointElement.style.left = left + 'px'
+            updateDocument()
         }
     })
     $: updatePointPosition($top, $left)
-
-    const saveEditor = () => {
-        console.log('saveEditor')
-    }
 
 </script>
 
@@ -38,10 +35,6 @@
     </div>
 
     <br>
-
-    <button on:click={saveEditor}>Save editor</button>
-
-    <br><br>
 
     <button on:click={recenter}>Recenter</button>
 </div>

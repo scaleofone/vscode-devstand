@@ -1,21 +1,20 @@
 import vscodeApi from '../vscode.js'
 
 import { Messenger } from '../Messenger'
-import { top, left, recenter } from './stores/point.js'
-import { get_store_value } from 'svelte/internal'
+import { top, left } from './stores/point.js'
 
 const messenger = new Messenger()
 
 const extension = {
-    //
+    update(topleft: number[]): void {
+        messenger.postVoidPayload('update', topleft)
+    },
 }
 
 const webview = {
-    recenter(): void {
-        recenter()
-    },
-    async getTopLeft(): Promise<[number, number]> {
-        return Promise.resolve([get_store_value(top), get_store_value(left)])
+    hydrate(topleft: number[]): void {
+        top.set(topleft[0])
+        left.set(topleft[1])
     },
 }
 

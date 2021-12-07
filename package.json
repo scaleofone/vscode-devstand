@@ -9,20 +9,31 @@
     "vscode": "^1.60.0"
   },
   "contributes": {
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "KitchenSink.openWithEditor",
+          "group": "navigation",
+          "when": "resourceFilename =~ /\\.point\\.json$/"
+        }
+      ]
+    },
+    "customEditors": [
+      {
+        "viewType": "KitchenSink.EditorProvider",
+        "displayName": "KitchenSink editor",
+        "selector": [
+          {
+            "filenamePattern": "*.point.json"
+          }
+        ],
+        "priority": "option"
+      }
+    ],
     "commands": [
       {
-        "command": "KitchenSink.recenter",
-        "title": "Recenter",
-        "category": "Kitchen Sink"
-      },
-      {
-        "command": "KitchenSink.getTopLeft",
-        "title": "Get top/left",
-        "category": "Kitchen Sink"
-      },
-      {
-        "command": "KitchenSink.editorOpen",
-        "title": "Open editor",
+        "command": "KitchenSink.openWithEditor",
+        "title": "Open with KitchenSink editor",
         "category": "Kitchen Sink"
       },
       {
@@ -48,8 +59,9 @@
     ]
   },
   "activationEvents": [
+    "onCustomEditor:KitchenSink.EditorProvider",
+    "onCommand:KitchenSink.openWithEditor",
     "onCommand:KitchenSink.recenter",
-    "onCommand:KitchenSink.editorOpen",
     "onCommand:KitchenSink.truncateListing",
     "onCommand:KitchenSink.resetListing",
     "onCommand:KitchenSink.kickerOpen",

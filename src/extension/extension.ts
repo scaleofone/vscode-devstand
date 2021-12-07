@@ -1,7 +1,7 @@
 import vscode from 'vscode'
 import KickerPanel from './kicker/KickerPanel'
 import WizardPanel from './wizard/WizardPanel'
-import EditorPanel from './editor/EditorPanel'
+import EditorProvider from './editor/EditorProvider'
 
 export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(
@@ -24,20 +24,14 @@ export function activate(context: vscode.ExtensionContext) {
             KickerPanel.instance(context.extensionUri).reveal().commandResetListing()
         })
     )
+
     context.subscriptions.push(
-        vscode.commands.registerCommand('KitchenSink.editorOpen', () => {
-            EditorPanel.instance(context.extensionUri).reveal()
+        vscode.commands.registerCommand('KitchenSink.openWithEditor', (fileFromContextMenu: vscode.Uri) => {
+            vscode.commands.executeCommand('vscode.openWith', fileFromContextMenu, EditorProvider.viewType)
         })
     )
     context.subscriptions.push(
-        vscode.commands.registerCommand('KitchenSink.recenter', () => {
-            EditorPanel.instance(context.extensionUri).reveal().commandRecenter()
-        })
-    )
-    context.subscriptions.push(
-        vscode.commands.registerCommand('KitchenSink.getTopLeft', () => {
-            EditorPanel.instance(context.extensionUri).reveal().commandGetTopLeft()
-        })
+        vscode.window.registerCustomEditorProvider(EditorProvider.viewType, EditorProvider.instance(context.extensionUri))
     )
 }
 
