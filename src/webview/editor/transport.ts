@@ -12,6 +12,9 @@ const extension = {
     update(topleft: number[]): void {
         messenger.postVoidPayload('update', topleft)
     },
+    async askForNewSquare(): Promise<{ name:string, template: { file:string, template:string, schema:object } }> {
+        return messenger.postRequestPayload('askForNewSquare', null)
+    },
 }
 
 const webview = {

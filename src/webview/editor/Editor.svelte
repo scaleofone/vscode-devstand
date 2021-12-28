@@ -1,5 +1,6 @@
 <script>
     import { top, left, recenter, updateDocument } from './stores/point.js'
+    import { resultNewSquare, askForNewSquare } from './stores/squares.js'
     import { throttle } from 'throttle-debounce'
 
     let pointElement
@@ -37,4 +38,13 @@
     <br>
 
     <button on:click={recenter}>Recenter</button>
+
+    <br><br>
+
+    <button on:click={askForNewSquare}>askForNewSquare</button>
+
+    <br><br>
+
+    <pre>{ JSON.stringify($resultNewSquare, null, 2) }</pre>
+
 </div>

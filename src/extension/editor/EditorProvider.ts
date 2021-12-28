@@ -2,6 +2,7 @@ import vscode from 'vscode'
 import { Messenger } from '../Messenger'
 import parseDocument from './parseDocument'
 import updateDocument from './updateDocument'
+import findAvailableTemplates from './findAvailableTemplates'
 
 class EditorProvider implements vscode.CustomTextEditorProvider {
     public static readonly viewType = 'KitchenSink.EditorProvider'
@@ -42,6 +43,23 @@ class EditorProvider implements vscode.CustomTextEditorProvider {
             },
             update(topleft: number[]): void {
                 updateDocument(document, topleft)
+            },
+            async askForNewSquare(): Promise<{ name:string, template: { file:string, template:string, schema:object } }> {
+                let templates = await findAvailableTemplates()
+                let quickPickItems = templates.map(template => {
+                    return {
+                        template,
+                        label: template.template,
+                        description: template.schema.title,
+                        detail: template.schema.description,
+                    }
+                })
+                let selectedQuickPickItem = await vscode.window.showQuickPick(quickPickItems, { title: 'Select template' })
+                let selectedName = await vscode.window.showInputBox({ title: 'Name of the square' })
+                return {
+                    name: selectedName,
+                    template: selectedQuickPickItem.template,
+                }
             },
         }
 
