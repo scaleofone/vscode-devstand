@@ -3,7 +3,7 @@ import { parseCliParams, sveltePlugin, cleanDir } from './esbuild.tools.js'
 const { options } = parseCliParams()
 
 if (! options.noclean) {
-    cleanDir('dist/extension')
+    cleanDir('dist/webview')
 }
 
 esbuild
