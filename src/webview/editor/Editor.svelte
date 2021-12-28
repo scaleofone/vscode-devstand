@@ -3,7 +3,7 @@
     import { throttle } from 'throttle-debounce'
 
     let pointElement
-    const updatePointPosition = throttle(2000, (top, left) => {
+    const updatePointPosition = throttle(50, (top, left) => {
         if (pointElement) {
             pointElement.style.top = top + 'px'
             pointElement.style.left = left + 'px'

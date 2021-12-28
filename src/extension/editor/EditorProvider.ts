@@ -37,6 +37,9 @@ class EditorProvider implements vscode.CustomTextEditorProvider {
 
         // Handle commands received from webview
         const extension = {
+            showMessage(payload: string): void {
+                vscode.window.showInformationMessage(payload)
+            },
             update(topleft: number[]): void {
                 updateDocument(document, topleft)
             },
