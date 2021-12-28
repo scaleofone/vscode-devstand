@@ -1,22 +1,24 @@
 import vscode from 'vscode'
 import { Messenger } from '../Messenger'
+import { Breadboard } from './Breadboard'
 import parseDocument from './parseDocument'
 import updateDocument from './updateDocument'
+import createNewComponent from './createNewComponent'
 
-class EditorProvider implements vscode.CustomTextEditorProvider {
-    public static readonly viewType = 'KitchenSink.EditorProvider'
-    public static singleton: EditorProvider | undefined
+class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
+    public static readonly viewType = 'KitchenSink.BreadboardEditorProvider'
+    public static singleton: BreadboardEditorProvider | undefined
     private readonly extensionUri: vscode.Uri
 
     private constructor(extensionUri: vscode.Uri) {
         this.extensionUri = extensionUri
     }
 
-    static instance(extensionUri: vscode.Uri): EditorProvider {
-        if (! EditorProvider.singleton) {
-            EditorProvider.singleton = new EditorProvider(extensionUri)
+    static instance(extensionUri: vscode.Uri): BreadboardEditorProvider {
+        if (! BreadboardEditorProvider.singleton) {
+            BreadboardEditorProvider.singleton = new BreadboardEditorProvider(extensionUri)
         }
-        return EditorProvider.singleton
+        return BreadboardEditorProvider.singleton
     }
 
     public async resolveCustomTextEditor(document: vscode.TextDocument, panel: vscode.WebviewPanel, _token: vscode.CancellationToken): Promise<void> {
@@ -30,8 +32,8 @@ class EditorProvider implements vscode.CustomTextEditorProvider {
 
         // Pass commands to webview
         const webview = {
-            hydrate(topleft: number[]): void {
-                messenger.postVoidPayload('hydrate', topleft)
+            hydrate(breadboard: Breadboard): void {
+                messenger.postVoidPayload('hydrate', breadboard)
             }
         }
 
@@ -40,9 +42,10 @@ class EditorProvider implements vscode.CustomTextEditorProvider {
             showMessage(payload: string): void {
                 vscode.window.showInformationMessage(payload)
             },
-            update(topleft: number[]): void {
-                updateDocument(document, topleft)
+            update(breadboard: Breadboard): void {
+                updateDocument(document, breadboard)
             },
+            createNewComponent,
         }
 
         messenger.applyReceivedMessagesTo(extension)
@@ -52,7 +55,7 @@ class EditorProvider implements vscode.CustomTextEditorProvider {
 
         function parseDocumentAndHydrateWebview() {
             parseDocument(document)
-                .then(topleft => webview.hydrate(topleft))
+                .then(breadboard => webview.hydrate(breadboard))
                 .catch(error => vscode.window.showErrorMessage(error.toString()))
         }
 
@@ -77,14 +80,14 @@ class EditorProvider implements vscode.CustomTextEditorProvider {
             '<meta name="viewport" content="width=device-width, initial-scale=1.0">',
                 '<meta content="default-src ', webview.cspSource, ';" http-equiv="Content-Security-Policy">',
                 '<link rel="stylesheet" href="',
-                    webview.asWebviewUri(vscode.Uri.joinPath(this.extensionUri, 'dist/webview/editor/editor.css')),
+                    webview.asWebviewUri(vscode.Uri.joinPath(this.extensionUri, 'dist/webview/breadboard/breadboard.css')),
                 '">',
                 '<script defer src="',
-                    webview.asWebviewUri(vscode.Uri.joinPath(this.extensionUri, 'dist/webview/editor/editor.js')),
+                    webview.asWebviewUri(vscode.Uri.joinPath(this.extensionUri, 'dist/webview/breadboard/breadboard.js')),
                 '"></script>',
             '</head><body></body></html>',
         ].join('')
     }
 }
 
-export default EditorProvider
+export default BreadboardEditorProvider

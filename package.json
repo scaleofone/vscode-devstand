@@ -12,6 +12,11 @@
     "menus": {
       "explorer/context": [
         {
+          "command": "KitchenSink.openWithBreadboardEditor",
+          "group": "navigation",
+          "when": "resourceFilename =~ /\\.breadboard\\.json$/"
+        },
+        {
           "command": "KitchenSink.openWithEditor",
           "group": "navigation",
           "when": "resourceFilename =~ /\\.point\\.json$/"
@@ -19,6 +24,16 @@
       ]
     },
     "customEditors": [
+      {
+        "viewType": "KitchenSink.BreadboardEditorProvider",
+        "displayName": "Breadboard editor",
+        "selector": [
+          {
+            "filenamePattern": "*.breadboard.json"
+          }
+        ],
+        "priority": "option"
+      },
       {
         "viewType": "KitchenSink.EditorProvider",
         "displayName": "KitchenSink editor",
@@ -31,6 +46,11 @@
       }
     ],
     "commands": [
+      {
+        "command": "KitchenSink.openWithBreadboardEditor",
+        "title": "Open with Breadboard editor",
+        "category": "Kitchen Sink"
+      },
       {
         "command": "KitchenSink.openWithEditor",
         "title": "Open with KitchenSink editor",
@@ -61,6 +81,8 @@
   "activationEvents": [
     "onCustomEditor:KitchenSink.EditorProvider",
     "onCommand:KitchenSink.openWithEditor",
+    "onCustomEditor:KitchenSink.BreadboardEditorProvider",
+    "onCommand:KitchenSink.openWithBreadboardEditor",
     "onCommand:KitchenSink.recenter",
     "onCommand:KitchenSink.truncateListing",
     "onCommand:KitchenSink.resetListing",
