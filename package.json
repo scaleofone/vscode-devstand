@@ -14,7 +14,7 @@
         {
           "command": "KitchenSink.openWithBreadboardEditor",
           "group": "navigation",
-          "when": "resourceFilename =~ /\\.breadboard\\.json$/"
+          "when": "resourceFilename =~ /breadboard\\.jsonnet$/"
         },
         {
           "command": "KitchenSink.openWithEditor",
@@ -29,7 +29,7 @@
         "displayName": "Breadboard editor",
         "selector": [
           {
-            "filenamePattern": "*.breadboard.json"
+            "filenamePattern": "*breadboard.jsonnet"
           }
         ],
         "priority": "option"

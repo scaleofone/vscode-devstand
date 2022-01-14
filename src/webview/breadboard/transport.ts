@@ -1,6 +1,8 @@
 import vscodeApi from '../vscode.js'
 import { Messenger } from '../Messenger'
 
+import { resultCreateNewComponent } from './stores/breadboard'
+
 const messenger = new Messenger()
 
 const extension = {
@@ -17,7 +19,7 @@ const extension = {
 
 const webview = {
     hydrate(breadboard): void {
-        //
+        resultCreateNewComponent.set(breadboard)
     },
 }
 
