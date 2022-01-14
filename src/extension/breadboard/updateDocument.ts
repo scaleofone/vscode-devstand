@@ -1,5 +1,5 @@
 import vscode from 'vscode'
-import { Breadboard, convertToFile } from './Breadboard'
+import { Breadboard, convertToFile } from './jsonnet/BreadboardTypes'
 
 export default async function(document: vscode.TextDocument, breadboard: Breadboard) {
     const textContent = convertToFile(breadboard)

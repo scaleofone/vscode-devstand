@@ -1,10 +1,13 @@
 import vscode from 'vscode'
-import { Breadboard, parseFromFile } from './Breadboard'
+import { Breadboard } from './jsonnet/BreadboardTypes'
 
 export default async function(document: vscode.TextDocument): Promise<Breadboard> {
     const text = document.getText()
     if (text.trim().length === 0) {
-        return Promise.resolve({})
+        return Promise.resolve({
+            templateImports: [],
+            components: [],
+        })
     }
     try {
         return Promise.resolve(parseFromFile(text))

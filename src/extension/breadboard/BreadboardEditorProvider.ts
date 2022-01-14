@@ -1,6 +1,6 @@
 import vscode from 'vscode'
 import { Messenger } from '../Messenger'
-import { Breadboard } from './Breadboard'
+import { Breadboard } from './jsonnet/BreadboardTypes'
 import parseDocument from './parseDocument'
 import updateDocument from './updateDocument'
 import createNewComponent from './createNewComponent'

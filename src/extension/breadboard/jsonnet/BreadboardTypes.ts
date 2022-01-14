@@ -15,6 +15,7 @@ export interface TemplateImport {
     variableName: string,
     targetFile: string,
     targetIdentifier: string,
+    schema?: TemplateSchema,
 }
 
 export interface ComponentRecord {

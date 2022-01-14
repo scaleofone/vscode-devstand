@@ -1,5 +1,5 @@
 import vscode from 'vscode'
-import { TemplateImport } from './Breadboard'
+import { TemplateImport } from './jsonnet/BreadboardTypes'
 
 export default async function(): Promise<TemplateImport[]> {
 
@@ -12,9 +12,9 @@ export default async function(): Promise<TemplateImport[]> {
 
     return Promise.resolve([
         {
-            file: 'jsonnetpkg/templates-jsonnet-apps/webapp.libsonnet',
-            name: 'WebApp',
-            localName: 'WebApp',
+            targetFile: 'jsonnetpkg/templates-jsonnet-apps/webapp.libsonnet',
+            targetIdentifier: 'WebApp',
+            variableName: 'WebApp',
             schema: {
                 title: 'Web application',
                 description: 'Deployment + Service + optional Ingress',
@@ -36,9 +36,9 @@ export default async function(): Promise<TemplateImport[]> {
             },
         },
         {
-            file: 'jsonnetpkg/templates-jsonnet-apps/worker.libsonnet',
-            name: 'Worker',
-            localName: 'Worker',
+            targetFile: 'jsonnetpkg/templates-jsonnet-apps/worker.libsonnet',
+            targetIdentifier: 'Worker',
+            variableName: 'Worker',
             schema: {
                 title: 'Worker process',
                 description: 'Deployment w/o serice',
@@ -56,9 +56,9 @@ export default async function(): Promise<TemplateImport[]> {
             },
         },
         {
-            file: 'jsonnetpkg/templates-jsonnet-services/postgres.libsonnet',
-            name: 'PostgresContainer',
-            localName: 'PostgresContainer',
+            targetFile: 'jsonnetpkg/templates-jsonnet-services/postgres.libsonnet',
+            targetIdentifier: 'PostgresContainer',
+            variableName: 'PostgresContainer',
             schema: {
                 title: 'Postgres container',
                 description: 'Postgres StatefulSet + PVC',
@@ -76,9 +76,9 @@ export default async function(): Promise<TemplateImport[]> {
             },
         },
         {
-            file: 'jsonnetpkg/templates-jsonnet-services/postgres.libsonnet',
-            name: 'StatelessPostgresContainer',
-            localName: 'StatelessPostgresContainer',
+            targetFile: 'jsonnetpkg/templates-jsonnet-services/postgres.libsonnet',
+            targetIdentifier: 'StatelessPostgresContainer',
+            variableName: 'StatelessPostgresContainer',
             schema: {
                 title: 'Stateless Postgres container',
                 description: 'Postgres Pod w/o volume',
