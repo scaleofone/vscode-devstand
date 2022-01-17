@@ -8,3 +8,7 @@ export interface AddTemplateImport {
     targetFile: string
     targetIdentifier: string
 }
+
+export interface RemoveTemplateImport {
+    variableName: string
+}

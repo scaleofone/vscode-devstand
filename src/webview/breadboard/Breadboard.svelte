@@ -4,6 +4,7 @@
     import { extension } from './transport'
     let before, after
     let variableName, targetFile, targetIdentifier
+    let variableName2
 </script>
 
 
@@ -18,6 +19,13 @@
 <input type="text" placeholder="targetIdentifier"  bind:value={targetIdentifier}>
 <button on:click={extension.addTemplateImport({ variableName, targetFile, targetIdentifier })}>addTemplateImport</button>
 
+<br><br>
+
+<input type="text" placeholder="variableName" bind:value={variableName2}>
+<button on:click={extension.removeTemplateImport({ variableName: variableName2 })}>removeTemplateImport</button>
+
+<br><br>
+<hr>
 
 <button on:click={createNewComponent}>createNewComponent</button>
 
