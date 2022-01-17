@@ -12,11 +12,10 @@ export default async function(document: vscode.TextDocument): Promise<Breadboard
         })
     }
     try {
-        const ast = parser.toJson(parser.parse(document.uri.path, text))
-        if (! ast.type) throw new Error('ast[type] attr is missing')
+        const parsed = parser.parse(document.uri.path, text)
         const breadboard = converter.toBreadboard(
-            parser.getLocalBindNodes(ast),
-            parser.getObjectNode(ast)
+            parser.getLocalBindNodes(parsed),
+            parser.getObjectNode(parsed)
         )
         return Promise.resolve(breadboard)
     } catch {

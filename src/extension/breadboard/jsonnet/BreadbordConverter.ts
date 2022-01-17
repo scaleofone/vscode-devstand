@@ -1,15 +1,16 @@
-import { LocalBindNode, ObjectNode, ObjectFieldNode } from './JsonnetTypes'
+import * as ast from '../../../../heptio-vscode-jsonnet/compiler/lexical-analysis/ast'
+
 import { Breadboard, TemplateImport, Component, ComponentRecord } from './BreadboardTypes'
 
-export function toBreadboard(localBindNodes: LocalBindNode[], objectNode: ObjectNode | undefined): Breadboard {
+export function toBreadboard(localBindNodes: ast.LocalBind[], objectNode: ast.ObjectNode | undefined): Breadboard {
     return {
         templateImports: localBindNodes.map(convertToTemplateImport).filter(x=>x) as TemplateImport[],
-        components: (objectNode ? objectNode.fields : []).map(convertToComponent).filter(x=>x) as Component[],
+        components: (objectNode ? objectNode.fields.toArray() : []).map(convertToComponent).filter(x=>x) as Component[],
     }
 }
 
-function convertToTemplateImport(node: LocalBindNode): TemplateImport | void {
-    if (node.body.target.type == 'ImportNode') {
+function convertToTemplateImport(node: ast.LocalBind): TemplateImport | undefined {
+    if (ast.isIndex(node.body) && ast.isImport(node.body.target)) {
         return {
             variableName: node.variable.name,
             targetFile: node.body.target.file,
@@ -18,21 +19,23 @@ function convertToTemplateImport(node: LocalBindNode): TemplateImport | void {
     }
 }
 
-function convertToComponent(node: ObjectFieldNode): Component | void {
+function convertToComponent(node: ast.ObjectField): Component | undefined {
     if (
-        (node.expr2.type == 'ApplyBraceNode' || node.expr2.type == 'BinaryNode')
-        && node.expr2.left.type == 'VarNode'
+        node.expr2
+        && (ast.isApplyBrace(node.expr2) || (ast.isBinary(node.expr2) && node.expr2.op == 'BopPlus'))
+        && ast.isVar(node.expr2.left)
+        && ast.isObjectNode(node.expr2.right)
     ) {
         return {
             identifier: node.id.name,
             templateImportVariableName: node.expr2.left.id.name,
-            records: node.expr2.right.fields.map(convertToComponentRecord).filter(x=>x) as ComponentRecord[]
+            records: node.expr2.right.fields.toArray().map(convertToComponentRecord).filter(x=>x) as ComponentRecord[]
         }
     }
 }
 
-function convertToComponentRecord(node: ObjectFieldNode): ComponentRecord | void {
-    if (node.expr2.type == 'LiteralStringNode' || node.expr2.type == 'LiteralNumberNode') {
+function convertToComponentRecord(node: ast.ObjectField): ComponentRecord | undefined {
+    if (ast.isLiteralString(node.expr2) || ast.isLiteralNumber(node.expr2)) {
         return {
             identifier: node.id.name,
             value: node.expr2.value,

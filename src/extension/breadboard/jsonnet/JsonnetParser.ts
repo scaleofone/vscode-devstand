@@ -1,54 +1,40 @@
-import { Lex } from '../../../../heptio-vscode-jsonnet/compiler/lexical-analysis/lexer'
-import { isStaticError } from '../../../../heptio-vscode-jsonnet/compiler/lexical-analysis/lexical'
-import { Parse } from '../../../../heptio-vscode-jsonnet/compiler/lexical-analysis/parser'
-import { renderAsJson } from '../../../../heptio-vscode-jsonnet/compiler/lexical-analysis/ast/tree'
+import * as ast from '../../../../heptio-vscode-jsonnet/compiler/lexical-analysis/ast'
+import * as lexer from '../../../../heptio-vscode-jsonnet/compiler/lexical-analysis/lexer'
+import * as lexical from '../../../../heptio-vscode-jsonnet/compiler/lexical-analysis/lexical'
+import * as parser from '../../../../heptio-vscode-jsonnet/compiler/lexical-analysis/parser'
 
-import { LocalBindNode, ObjectNode } from './JsonnetTypes'
-
-export function parse(filePath: string, fileText: string) {
-    const lexResult = Lex(filePath, fileText)
-    if (isStaticError(lexResult)) {
+export function parse(filePath: string, fileText: string): ast.Node {
+    const lexResult = lexer.Lex(filePath, fileText)
+    if (lexical.isStaticError(lexResult)) {
         throw new Error('LEX ERROR')
     }
-    const parseResult = Parse(lexResult)
-    if (isStaticError(parseResult)) {
+    const parseResult = parser.Parse(lexResult)
+    if (lexical.isStaticError(parseResult)) {
         throw new Error('PARSE ERROR')
     }
     return parseResult
 }
 
-export function toJson(parseResult) {
-    const asJson = renderAsJson(parseResult)
-    return JSON.parse(asJson.substr(4, asJson.length-8))
-}
-
-export function getLocalBindNodes(ast: object): LocalBindNode[] {
-    let localBindNodes: LocalBindNode[] = []
-    function extractLocalBindNodes(item: any) {
-        if (! (typeof item == 'object' && item)) return
-        if (Array.isArray(item.binds)) {
-            for (let bindNode of item.binds) {
-                if (typeof bindNode == 'object' && bindNode && bindNode.type == 'LocalBindNode') {
-                    localBindNodes.push(bindNode)
-                }
-            }
+export function getLocalBindNodes(parsed: ast.Node): ast.LocalBind[] {
+    let localBindNodes: ast.LocalBind[] = []
+    function extractLocalBindNodes(item: ast.Node) {
+        if (ast.isLocal(item)) {
+            localBindNodes.push(...item.binds.toArray())
+            extractLocalBindNodes(item.body)
         }
-        extractLocalBindNodes(item.body)
     }
-    extractLocalBindNodes(ast)
+    extractLocalBindNodes(parsed)
     return localBindNodes
 }
 
-export function getObjectNode(ast: object): ObjectNode | undefined {
-    let objectNode: ObjectNode | undefined = undefined
-    function findObjectNode(item: any) {
-        if (! (typeof item == 'object' && item && 'type' in item)) return
-        if (item.type == 'ObjectNode') {
-            objectNode = item
-        } else {
-            findObjectNode(item.body)
+export function getObjectNode(parsed: ast.Node): ast.ObjectNode | undefined {
+    function findObjectNode(item: ast.Node) {
+        if (ast.isObjectNode(item)) {
+            return item
+        }
+        if (ast.isLocal(item)) {
+            return findObjectNode(item.body)
         }
     }
-    findObjectNode(ast)
-    return objectNode
+    return findObjectNode(parsed)
 }

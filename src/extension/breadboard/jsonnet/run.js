@@ -5,12 +5,11 @@ import * as converter from './BreadbordConverter'
 const filePath = '/Users/max/Dst/kitchen-sink/tmp/breadboard.jsonnet'
 const fileText = readFileSync(filePath, { encoding: 'utf-8' })
 
-const ast = parser.toJson(parser.parse(filePath, fileText))
-if (! ast.type) throw new Error
+const parsed = parser.parse(filePath, fileText)
 
 const breadboard = converter.toBreadboard(
-    parser.getLocalBindNodes(ast),
-    parser.getObjectNode(ast)
+    parser.getLocalBindNodes(parsed),
+    parser.getObjectNode(parsed)
 )
 
 console.log(JSON.stringify(breadboard, null, '  '))
