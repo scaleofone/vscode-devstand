@@ -5,7 +5,8 @@ import parseDocument from './parseDocument'
 import updateDocument from './updateDocument'
 import createNewComponent from './createNewComponent'
 
-import { renameComponent, IRenameComponentPayload } from './renameComponent'
+import renameComponent from './renameComponent'
+import { RenameComponent } from '../../TransportPayloads'
 
 class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
     public static readonly viewType = 'KitchenSink.BreadboardEditorProvider'
@@ -47,7 +48,7 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
             update(breadboard: Breadboard): void {
                 updateDocument(document, breadboard)
             },
-            renameComponent(payload: IRenameComponentPayload): void {
+            renameComponent(payload: RenameComponent): void {
                 renameComponent(document, payload)
             },
             createNewComponent,

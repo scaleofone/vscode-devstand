@@ -1,13 +1,9 @@
 import vscode from 'vscode'
+import { RenameComponent } from '../../TransportPayloads'
 
 import * as parser from './jsonnet/JsonnetParser'
 
-export interface IRenameComponentPayload {
-    before: string,
-    after: string,
-}
-
-export async function renameComponent(document: vscode.TextDocument, payload: IRenameComponentPayload) {
+export default async function (document: vscode.TextDocument, payload: RenameComponent) {
     const text = document.getText()
     const ast = parser.parseAst(document.uri.path, text)
     if (! ast.type) throw new Error('ast[type] attr is missing')
