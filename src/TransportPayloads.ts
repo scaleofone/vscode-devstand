@@ -7,6 +7,11 @@ export interface RemoveComponent {
     identifier: string
 }
 
+export interface RemoveComponentRecord {
+    componentIdentifier: string
+    recordIdentifier: string
+}
+
 export interface AddTemplateImport {
     variableName: string
     targetFile: string

@@ -6,6 +6,7 @@
     let variableName, targetFile, targetIdentifier
     let variableName2
     let variableName3
+    let recordIdentifier1, componentIdentifier1
 </script>
 
 
@@ -29,6 +30,12 @@
 
 <input type="text" placeholder="identifier" bind:value={variableName3}>
 <button on:click={extension.removeComponent({ identifier: variableName3 })}>removeComponent</button>
+
+<br><br>
+
+<input type="text" placeholder="componentIdentifier" bind:value={componentIdentifier1}>
+<input type="text" placeholder="recordIdentifier" bind:value={recordIdentifier1}>
+<button on:click={extension.removeComponentRecord({ componentIdentifier:componentIdentifier1, recordIdentifier:recordIdentifier1 })}>removeComponentRecord</button>
 
 <br><br>
 <hr>
