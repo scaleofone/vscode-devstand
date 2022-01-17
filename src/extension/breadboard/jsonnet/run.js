@@ -5,7 +5,7 @@ import * as converter from './BreadbordConverter'
 const filePath = '/Users/max/Dst/kitchen-sink/tmp/breadboard.jsonnet'
 const fileText = readFileSync(filePath, { encoding: 'utf-8' })
 
-const ast = parser.parseAst(filePath, fileText)
+const ast = parser.toJson(parser.parse(filePath, fileText))
 if (! ast.type) throw new Error
 
 const breadboard = converter.toBreadboard(

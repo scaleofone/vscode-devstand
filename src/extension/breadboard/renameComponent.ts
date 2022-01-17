@@ -5,7 +5,7 @@ import * as parser from './jsonnet/JsonnetParser'
 
 export default async function (document: vscode.TextDocument, payload: RenameComponent) {
     const text = document.getText()
-    const ast = parser.parseAst(document.uri.path, text)
+    const ast = parser.toJson(parser.parse(document.uri.path, text))
     if (! ast.type) throw new Error('ast[type] attr is missing')
     const objectNode = parser.getObjectNode(ast)
     const objectFieldNode = objectNode.fields.find(objectFieldNode => objectFieldNode.id.name == payload.before)

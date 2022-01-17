@@ -1,13 +1,24 @@
-import { Lex, Tokens } from '../../../../heptio-vscode-jsonnet/compiler/lexical-analysis/lexer'
+import { Lex } from '../../../../heptio-vscode-jsonnet/compiler/lexical-analysis/lexer'
+import { isStaticError } from '../../../../heptio-vscode-jsonnet/compiler/lexical-analysis/lexical'
 import { Parse } from '../../../../heptio-vscode-jsonnet/compiler/lexical-analysis/parser'
-import { Node, renderAsJson } from '../../../../heptio-vscode-jsonnet/compiler/lexical-analysis/ast/tree'
+import { renderAsJson } from '../../../../heptio-vscode-jsonnet/compiler/lexical-analysis/ast/tree'
 
 import { LocalBindNode, ObjectNode } from './JsonnetTypes'
 
-export function parseAst(filePath: string, fileText: string) {
+export function parse(filePath: string, fileText: string) {
     const lexResult = Lex(filePath, fileText)
-    const parseResult = Parse(lexResult as Tokens)
-    const asJson = renderAsJson(parseResult as Node)
+    if (isStaticError(lexResult)) {
+        throw new Error('LEX ERROR')
+    }
+    const parseResult = Parse(lexResult)
+    if (isStaticError(parseResult)) {
+        throw new Error('PARSE ERROR')
+    }
+    return parseResult
+}
+
+export function toJson(parseResult) {
+    const asJson = renderAsJson(parseResult)
     return JSON.parse(asJson.substr(4, asJson.length-8))
 }
 
