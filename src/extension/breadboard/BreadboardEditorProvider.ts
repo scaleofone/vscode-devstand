@@ -8,6 +8,9 @@ import createNewComponent from './createNewComponent'
 import renameComponent from './renameComponent'
 import { RenameComponent } from '../../TransportPayloads'
 
+import addTemplateImport from './addTemplateImport'
+import { AddTemplateImport } from '../../TransportPayloads'
+
 class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
     public static readonly viewType = 'KitchenSink.BreadboardEditorProvider'
     public static singleton: BreadboardEditorProvider | undefined
@@ -50,6 +53,9 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
             },
             renameComponent(payload: RenameComponent): void {
                 renameComponent(document, payload)
+            },
+            addTemplateImport(payload: AddTemplateImport): void {
+                addTemplateImport(document, payload)
             },
             createNewComponent,
         }

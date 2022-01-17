@@ -2,7 +2,7 @@ import vscodeApi from '../vscode.js'
 import { Messenger } from '../Messenger'
 
 import { resultCreateNewComponent } from './stores/breadboard'
-import { RenameComponent } from '../../TransportPayloads.js'
+import { RenameComponent, AddTemplateImport } from '../../TransportPayloads.js'
 
 const messenger = new Messenger()
 
@@ -16,6 +16,9 @@ const extension = {
     },
     renameComponent(payload: RenameComponent): void {
         messenger.postVoidPayload('renameComponent', payload)
+    },
+    addTemplateImport(payload: AddTemplateImport): void {
+        messenger.postVoidPayload('addTemplateImport', payload)
     },
     async createNewComponent(): Promise<{ templateImport:object, component:object }> {
         return messenger.postRequestPayload('createNewComponent', null)
