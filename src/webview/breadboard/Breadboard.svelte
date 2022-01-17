@@ -5,6 +5,7 @@
     let before, after
     let variableName, targetFile, targetIdentifier
     let variableName2
+    let variableName3
 </script>
 
 
@@ -23,6 +24,11 @@
 
 <input type="text" placeholder="variableName" bind:value={variableName2}>
 <button on:click={extension.removeTemplateImport({ variableName: variableName2 })}>removeTemplateImport</button>
+
+<br><br>
+
+<input type="text" placeholder="identifier" bind:value={variableName3}>
+<button on:click={extension.removeComponent({ identifier: variableName3 })}>removeComponent</button>
 
 <br><br>
 <hr>

@@ -3,6 +3,10 @@ export interface RenameComponent {
     after: string,
 }
 
+export interface RemoveComponent {
+    identifier: string
+}
+
 export interface AddTemplateImport {
     variableName: string
     targetFile: string
