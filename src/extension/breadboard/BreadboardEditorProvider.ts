@@ -55,26 +55,26 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
             update(breadboard: Breadboard): void {
                 updateDocument(document, breadboard)
             },
-            renameComponent(payload: payloads.RenameComponent): void {
-                renameComponent(document, payload)
+            async renameComponent(payload: payloads.RenameComponent): Promise<void> {
+                await renameComponent(document, payload)
             },
-            createTemplateImport(payload: payloads.CreateTemplateImport): void {
-                createTemplateImport(document, payload)
+            async createTemplateImport(payload: payloads.CreateTemplateImport): Promise<void> {
+                await createTemplateImport(document, payload)
             },
             async deleteTemplateImport(payload: payloads.DeleteTemplateImport): Promise<void> {
                 await deleteTemplateImport(document, payload)
             },
-            deleteComponent(payload: payloads.DeleteComponent): void {
-                deleteComponent(document, payload)
+            async deleteComponent(payload: payloads.DeleteComponent): Promise<void> {
+                await deleteComponent(document, payload)
             },
-            deleteRecord(payload: payloads.DeleteRecord): void {
-                deleteRecord(document, payload)
+            async deleteRecord(payload: payloads.DeleteRecord): Promise<void> {
+                await deleteRecord(document, payload)
             },
-            renameRecord(payload: payloads.RenameRecord): void {
-                renameRecord(document, payload)
+            async renameRecord(payload: payloads.RenameRecord): Promise<void> {
+                await renameRecord(document, payload)
             },
-            updateRecordValue(payload: payloads.UpdateRecordValue): void {
-                updateRecordValue(document, payload)
+            async updateRecordValue(payload: payloads.UpdateRecordValue): Promise<void> {
+                await updateRecordValue(document, payload)
             },
             createNewComponent,
         }
