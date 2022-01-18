@@ -7,37 +7,15 @@ import * as parser from '../jsonnet/JsonnetParser'
 export default async function (document: vscode.TextDocument, payload: DeleteRecord) {
     const text = document.getText()
     const parsed = parser.parse(document.uri.path, text)
-    const objectNode = parser.getObjectNode(parsed)
-    const componentFieldNode = objectNode.fields.find(objectFieldNode => objectFieldNode.id.name == payload.componentIdentifier)
-    if (componentFieldNode == undefined) {
-        vscode.window.showErrorMessage(`Could not find Component[identifier=${ payload.componentIdentifier }]`)
-        return
-    }
+    const recordFieldNode = parser.getRecordFieldNode(parsed, payload.componentIdentifier, payload.recordIdentifier)
 
-    if (! (
-        componentFieldNode.expr2
-        && (ast.isApplyBrace(componentFieldNode.expr2) || (ast.isBinary(componentFieldNode.expr2) && componentFieldNode.expr2.op == 'BopPlus'))
-        && ast.isVar(componentFieldNode.expr2.left)
-        && ast.isObjectNode(componentFieldNode.expr2.right)
-    )) {
-        vscode.window.showErrorMessage(`Component[identifier=${ payload.componentIdentifier }] is not a proper component`)
-        return
-    }
-    const componentObjectNode = componentFieldNode.expr2.right
-
-    const recordFieldNode = componentObjectNode.fields.find(recordFieldNode => recordFieldNode.id.name == payload.recordIdentifier)
-    if (recordFieldNode == undefined) {
-        vscode.window.showErrorMessage(`Could not find Record[identifier=${ payload.recordIdentifier }] within Component[identifier=${ payload.componentIdentifier }]`)
-        return
-    }
     if (! (
         ast.isLiteralStringSingle(recordFieldNode.expr2)
         || ast.isLiteralStringDouble(recordFieldNode.expr2)
         || ast.isLiteralNumber(recordFieldNode.expr2)
         || ast.isIndex(recordFieldNode.expr2)
     )) {
-        vscode.window.showErrorMessage(`node[type=${ recordFieldNode.expr2.type }] is unsupported`)
-        return
+        throw new Error(`node[type=${ recordFieldNode.expr2.type }] is unsupported`)
     }
 
     let beginLine = recordFieldNode.loc.begin.line -1

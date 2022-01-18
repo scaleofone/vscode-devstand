@@ -6,12 +6,7 @@ import * as parser from '../jsonnet/JsonnetParser'
 export default async function (document: vscode.TextDocument, payload: RenameComponent) {
     const text = document.getText()
     const parsed = parser.parse(document.uri.path, text)
-    const objectNode = parser.getObjectNode(parsed)
-    const objectFieldNode = objectNode.fields.find(objectFieldNode => objectFieldNode.id.name == payload.before)
-    if (objectFieldNode == undefined) {
-        vscode.window.showErrorMessage(`Could not find Component[identifier=${ payload.before }]`)
-        return
-    }
+    const objectFieldNode = parser.getComponentFieldNode(parsed, payload.before)
 
     const edit = new vscode.WorkspaceEdit()
     edit.replace(

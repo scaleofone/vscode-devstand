@@ -6,12 +6,7 @@ import * as parser from '../jsonnet/JsonnetParser'
 export default async function (document: vscode.TextDocument, payload: DeleteComponent) {
     const text = document.getText()
     const parsed = parser.parse(document.uri.path, text)
-    const objectNode = parser.getObjectNode(parsed)
-    const objectFieldNode = objectNode.fields.find(objectFieldNode => objectFieldNode.id.name == payload.identifier)
-    if (objectFieldNode == undefined) {
-        vscode.window.showErrorMessage(`Could not find Component[identifier=${ payload.identifier }]`)
-        return
-    }
+    const objectFieldNode = parser.getComponentFieldNode(parsed, payload.identifier)
 
     let beginLine = objectFieldNode.loc.begin.line - 1
     let beginColumn = objectFieldNode.loc.begin.column - 1
