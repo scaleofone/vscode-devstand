@@ -10,7 +10,8 @@ import addTemplateImport from './addTemplateImport'
 import removeTemplateImport from './removeTemplateImport'
 import removeComponent from './removeComponent'
 import removeRecord from './removeRecord'
-import { RenameComponent, AddTemplateImport, RemoveTemplateImport, RemoveComponent, RemoveRecord } from '../../TransportPayloads'
+import renameRecord from './renameRecord'
+import { RenameComponent, AddTemplateImport, RemoveTemplateImport, RemoveComponent, RemoveRecord, RenameRecord } from '../../TransportPayloads'
 
 class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
     public static readonly viewType = 'KitchenSink.BreadboardEditorProvider'
@@ -66,6 +67,9 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
             },
             removeRecord(payload: RemoveRecord): void {
                 removeRecord(document, payload)
+            },
+            renameRecord(payload: RenameRecord): void {
+                renameRecord(document, payload)
             },
             createNewComponent,
         }
