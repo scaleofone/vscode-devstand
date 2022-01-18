@@ -18,6 +18,12 @@ export interface RenameRecord {
     renameRecordIdentifier: string
 }
 
+export interface UpdateRecordValue {
+    componentIdentifier: string
+    recordIdentifier: string
+    updateRecordValue: string | number
+}
+
 export interface CreateTemplateImport {
     variableName: string
     targetFile: string

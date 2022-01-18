@@ -32,6 +32,9 @@ const extension = {
     renameRecord(payload: payloads.RenameRecord): void {
         messenger.postVoidPayload('renameRecord', payload)
     },
+    updateRecordValue(payload: payloads.UpdateRecordValue): void {
+        messenger.postVoidPayload('updateRecordValue', payload)
+    },
     async createNewComponent(): Promise<{ templateImport:object, component:object }> {
         return messenger.postRequestPayload('createNewComponent', null)
     },

@@ -8,6 +8,7 @@
     let variableName3
     let recordIdentifier1, componentIdentifier1
     let componentIdentifier2, recordIdentifier2, renameRecordIdentifier2
+    let componentIdentifier3, recordIdentifier3, updateRecordValue3
 
 </script>
 
@@ -45,6 +46,13 @@
 <input type="text" placeholder="recordIdentifier" bind:value={recordIdentifier2}>
 <input type="text" placeholder="renameRecordIdentifier" bind:value={renameRecordIdentifier2}>
 <button on:click={extension.renameRecord({ componentIdentifier:componentIdentifier2, recordIdentifier:recordIdentifier2, renameRecordIdentifier: renameRecordIdentifier2 })}>renameRecord</button>
+
+<br><br>
+
+<input type="text" placeholder="componentIdentifier" bind:value={componentIdentifier3}>
+<input type="text" placeholder="recordIdentifier" bind:value={recordIdentifier3}>
+<input type="text" placeholder="updateRecordValue" bind:value={updateRecordValue3}>
+<button on:click={extension.updateRecordValue({ componentIdentifier:componentIdentifier3, recordIdentifier:recordIdentifier3, updateRecordValue: updateRecordValue3 })}>updateRecordValue</button>
 
 <br><br>
 <hr>

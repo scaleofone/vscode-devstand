@@ -11,6 +11,7 @@ import deleteTemplateImport from './operations/deleteTemplateImport'
 import deleteComponent from './operations/deleteComponent'
 import deleteRecord from './operations/deleteRecord'
 import renameRecord from './operations/renameRecord'
+import updateRecordValue from './operations/updateRecordValue'
 
 import * as payloads from '../../TransportPayloads'
 
@@ -71,6 +72,9 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
             },
             renameRecord(payload: payloads.RenameRecord): void {
                 renameRecord(document, payload)
+            },
+            updateRecordValue(payload: payloads.UpdateRecordValue): void {
+                updateRecordValue(document, payload)
             },
             createNewComponent,
         }
