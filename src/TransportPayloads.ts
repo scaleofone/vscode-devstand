@@ -7,6 +7,12 @@ export interface DeleteComponent {
     identifier: string
 }
 
+export interface CreateRecordValue {
+    componentIdentifier: string
+    recordIdentifier: string
+    recordValue: string | number
+}
+
 export interface DeleteRecord {
     componentIdentifier: string
     recordIdentifier: string

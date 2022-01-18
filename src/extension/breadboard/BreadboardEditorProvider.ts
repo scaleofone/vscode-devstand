@@ -10,6 +10,7 @@ import createTemplateImport from './operations/createTemplateImport'
 import deleteTemplateImport from './operations/deleteTemplateImport'
 import deleteComponent from './operations/deleteComponent'
 import deleteRecord from './operations/deleteRecord'
+import createRecordValue from './operations/createRecordValue'
 import renameRecord from './operations/renameRecord'
 import updateRecordValue from './operations/updateRecordValue'
 
@@ -69,6 +70,9 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
             },
             async deleteRecord(payload: payloads.DeleteRecord): Promise<void> {
                 await deleteRecord(document, payload)
+            },
+            async createRecordValue(payload: payloads.CreateRecordValue): Promise<void> {
+                await createRecordValue(document, payload)
             },
             async renameRecord(payload: payloads.RenameRecord): Promise<void> {
                 await renameRecord(document, payload)

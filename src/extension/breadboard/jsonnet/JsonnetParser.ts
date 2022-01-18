@@ -51,18 +51,21 @@ export function getComponentFieldNode(parsed: ast.Node, identifier: string): ast
     return objectFieldNode
 }
 
-export function getRecordFieldNode(parsed: ast.Node, componentIdentifier: string, recordIdentifier: string): ast.ObjectField {
-    const componentFieldNode = getComponentFieldNode(parsed, componentIdentifier)
+export function getComponentObjectNode(parsed: ast.Node, identifier: string): ast.ObjectNode {
+    const componentFieldNode = getComponentFieldNode(parsed, identifier)
     if (! (
         componentFieldNode.expr2
         && (ast.isApplyBrace(componentFieldNode.expr2) || (ast.isBinary(componentFieldNode.expr2) && componentFieldNode.expr2.op == 'BopPlus'))
         && ast.isVar(componentFieldNode.expr2.left)
         && ast.isObjectNode(componentFieldNode.expr2.right)
     )) {
-        throw new Error(`Component[identifier=${ componentIdentifier }] is not a proper component`)
+        throw new Error(`Component[identifier=${ identifier }] is not a proper component`)
     }
-    const componentObjectNode = componentFieldNode.expr2.right
+    return componentFieldNode.expr2.right
+}
 
+export function getRecordFieldNode(parsed: ast.Node, componentIdentifier: string, recordIdentifier: string): ast.ObjectField {
+    const componentObjectNode = getComponentObjectNode(parsed, componentIdentifier)
     const recordFieldNode = componentObjectNode.fields.find(recordFieldNode => recordFieldNode.id.name == recordIdentifier)
     if (recordFieldNode == undefined) {
         throw new Error(`Could not find Record[identifier=${ recordIdentifier }] within Component[identifier=${ componentIdentifier }]`)
