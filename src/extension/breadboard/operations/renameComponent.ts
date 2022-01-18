@@ -1,7 +1,7 @@
 import vscode from 'vscode'
-import { RenameComponent } from '../../TransportPayloads'
+import { RenameComponent } from '../../../TransportPayloads'
 
-import * as parser from './jsonnet/JsonnetParser'
+import * as parser from '../jsonnet/JsonnetParser'
 
 export default async function (document: vscode.TextDocument, payload: RenameComponent) {
     const text = document.getText()

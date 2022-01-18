@@ -1,10 +1,10 @@
 import vscode from 'vscode'
-import * as ast from '../../../heptio-vscode-jsonnet/compiler/lexical-analysis/ast'
-import { RemoveTemplateImport } from '../../TransportPayloads'
+import * as ast from '../../../../heptio-vscode-jsonnet/compiler/lexical-analysis/ast'
+import { DeleteTemplateImport } from '../../../TransportPayloads'
 
-import * as parser from './jsonnet/JsonnetParser'
+import * as parser from '../jsonnet/JsonnetParser'
 
-export default async function (document: vscode.TextDocument, payload: RemoveTemplateImport) {
+export default async function (document: vscode.TextDocument, payload: DeleteTemplateImport) {
     const text = document.getText()
     const parsed = parser.parse(document.uri.path, text)
     const localBindNodes = parser.getLocalBindNodes(parsed)

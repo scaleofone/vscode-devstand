@@ -1,9 +1,9 @@
 import vscode from 'vscode'
-import * as ast from '../../../heptio-vscode-jsonnet/compiler/lexical-analysis/ast'
+import * as ast from '../../../../heptio-vscode-jsonnet/compiler/lexical-analysis/ast'
 
-import { RenameRecord } from '../../TransportPayloads'
+import { RenameRecord } from '../../../TransportPayloads'
 
-import * as parser from './jsonnet/JsonnetParser'
+import * as parser from '../jsonnet/JsonnetParser'
 
 export default async function (document: vscode.TextDocument, payload: RenameRecord) {
     const text = document.getText()

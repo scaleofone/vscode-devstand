@@ -2,7 +2,7 @@ import vscodeApi from '../vscode.js'
 import { Messenger } from '../Messenger'
 
 import { resultCreateNewComponent } from './stores/breadboard'
-import { RenameComponent, AddTemplateImport, RemoveTemplateImport, RemoveComponent, RemoveRecord, RenameRecord } from '../../TransportPayloads.js'
+import * as payloads from '../../TransportPayloads.js'
 
 const messenger = new Messenger()
 
@@ -14,22 +14,22 @@ const extension = {
     update(breadboard): void {
         messenger.postVoidPayload('update', breadboard)
     },
-    renameComponent(payload: RenameComponent): void {
+    renameComponent(payload: payloads.RenameComponent): void {
         messenger.postVoidPayload('renameComponent', payload)
     },
-    addTemplateImport(payload: AddTemplateImport): void {
-        messenger.postVoidPayload('addTemplateImport', payload)
+    createTemplateImport(payload: payloads.CreateTemplateImport): void {
+        messenger.postVoidPayload('createTemplateImport', payload)
     },
-    removeTemplateImport(payload: RemoveTemplateImport): void {
-        messenger.postVoidPayload('removeTemplateImport', payload)
+    deleteTemplateImport(payload: payloads.DeleteTemplateImport): void {
+        messenger.postVoidPayload('deleteTemplateImport', payload)
     },
-    removeComponent(payload: RemoveComponent): void {
-        messenger.postVoidPayload('removeComponent', payload)
+    deleteComponent(payload: payloads.DeleteComponent): void {
+        messenger.postVoidPayload('deleteComponent', payload)
     },
-    removeRecord(payload: RemoveRecord): void {
-        messenger.postVoidPayload('removeRecord', payload)
+    deleteRecord(payload: payloads.DeleteRecord): void {
+        messenger.postVoidPayload('deleteRecord', payload)
     },
-    renameRecord(payload: RenameRecord): void {
+    renameRecord(payload: payloads.RenameRecord): void {
         messenger.postVoidPayload('renameRecord', payload)
     },
     async createNewComponent(): Promise<{ templateImport:object, component:object }> {

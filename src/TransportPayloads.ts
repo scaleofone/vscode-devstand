@@ -3,11 +3,11 @@ export interface RenameComponent {
     after: string,
 }
 
-export interface RemoveComponent {
+export interface DeleteComponent {
     identifier: string
 }
 
-export interface RemoveRecord {
+export interface DeleteRecord {
     componentIdentifier: string
     recordIdentifier: string
 }
@@ -18,12 +18,12 @@ export interface RenameRecord {
     renameRecordIdentifier: string
 }
 
-export interface AddTemplateImport {
+export interface CreateTemplateImport {
     variableName: string
     targetFile: string
     targetIdentifier: string
 }
 
-export interface RemoveTemplateImport {
+export interface DeleteTemplateImport {
     variableName: string
 }

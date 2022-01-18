@@ -21,23 +21,23 @@
 <input type="text" placeholder="variableName" bind:value={variableName}>
 <input type="text" placeholder="targetFile"  bind:value={targetFile}>
 <input type="text" placeholder="targetIdentifier"  bind:value={targetIdentifier}>
-<button on:click={extension.addTemplateImport({ variableName, targetFile, targetIdentifier })}>addTemplateImport</button>
+<button on:click={extension.createTemplateImport({ variableName, targetFile, targetIdentifier })}>createTemplateImport</button>
 
 <br><br>
 
 <input type="text" placeholder="variableName" bind:value={variableName2}>
-<button on:click={extension.removeTemplateImport({ variableName: variableName2 })}>removeTemplateImport</button>
+<button on:click={extension.deleteTemplateImport({ variableName: variableName2 })}>deleteTemplateImport</button>
 
 <br><br>
 
 <input type="text" placeholder="identifier" bind:value={variableName3}>
-<button on:click={extension.removeComponent({ identifier: variableName3 })}>removeComponent</button>
+<button on:click={extension.deleteComponent({ identifier: variableName3 })}>deleteComponent</button>
 
 <br><br>
 
 <input type="text" placeholder="componentIdentifier" bind:value={componentIdentifier1}>
 <input type="text" placeholder="recordIdentifier" bind:value={recordIdentifier1}>
-<button on:click={extension.removeRecord({ componentIdentifier:componentIdentifier1, recordIdentifier:recordIdentifier1 })}>removeRecord</button>
+<button on:click={extension.deleteRecord({ componentIdentifier:componentIdentifier1, recordIdentifier:recordIdentifier1 })}>deleteRecord</button>
 
 <br><br>
 

@@ -5,13 +5,14 @@ import parseDocument from './parseDocument'
 import updateDocument from './updateDocument'
 import createNewComponent from './createNewComponent'
 
-import renameComponent from './renameComponent'
-import addTemplateImport from './addTemplateImport'
-import removeTemplateImport from './removeTemplateImport'
-import removeComponent from './removeComponent'
-import removeRecord from './removeRecord'
-import renameRecord from './renameRecord'
-import { RenameComponent, AddTemplateImport, RemoveTemplateImport, RemoveComponent, RemoveRecord, RenameRecord } from '../../TransportPayloads'
+import renameComponent from './operations/renameComponent'
+import createTemplateImport from './operations/createTemplateImport'
+import deleteTemplateImport from './operations/deleteTemplateImport'
+import deleteComponent from './operations/deleteComponent'
+import deleteRecord from './operations/deleteRecord'
+import renameRecord from './operations/renameRecord'
+
+import * as payloads from '../../TransportPayloads'
 
 class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
     public static readonly viewType = 'KitchenSink.BreadboardEditorProvider'
@@ -53,22 +54,22 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
             update(breadboard: Breadboard): void {
                 updateDocument(document, breadboard)
             },
-            renameComponent(payload: RenameComponent): void {
+            renameComponent(payload: payloads.RenameComponent): void {
                 renameComponent(document, payload)
             },
-            addTemplateImport(payload: AddTemplateImport): void {
-                addTemplateImport(document, payload)
+            createTemplateImport(payload: payloads.CreateTemplateImport): void {
+                createTemplateImport(document, payload)
             },
-            removeTemplateImport(payload: RemoveTemplateImport): void {
-                removeTemplateImport(document, payload)
+            deleteTemplateImport(payload: payloads.DeleteTemplateImport): void {
+                deleteTemplateImport(document, payload)
             },
-            removeComponent(payload: RemoveComponent): void {
-                removeComponent(document, payload)
+            deleteComponent(payload: payloads.DeleteComponent): void {
+                deleteComponent(document, payload)
             },
-            removeRecord(payload: RemoveRecord): void {
-                removeRecord(document, payload)
+            deleteRecord(payload: payloads.DeleteRecord): void {
+                deleteRecord(document, payload)
             },
-            renameRecord(payload: RenameRecord): void {
+            renameRecord(payload: payloads.RenameRecord): void {
                 renameRecord(document, payload)
             },
             createNewComponent,

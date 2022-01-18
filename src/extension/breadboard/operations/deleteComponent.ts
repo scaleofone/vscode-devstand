@@ -1,9 +1,9 @@
 import vscode from 'vscode'
-import { RemoveComponent } from '../../TransportPayloads'
+import { DeleteComponent } from '../../../TransportPayloads'
 
-import * as parser from './jsonnet/JsonnetParser'
+import * as parser from '../jsonnet/JsonnetParser'
 
-export default async function (document: vscode.TextDocument, payload: RemoveComponent) {
+export default async function (document: vscode.TextDocument, payload: DeleteComponent) {
     const text = document.getText()
     const parsed = parser.parse(document.uri.path, text)
     const objectNode = parser.getObjectNode(parsed)
