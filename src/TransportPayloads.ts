@@ -7,7 +7,7 @@ export interface RemoveComponent {
     identifier: string
 }
 
-export interface RemoveComponentRecord {
+export interface RemoveRecord {
     componentIdentifier: string
     recordIdentifier: string
 }

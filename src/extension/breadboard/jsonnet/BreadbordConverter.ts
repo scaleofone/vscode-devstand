@@ -1,6 +1,6 @@
 import * as ast from '../../../../heptio-vscode-jsonnet/compiler/lexical-analysis/ast'
 
-import { Breadboard, TemplateImport, Component, ComponentRecord } from './BreadboardTypes'
+import { Breadboard, TemplateImport, Component, Record } from './BreadboardTypes'
 
 export function toBreadboard(localBindNodes: ast.LocalBind[], objectNode: ast.ObjectNode | undefined): Breadboard {
     return {
@@ -29,12 +29,12 @@ function convertToComponent(node: ast.ObjectField): Component | undefined {
         return {
             identifier: node.id.name,
             templateImportVariableName: node.expr2.left.id.name,
-            records: node.expr2.right.fields.toArray().map(convertToComponentRecord).filter(x=>x) as ComponentRecord[]
+            records: node.expr2.right.fields.toArray().map(convertToRecord).filter(x=>x) as Record[]
         }
     }
 }
 
-function convertToComponentRecord(node: ast.ObjectField): ComponentRecord | undefined {
+function convertToRecord(node: ast.ObjectField): Record | undefined {
     if (ast.isLiteralString(node.expr2) || ast.isLiteralNumber(node.expr2)) {
         return {
             identifier: node.id.name,

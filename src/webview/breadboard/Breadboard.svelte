@@ -35,7 +35,7 @@
 
 <input type="text" placeholder="componentIdentifier" bind:value={componentIdentifier1}>
 <input type="text" placeholder="recordIdentifier" bind:value={recordIdentifier1}>
-<button on:click={extension.removeComponentRecord({ componentIdentifier:componentIdentifier1, recordIdentifier:recordIdentifier1 })}>removeComponentRecord</button>
+<button on:click={extension.removeRecord({ componentIdentifier:componentIdentifier1, recordIdentifier:recordIdentifier1 })}>removeRecord</button>
 
 <br><br>
 <hr>

@@ -18,7 +18,7 @@ export interface TemplateImport {
     schema?: TemplateSchema,
 }
 
-export interface ComponentRecord {
+export interface Record {
     identifier: string,
     value: string | number,
 }
@@ -26,7 +26,7 @@ export interface ComponentRecord {
 export interface Component {
     identifier: string,
     templateImportVariableName: string,
-    records: ComponentRecord[],
+    records: Record[],
 }
 
 export interface Breadboard {
