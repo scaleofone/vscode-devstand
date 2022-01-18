@@ -1,3 +1,8 @@
+export interface CreateComponent {
+    componentIdentifier: string
+    templateImportVariableName: string
+}
+
 export interface RenameComponent {
     before: string,
     after: string,

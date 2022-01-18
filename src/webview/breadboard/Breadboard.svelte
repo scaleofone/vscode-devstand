@@ -10,9 +10,16 @@
     let componentIdentifier2, recordIdentifier2, renameRecordIdentifier2
     let componentIdentifier3, recordIdentifier3, updateRecordValue3
     let componentIdentifier4, recordIdentifier4, recordValue4
+    let componentIdentifier5, templateImportVariableName5
 
 </script>
 
+
+<input type="text" placeholder="componentIdentifier" bind:value={componentIdentifier5}>
+<input type="text" placeholder="templateImportVariableName"  bind:value={templateImportVariableName5}>
+<button on:click={extension.createComponent({ componentIdentifier: componentIdentifier5, templateImportVariableName: templateImportVariableName5 })}>createComponent</button>
+
+<br><br>
 
 <input type="text" placeholder="before" bind:value={before}>
 <input type="text" placeholder="after"  bind:value={after}>

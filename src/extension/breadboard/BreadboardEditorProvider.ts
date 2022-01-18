@@ -13,6 +13,7 @@ import deleteRecord from './operations/deleteRecord'
 import createRecordValue from './operations/createRecordValue'
 import renameRecord from './operations/renameRecord'
 import updateRecordValue from './operations/updateRecordValue'
+import createComponent from './operations/createComponent'
 
 import * as payloads from '../../TransportPayloads'
 
@@ -55,6 +56,9 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
             },
             update(breadboard: Breadboard): void {
                 updateDocument(document, breadboard)
+            },
+            async createComponent(payload: payloads.CreateComponent): Promise<void> {
+                await createComponent(document, payload)
             },
             async renameComponent(payload: payloads.RenameComponent): Promise<void> {
                 await renameComponent(document, payload)

@@ -14,6 +14,9 @@ const extension = {
     update(breadboard): void {
         messenger.postVoidPayload('update', breadboard)
     },
+    createComponent(payload: payloads.CreateComponent): void {
+        messenger.postVoidPayload('createComponent', payload)
+    },
     renameComponent(payload: payloads.RenameComponent): void {
         messenger.postVoidPayload('renameComponent', payload)
     },
