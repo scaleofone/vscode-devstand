@@ -13,6 +13,8 @@ export default async function (document: vscode.TextDocument, payload: DeleteTem
         throw new Error('Can not find LocalBindNode[variable.name]='+payload.variableName)
     }
 
+    let beginLine = nodeToRemove.loc.begin.line -1
+    let beginColumn = nodeToRemove.loc.begin.column -1
     let endLine = nodeToRemove.loc.end.line -1
     let endColumn = nodeToRemove.loc.end.column -1
     if (';' == document.getText(new vscode.Range(endLine, endColumn, endLine, endColumn+1))) {
@@ -27,12 +29,7 @@ export default async function (document: vscode.TextDocument, payload: DeleteTem
     const edit = new vscode.WorkspaceEdit()
     edit.delete(
         document.uri,
-        new vscode.Range(
-            nodeToRemove.loc.begin.line -1,
-            nodeToRemove.loc.begin.column -1,
-            endLine,
-            endColumn
-        )
+        new vscode.Range(beginLine, beginColumn, endLine, endColumn)
     )
     return vscode.workspace.applyEdit(edit)
 }

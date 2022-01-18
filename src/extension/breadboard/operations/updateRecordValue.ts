@@ -9,13 +9,14 @@ export default async function (document: vscode.TextDocument, payload: UpdateRec
     const text = document.getText()
     const parsed = parser.parse(document.uri.path, text)
     const recordFieldNode = parser.getRecordFieldNode(parsed, payload.componentIdentifier, payload.recordIdentifier)
+    const targetNode = recordFieldNode.expr2
 
     if (! (
-        ast.isLiteralStringSingle(recordFieldNode.expr2)
-        || ast.isLiteralStringDouble(recordFieldNode.expr2)
-        || ast.isLiteralNumber(recordFieldNode.expr2)
+        ast.isLiteralStringSingle(targetNode)
+        || ast.isLiteralStringDouble(targetNode)
+        || ast.isLiteralNumber(targetNode)
     )) {
-        vscode.window.showErrorMessage(`node[type=${ recordFieldNode.expr2.type }] is unsupported`)
+        vscode.window.showErrorMessage(`node[type=${ targetNode.type }] is unsupported`)
         return
     }
 
@@ -23,10 +24,10 @@ export default async function (document: vscode.TextDocument, payload: UpdateRec
     edit.replace(
         document.uri,
         new vscode.Range(
-            recordFieldNode.expr2.loc.begin.line -1,
-            recordFieldNode.expr2.loc.begin.column -1,
-            recordFieldNode.expr2.loc.end.line -1,
-            recordFieldNode.expr2.loc.end.column -1
+            targetNode.loc.begin.line -1,
+            targetNode.loc.begin.column -1,
+            targetNode.loc.end.line -1,
+            targetNode.loc.end.column -1
         ),
         payload.updateRecordValue.toString()
     )

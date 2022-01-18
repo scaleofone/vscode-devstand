@@ -22,10 +22,7 @@ export default async function (document: vscode.TextDocument, payload: CreateTem
     const edit = new vscode.WorkspaceEdit()
     edit.insert(
         document.uri,
-        new vscode.Position(
-            insertLine,
-            insertColumn
-        ),
+        new vscode.Position(insertLine, insertColumn),
         insertText
     )
     return vscode.workspace.applyEdit(edit)

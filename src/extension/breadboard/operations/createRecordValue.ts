@@ -1,5 +1,4 @@
 import vscode from 'vscode'
-import * as ast from '../../../../heptio-vscode-jsonnet/compiler/lexical-analysis/ast'
 
 import { CreateRecordValue } from '../../../TransportPayloads'
 
@@ -9,10 +8,10 @@ export default async function (document: vscode.TextDocument, payload: CreateRec
     const text = document.getText()
     const parsed = parser.parse(document.uri.path, text)
     const componentObjectNode = parser.getComponentObjectNode(parsed, payload.componentIdentifier)
-    const recordFieldNode = componentObjectNode.fields.last()
+    const siblingRecordFieldNode = componentObjectNode.fields.last()
 
-    let insertLine = recordFieldNode.loc.end.line -1
-    let insertColumn = recordFieldNode.loc.end.column -1
+    let insertLine = siblingRecordFieldNode.loc.end.line -1
+    let insertColumn = siblingRecordFieldNode.loc.end.column -1
     if (['"', '\''].includes(document.getText(new vscode.Range(insertLine, insertColumn, insertLine, insertColumn+1)))) {
         insertColumn += 1
     }
@@ -20,18 +19,15 @@ export default async function (document: vscode.TextDocument, payload: CreateRec
         insertColumn += 1
     }
 
-    let indent = '  ' // two spaces
+    let tab = '  ' // two spaces
     let quot = '\'' // single quot
     let wrappedValue = (typeof payload.recordValue == 'number') ? payload.recordValue.toString() : quot + payload.recordValue + quot
-    let insertText = '\n' + indent + indent + `${ payload.recordIdentifier }: ${ wrappedValue }` + ','
+    let insertText = '\n' + tab + tab + `${ payload.recordIdentifier }: ${ wrappedValue }` + ','
 
     const edit = new vscode.WorkspaceEdit()
     edit.insert(
         document.uri,
-        new vscode.Position(
-            insertLine,
-            insertColumn
-        ),
+        new vscode.Position(insertLine, insertColumn),
         insertText
     )
     return vscode.workspace.applyEdit(edit)

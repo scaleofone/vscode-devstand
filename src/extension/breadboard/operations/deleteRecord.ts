@@ -41,12 +41,7 @@ export default async function (document: vscode.TextDocument, payload: DeleteRec
     const edit = new vscode.WorkspaceEdit()
     edit.delete(
         document.uri,
-        new vscode.Range(
-            beginLine,
-            beginColumn,
-            endLine,
-            endColumn,
-        )
+        new vscode.Range(beginLine, beginColumn, endLine, endColumn)
     )
     return vscode.workspace.applyEdit(edit)
 }
