@@ -1,5 +1,5 @@
 import vscode from 'vscode'
-import { Messenger } from '../Messenger'
+import { Messenger, MessengerMessage } from '../Messenger'
 import { Breadboard } from './jsonnet/BreadboardTypes'
 import parseDocument from './parseDocument'
 import updateDocument from './updateDocument'
@@ -61,8 +61,8 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
             createTemplateImport(payload: payloads.CreateTemplateImport): void {
                 createTemplateImport(document, payload)
             },
-            deleteTemplateImport(payload: payloads.DeleteTemplateImport): void {
-                deleteTemplateImport(document, payload)
+            async deleteTemplateImport(payload: payloads.DeleteTemplateImport): Promise<void> {
+                await deleteTemplateImport(document, payload)
             },
             deleteComponent(payload: payloads.DeleteComponent): void {
                 deleteComponent(document, payload)
@@ -82,6 +82,10 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
         messenger.applyReceivedMessagesTo(extension)
         messenger.receiveMessagesFrom(panel.webview)
         messenger.sendMessagesTo(panel.webview)
+        messenger.useErrorHandler((error: Error, message: MessengerMessage) => {
+            vscode.window.showErrorMessage(error.message)
+            console.warn(message)
+        })
         messenger.subscribe()
 
         function parseDocumentAndHydrateWebview() {

@@ -18,6 +18,11 @@ class Messenger {
         this.facade = facade
     }
 
+    private errorHandler: Function | undefined = undefined
+    useErrorHandler(errorHandler: Function) {
+        this.errorHandler = errorHandler
+    }
+
     private sender: { postMessage:Function } | undefined
     sendMessagesTo(sender: { postMessage:Function }) {
         this.sender = sender
@@ -40,7 +45,16 @@ class Messenger {
 
     onDidReceiveMessage(message: MessengerMessage) {
         if (message.is == 'void' && message.from === 'webview') {
-            this.facade[message.command].apply(this.facade, [message.payload])
+            try {
+                let result = this.facade[message.command].apply(this.facade, [message.payload])
+                if (this.errorHandler instanceof Function && typeof result == 'object' && result !== null && 'then' in result && typeof result.then == 'function') {
+                    result.then(() => {}, (error: any) => this.errorHandler.apply(undefined, [normaliseError(error), message]))
+                }
+            } catch (error) {
+                if (this.errorHandler instanceof Function) {
+                    this.errorHandler.apply(undefined, [normaliseError(error), message])
+                }
+            }
         } else if (message.is == 'request' && message.from === 'webview') {
             this.facade[message.command].apply(this.facade, [message.payload])
                 .then(responseFromFacade => {
@@ -50,6 +64,11 @@ class Messenger {
                         requestId: message.requestId,
                         payload: responseFromFacade
                     })
+                })
+                .catch((error: any) => {
+                    if (this.errorHandler instanceof Function) {
+                        this.errorHandler.apply(undefined, [normaliseError(error), message])
+                    }
                 })
         }
     }
@@ -80,4 +99,17 @@ class Messenger {
     }
 }
 
-export { Messenger }
+function normaliseError(error: any): Error {
+    if (error instanceof Error) return error
+    if (typeof error == 'object' && error !== null) {
+        try {
+            return new Error(JSON.stringify(error))
+        } catch (err) {
+            return new Error('Unknown error object')
+        }
+    }
+    if (typeof error == 'string' || typeof error == 'number') return new Error(error.toString())
+    return new Error('Unknown error: '+error.toString())
+}
+
+export { Messenger, MessengerMessage }

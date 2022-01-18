@@ -10,8 +10,7 @@ export default async function (document: vscode.TextDocument, payload: DeleteTem
     const localBindNodes = parser.getLocalBindNodes(parsed)
     const nodeToRemove = localBindNodes.find(node => ast.isIndex(node.body) && ast.isImport(node.body.target) && node.variable.name == payload.variableName)
     if (nodeToRemove == undefined) {
-        vscode.window.showErrorMessage('Can not find LocalBindNode[variable.name]='+payload.variableName)
-        return
+        throw new Error('Can not find LocalBindNode[variable.name]='+payload.variableName)
     }
 
     let endLine = nodeToRemove.loc.end.line -1
