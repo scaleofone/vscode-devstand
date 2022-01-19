@@ -1,0 +1,17 @@
+{
+    "tabWidth": 4,
+    "useTabs": false,
+    "endOfLine": "lf",
+
+    "semi": false,
+    "singleQuote": true,
+    "arrowParens": "avoid",
+    "trailingComma": "es5",
+    "bracketSpacing": true,
+    "bracketSameLine": false,
+    "printWidth": 9000,
+
+    "svelteStrictMode": false,
+    "svelteAllowShorthand": false,
+    "svelteIndentScriptAndStyle": false
+}

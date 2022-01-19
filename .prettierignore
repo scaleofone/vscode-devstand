@@ -1,0 +1,14 @@
+*.json
+*.js
+
+.vscode/
+backend/
+dist/
+heptio-vscode-jsonnet/
+node_modules/
+
+src/**/*.css
+src/**/*.html
+src/**/*.js
+
+tmp/

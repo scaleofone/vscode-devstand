@@ -90,6 +90,7 @@
     "onCommand:KitchenSink.wizardOpen"
   ],
   "scripts": {
+    "prettier": "prettier --config .prettierc",
     "extension-build": "node esbuild-extension.js",
     "extension-watch": "node esbuild-extension.js --watch",
     "extension-web-build": "node esbuild-extension.js --web",
@@ -103,6 +104,8 @@
     "@types/vscode": "^1.60.0",
     "esbuild": "^0.12.25",
     "immutable": "^3.8.1",
+    "prettier": "2.5.1",
+    "prettier-plugin-svelte": "2.6.0",
     "svelte": "^3.42.4",
     "throttle-debounce": "^3.0.1"
   }
