@@ -1,99 +1,55 @@
 import vscode from 'vscode'
-import { TemplateImport } from './jsonnet/BreadboardTypes'
+import { TemplateSchemaDictionaryItem } from './jsonnet/BreadboardTypes'
 
-export default async function(): Promise<TemplateImport[]> {
+export default async function(): Promise<TemplateSchemaDictionaryItem[]> {
 
-    // TODO actually find libsonnet files
-    // найти все libsonnet файлы, исключить директорию k8s-libsonnet, исключить symlink-и (брать только symlink-и ???)
-    // прочитать файл, взять только те, внутри которых есть строка "libraryMeta"
-    // сделать файлу eval
-    // если вернется [libraryMeta][templates] - то это наша библиотека
-    // возвращать объект
+    if (! Array.isArray(vscode.workspace.workspaceFolders) || vscode.workspace.workspaceFolders.length == 0) {
+        return Promise.resolve([])
+    }
+    const workspaceFolder: vscode.WorkspaceFolder = vscode.workspace.workspaceFolders[0]
 
-    return Promise.resolve([
-        {
-            targetFile: 'jsonnetpkg/templates-jsonnet-apps/webapp.libsonnet',
-            targetIdentifier: 'WebApp',
-            variableName: 'WebApp',
-            schema: {
-                title: 'Web application',
-                description: 'Deployment + Service + optional Ingress',
-                type: 'object',
-                properties: {
-                    image: { type: 'string', title: 'Container image', description: 'Location of the image', },
-                    port: { type: 'number', title: 'Container port', description: 'The port that your code inside the container listens to', },
-                    cmd: { type: 'string', title: 'Container command', description: 'The command to run in container or the first argument passed the the entrypoint script', },
-                    args: { type: 'string', title: 'Container command arguments', description: 'Argumements to pass to the command or second and further arguments passed the the entrypoint script', },
-                    servicePort: { type: 'number', title: 'Service port', description: 'Remap container port to another port in order other containers access it', },
-                    ingress: { type: 'string', title: 'Ingress URL', description: 'Allow access to the service from outside the cluster by the given URL', },
-                    env: { type: 'object', title: 'ENV variables', description: 'String literals to inject as ENV variables', },
-                    replicas: { type: 'number', title: 'Pod replicas', description: 'Run multiple parallel instances (replicas) of the container', },
-                },
-                required: [
-                    'image',
-                    'port',
-                ],
-            },
-        },
-        {
-            targetFile: 'jsonnetpkg/templates-jsonnet-apps/worker.libsonnet',
-            targetIdentifier: 'Worker',
-            variableName: 'Worker',
-            schema: {
-                title: 'Worker process',
-                description: 'Deployment w/o serice',
-                type: 'object',
-                properties: {
-                    image: { type: 'string', title: 'Container image', description: 'Location of the image', },
-                    cmd: { type: 'string', title: 'Container command', description: 'The command to run in container or the first argument passed the the entrypoint script', },
-                    args: { type: 'string', title: 'Container command arguments', description: 'Argumements to pass to the command or second and further arguments passed the the entrypoint script', },
-                    env: { type: 'object', title: 'ENV variables', description: 'String literals to inject as ENV variables', },
-                    replicas: { type: 'number', title: 'Pod replicas', description: 'Run multiple parallel instances (replicas) of the container', },
-                },
-                required: [
-                    'image',
-                ],
-            },
-        },
-        {
-            targetFile: 'jsonnetpkg/templates-jsonnet-services/postgres.libsonnet',
-            targetIdentifier: 'PostgresContainer',
-            variableName: 'PostgresContainer',
-            schema: {
-                title: 'Postgres container',
-                description: 'Postgres StatefulSet + PVC',
-                type: 'object',
-                properties: {
-                    dbName: { type: 'string', title: 'Database name', },
-                    dbUser: { type: 'string', title: 'Database user', },
-                    dbPassword: { type: 'string', title: 'Database password', },
-                },
-                required: [
-                    'dbName',
-                    'dbUser',
-                    'dbPassword',
-                ],
-            },
-        },
-        {
-            targetFile: 'jsonnetpkg/templates-jsonnet-services/postgres.libsonnet',
-            targetIdentifier: 'StatelessPostgresContainer',
-            variableName: 'StatelessPostgresContainer',
-            schema: {
-                title: 'Stateless Postgres container',
-                description: 'Postgres Pod w/o volume',
-                type: 'object',
-                properties: {
-                    dbName: { type: 'string', title: 'Database name', },
-                    dbUser: { type: 'string', title: 'Database user', },
-                    dbPassword: { type: 'string', title: 'Database password', },
-                },
-                required: [
-                    'dbName',
-                    'dbUser',
-                    'dbPassword',
-                ],
-            },
-        },
-    ])
+    const foundFiles: vscode.Uri[] = []
+    for (let uri of [
+        vscode.Uri.joinPath(workspaceFolder.uri, '.devstand', 'jsonnetpkg'),
+        vscode.Uri.joinPath(workspaceFolder.uri, 'jsonnetpkg'),
+    ]) {
+        foundFiles.push(...await vscode.workspace.findFiles(new vscode.RelativePattern(uri, '**/breadboard-meta.json'), null, 100))
+    }
+
+    const result: TemplateSchemaDictionaryItem[] = []
+    for (let foundFileUri of foundFiles) {
+        try {
+            const breadboardMetaJson = JSON.parse((await vscode.workspace.fs.readFile(foundFileUri)).toString())
+            for (let templateJson of Object.values(breadboardMetaJson.templates) as any[]) {
+                if (
+                    typeof templateJson == 'object' && templateJson
+                    && 'file' in templateJson && typeof templateJson.file == 'string'
+                    && 'template' in templateJson && typeof templateJson.template == 'string'
+                    && 'schema' in templateJson && isValidJsonSchema(templateJson.schema)
+                ) {
+                    result.push({
+                        targetFile: foundFileUri.path.replace(/breadboard-meta\.json$/, templateJson.file),
+                        targetIdentifier: templateJson.template,
+                        schema: templateJson.schema,
+                    })
+                }
+            }
+        } catch (error) {
+            continue // just skip this file
+        }
+    }
+    return result
+}
+
+function isValidJsonSchema(o: any): boolean {
+    if (! (
+        typeof o == 'object' && o
+        && 'title' in o && typeof o.title == 'string'
+        && 'properties' in o && typeof o.properties == 'object'
+    )) {
+        return false
+    }
+    if ('description' in o && typeof o.description != 'string') { return false }
+    if ('required' in o && ! Array.isArray(o.required)) { return false }
+    return true
 }

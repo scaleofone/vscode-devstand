@@ -6,16 +6,15 @@ export interface TemplateSchemaDictionaryItem {
 
 export interface TemplateSchema {
     title: string,
-    description: string,
+    description?: string,
     properties: object,
-    required: string[],
+    required?: string[],
 }
 
 export interface TemplateImport {
     variableName: string,
     targetFile: string,
     targetIdentifier: string,
-    schema?: TemplateSchema,
 }
 
 export interface Record {
