@@ -11,9 +11,6 @@ const extension = {
     showMessage(text: string): void {
         messenger.postVoidPayload('showMessage', text)
     },
-    update(breadboard): void {
-        messenger.postVoidPayload('update', breadboard)
-    },
     createComponent(payload: payloads.CreateComponent): void {
         messenger.postVoidPayload('createComponent', payload)
     },

@@ -2,7 +2,6 @@ import vscode from 'vscode'
 import { Messenger, MessengerMessage } from '../Messenger'
 import { Breadboard } from './jsonnet/BreadboardTypes'
 import parseDocument from './parseDocument'
-import updateDocument from './updateDocument'
 import createNewComponent from './createNewComponent'
 
 import renameComponent from './operations/renameComponent'
@@ -53,9 +52,6 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
         const extension = {
             showMessage(payload: string): void {
                 vscode.window.showInformationMessage(payload)
-            },
-            update(breadboard: Breadboard): void {
-                updateDocument(document, breadboard)
             },
             async createComponent(payload: payloads.CreateComponent): Promise<void> {
                 await createComponent(document, payload)

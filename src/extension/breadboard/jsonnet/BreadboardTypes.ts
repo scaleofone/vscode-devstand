@@ -32,11 +32,3 @@ export interface Breadboard {
     templateImports: TemplateImport[],
     components: Component[],
 }
-
-export function parseFromFile(text: string): Breadboard {
-    return JSON.parse(text)
-}
-
-export function convertToFile(breadboard: Breadboard): string {
-    return JSON.stringify(breadboard, null, 4)
-}
