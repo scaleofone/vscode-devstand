@@ -1,5 +1,5 @@
 import vscode from 'vscode'
-import { Breadboard } from './jsonnet/BreadboardTypes'
+import { Breadboard } from '../../BreadboardTypes'
 import * as parser from './jsonnet/JsonnetParser'
 import * as converter from './jsonnet/BreadbordConverter'
 

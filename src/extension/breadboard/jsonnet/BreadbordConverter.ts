@@ -1,6 +1,6 @@
 import * as ast from '../../../../heptio-vscode-jsonnet/compiler/lexical-analysis/ast'
 
-import { Breadboard, TemplateImport, Component, Record } from './BreadboardTypes'
+import { Breadboard, TemplateImport, Component, Record } from '../../../BreadboardTypes'
 
 export function toBreadboard(localBindNodes: ast.LocalBind[], objectNode: ast.ObjectNode | undefined): Breadboard {
     return {

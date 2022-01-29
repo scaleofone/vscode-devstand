@@ -1,6 +1,6 @@
 import vscode from 'vscode'
 import findAvailableTemplates from './findAvailableTemplates'
-import { TemplateImport, Component } from './jsonnet/BreadboardTypes'
+import { TemplateImport, Component } from '../../BreadboardTypes'
 
 export default async function(): Promise<{ templateImport:TemplateImport, component:Component }> {
     let templates = await findAvailableTemplates()

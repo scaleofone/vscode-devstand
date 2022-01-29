@@ -18,6 +18,7 @@ export interface TemplateImport {
 }
 
 export interface Record {
+    componentIdentifier?: string,
     identifier: string,
     value: string | number,
 }

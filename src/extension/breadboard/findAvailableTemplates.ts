@@ -1,5 +1,5 @@
 import vscode from 'vscode'
-import { TemplateSchemaDictionaryItem } from './jsonnet/BreadboardTypes'
+import { TemplateSchemaDictionaryItem } from '../../BreadboardTypes'
 
 export default async function(): Promise<TemplateSchemaDictionaryItem[]> {
 
