@@ -1,8 +1,9 @@
 import vscodeApi from '../vscode.js'
 import { Messenger } from '../Messenger'
 
-import { resultCreateNewComponent } from './stores/breadboard'
-import * as payloads from '../../TransportPayloads.js'
+import { components, records, templateImports } from './stores/breadboard'
+import * as payloads from '../../TransportPayloads'
+import { Breadboard } from '../../BreadboardTypes'
 
 const messenger = new Messenger()
 
@@ -47,8 +48,26 @@ const extension = {
 }
 
 const webview = {
-    hydrate(breadboard): void {
-        resultCreateNewComponent.set(breadboard)
+    hydrate(breadboard: Breadboard): void {
+        let _components = []
+        let _records = []
+        for (let component of breadboard.components) {
+            _components.push({
+                identifier: component.identifier,
+                templateImportVariableName: component.templateImportVariableName,
+                records: [],
+            })
+            for (let record of component.records) {
+                _records.push({
+                    componentIdentifier: component.identifier,
+                    identifier: record.identifier,
+                    value: record.value,
+                })
+            }
+        }
+        components.set(_components)
+        records.set(_records)
+        templateImports.set(breadboard.templateImports)
     },
 }
 

@@ -1,4 +1,4 @@
-<script lang="typescript">
+<script>
     import { resultCreateNewComponent, createNewComponent } from './stores/breadboard'
 
     import { extension } from './transport'
