@@ -28,7 +28,7 @@ export default async function(): Promise<TemplateSchemaDictionaryItem[]> {
                     && 'schema' in templateJson && isValidJsonSchema(templateJson.schema)
                 ) {
                     result.push({
-                        targetFile: foundFileUri.path.replace(/breadboard-meta\.json$/, templateJson.file),
+                        targetFile: foundFileUri.path.replace(/^.*\/jsonnetpkg*\//, '').replace(/breadboard-meta\.json$/, templateJson.file),
                         targetIdentifier: templateJson.template,
                         schema: templateJson.schema,
                     })
