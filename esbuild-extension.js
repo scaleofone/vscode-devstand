@@ -31,7 +31,7 @@ esbuild
         bundle: true,
         minify: !! options.minify,
         splitting: false,
-        sourcemap: false,
+        sourcemap: !! options.sourcemap,
         metafile: true,
         watch: (options.watch ? {
             onRebuild(error, result) {
