@@ -27,9 +27,10 @@ esbuild
         },
         plugins: [
             sveltePlugin({
-                // [options for svelte.compile](https://svelte.dev/docs#svelte_compile)
+                // [options for svelte.compile](https://svelte.dev/docs#compile-time-svelte-compile)
                 compileOptions: {
                     dev: ! options.minify,
+                    enableSourcemap: !! options.sourcemap,
                 }
             }),
         ],
