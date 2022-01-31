@@ -16,6 +16,14 @@
             recordIdentifier: identifier,
         })
     }
+    function handleRenameRecord() {
+        console.log('handleRenameRecord')
+        extension.renameRecord({
+            componentIdentifier: componentIdentifier,
+            recordIdentifier: identifier,
+            renameRecordIdentifier: identifier+'_renamed',
+        })
+    }
 
 </script>
 
@@ -24,6 +32,9 @@
     <Dropdown
         options={[
             {
+                caption: 'Rename record',
+                handler: handleRenameRecord,
+            }, {
                 caption: 'Delete record',
                 handler: handleDeleteRecord,
             }
