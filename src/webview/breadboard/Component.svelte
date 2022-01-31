@@ -40,11 +40,12 @@
         ]}
     >edit</Dropdown>
 
-    <ul>
+
         {#each componentRecords as record}
             <Record
+                componentIdentifier={identifier}
                 identifier={record.identifier}
             />
         {/each}
-    </ul>
+
 </div>
