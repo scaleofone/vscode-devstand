@@ -27,7 +27,7 @@
 
 </script>
 
-<div>
+<div style="padding: 0.3rem 0 0.3rem 1rem">
     {record.identifier}: {record.value}
     <Dropdown
         options={[
