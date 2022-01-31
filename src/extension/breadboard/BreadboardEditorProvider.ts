@@ -80,7 +80,23 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
             async updateRecordValue(payload: payloads.UpdateRecordValue): Promise<void> {
                 await updateRecordValue(document, payload)
             },
-            createNewComponent,
+
+            async actionCreateComponent(): Promise<void> {
+                let result = await createNewComponent()
+                // TODO validate componentIdentifier is already present
+                // TODO validate componentIdentifier is not a reserved jsonnet keyword (eg: local/function)
+                await createComponent(document, {
+                    componentIdentifier: result.component.identifier,
+                    templateImportVariableName: result.component.templateImportVariableName,
+                })
+                // TODO omit creating if targetIdentifier is already present
+                // TODO use another variableName if targetIdentifier is already present
+                await createTemplateImport(document, {
+                    variableName: result.templateImport.variableName,
+                    targetFile: result.templateImport.targetFile,
+                    targetIdentifier: result.templateImport.targetIdentifier,
+                })
+            },
         }
 
         messenger.applyReceivedMessagesTo(extension)

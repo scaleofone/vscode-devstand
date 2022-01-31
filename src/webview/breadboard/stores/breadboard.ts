@@ -6,9 +6,3 @@ export const schemas: Writable<TemplateSchemaDictionaryItem[]> = writable([])
 export const templateImports: Writable<TemplateImport[]> = writable([])
 export const components: Writable<Component[]> = writable([])
 export const records: Writable<Record[]> = writable([])
-
-export const resultCreateNewComponent = writable({})
-
-export const createNewComponent = () => {
-    extension.createNewComponent().then(r => resultCreateNewComponent.set(r))
-}

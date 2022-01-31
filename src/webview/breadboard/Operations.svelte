@@ -1,6 +1,4 @@
 <script>
-    import { resultCreateNewComponent, createNewComponent } from './stores/breadboard'
-
     import { extension } from './transport'
     let before, after
     let variableName, targetFile, targetIdentifier
@@ -68,10 +66,3 @@
 <input type="text" placeholder="recordIdentifier" bind:value={recordIdentifier3}>
 <input type="text" placeholder="updateRecordValue" bind:value={updateRecordValue3}>
 <button on:click={() => extension.updateRecordValue({ componentIdentifier:componentIdentifier3, recordIdentifier:recordIdentifier3, updateRecordValue: updateRecordValue3 })}>updateRecordValue</button>
-
-<br><br>
-<hr>
-
-<button on:click={() => createNewComponent()}>createNewComponent</button>
-
-<pre>{ JSON.stringify($resultCreateNewComponent, null, 4) }</pre>

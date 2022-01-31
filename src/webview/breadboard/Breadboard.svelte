@@ -1,6 +1,7 @@
 <script>
     import Operations from './Operations.svelte'
     import Component from './Component.svelte'
+    import CreateComponentButton from './CreateComponentButton.svelte'
 
     import { components } from './stores/breadboard'
 
@@ -12,7 +13,7 @@
     />
 {/each}
 
-
+<CreateComponentButton />
 
 <br><br>
 <details>
