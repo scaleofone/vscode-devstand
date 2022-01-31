@@ -1,5 +1,6 @@
 <script>
-    import { extension } from './transport'
+    import './CreateComponentButton.css'
+    import { extension } from '../transport'
 </script>
 
 <div class="bottom-right-button">

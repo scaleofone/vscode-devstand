@@ -1,7 +1,7 @@
 <script>
     import Operations from './Operations.svelte'
     import Component from './Component.svelte'
-    import CreateComponentButton from './CreateComponentButton.svelte'
+    import CreateComponentButton from './controls/CreateComponentButton.svelte'
 
     import { components } from './stores/breadboard'
 

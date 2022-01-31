@@ -1,4 +1,5 @@
 <script>
+    import './Dropdown.css'
     import { onDestroy } from 'svelte'
 
     export let options = []
