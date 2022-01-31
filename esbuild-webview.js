@@ -21,7 +21,7 @@ esbuild
         bundle: true,
         minify: !! options.minify,
         splitting: false,
-        sourcemap: !! options.sourcemap,
+        sourcemap: options.sourcemap ? 'inline' : false,
         loader: {
             '.svg': 'text',
         },
