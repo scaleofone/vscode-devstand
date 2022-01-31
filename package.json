@@ -104,6 +104,7 @@
     "esbuild": "^0.12.25",
     "immutable": "^3.8.1",
     "svelte": "^3.42.4",
+    "svelte-forms": "^2.2.1",
     "throttle-debounce": "^3.0.1"
   }
 }
