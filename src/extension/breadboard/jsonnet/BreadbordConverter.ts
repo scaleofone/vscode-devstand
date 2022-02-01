@@ -35,10 +35,32 @@ function convertToComponent(node: ast.ObjectField): Component | undefined {
 }
 
 function convertToRecord(node: ast.ObjectField): Record | undefined {
-    if (ast.isLiteralString(node.expr2) || ast.isLiteralNumber(node.expr2)) {
+    if (ast.isLiteralString(node.expr2)) {
         return {
             identifier: node.id.name,
             value: node.expr2.value,
+            type: 'LiteralStringNode',
+        }
+    }
+    if (ast.isLiteralNumber(node.expr2)) {
+        return {
+            identifier: node.id.name,
+            value: node.expr2.value,
+            type: 'LiteralNumberNode',
+        }
+    }
+    if (ast.isObjectNode(node.expr2)) {
+        return {
+            identifier: node.id.name,
+            value: '{...}',
+            type: 'ObjectNode',
+        }
+    }
+    if (ast.isIndex(node.expr2)) {
+        return {
+            identifier: node.id.name,
+            value: '$...',
+            type: 'IndexNode',
         }
     }
 }

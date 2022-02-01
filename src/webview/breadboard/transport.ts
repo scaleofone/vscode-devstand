@@ -62,6 +62,7 @@ const webview = {
                     componentIdentifier: component.identifier,
                     identifier: record.identifier,
                     value: record.value,
+                    type: record.type,
                 })
             }
         }
