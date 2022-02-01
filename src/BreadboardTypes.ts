@@ -18,7 +18,7 @@ export interface TemplateImport {
 }
 
 export interface Record {
-    type: 'LiteralStringNode' | 'LiteralNumberNode' | 'ObjectNode' | 'IndexNode',
+    type: 'string' | 'number' | 'object' | 'reference' | 'unknown', // 'null' | 'boolean' | 'array' |
     componentIdentifier?: string,
     identifier: string,
     value: string | number,

@@ -39,28 +39,33 @@ function convertToRecord(node: ast.ObjectField): Record | undefined {
         return {
             identifier: node.id.name,
             value: node.expr2.value,
-            type: 'LiteralStringNode',
+            type: 'string',
         }
     }
     if (ast.isLiteralNumber(node.expr2)) {
         return {
             identifier: node.id.name,
             value: node.expr2.value,
-            type: 'LiteralNumberNode',
+            type: 'number',
         }
     }
     if (ast.isObjectNode(node.expr2)) {
         return {
             identifier: node.id.name,
             value: '{...}',
-            type: 'ObjectNode',
+            type: 'object',
         }
     }
     if (ast.isIndex(node.expr2)) {
         return {
             identifier: node.id.name,
             value: '$...',
-            type: 'IndexNode',
+            type: 'reference',
         }
+    }
+    return {
+        identifier: node.id.name,
+        value: '?',
+        type: 'unknown',
     }
 }
