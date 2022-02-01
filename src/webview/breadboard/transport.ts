@@ -49,25 +49,8 @@ const extension = {
 
 const webview = {
     hydrate(breadboard: Breadboard): void {
-        let _components = []
-        let _records = []
-        for (let component of breadboard.components) {
-            _components.push({
-                identifier: component.identifier,
-                templateImportVariableName: component.templateImportVariableName,
-                records: [],
-            })
-            for (let record of component.records) {
-                _records.push({
-                    componentIdentifier: component.identifier,
-                    identifier: record.identifier,
-                    value: record.value,
-                    type: record.type,
-                })
-            }
-        }
-        components.set(_components)
-        records.set(_records)
+        components.set(breadboard.components)
+        records.set(breadboard.records)
         templateImports.set(breadboard.templateImports)
     },
 }

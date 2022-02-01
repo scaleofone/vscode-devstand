@@ -19,7 +19,7 @@ export interface TemplateImport {
 
 export interface Record {
     type: 'string' | 'number' | 'object' | 'reference' | 'unknown', // 'null' | 'boolean' | 'array' |
-    componentIdentifier?: string,
+    componentIdentifier: string,
     identifier: string,
     value: string | number,
 }
@@ -27,10 +27,10 @@ export interface Record {
 export interface Component {
     identifier: string,
     templateImportVariableName: string,
-    records: Record[],
 }
 
 export interface Breadboard {
     templateImports: TemplateImport[],
     components: Component[],
+    records: Record[],
 }

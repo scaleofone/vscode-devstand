@@ -3,10 +3,27 @@ import * as ast from '../../../../heptio-vscode-jsonnet/compiler/lexical-analysi
 import { Breadboard, TemplateImport, Component, Record } from '../../../BreadboardTypes'
 
 export function toBreadboard(localBindNodes: ast.LocalBind[], objectNode: ast.ObjectNode | undefined): Breadboard {
-    return {
-        templateImports: localBindNodes.map(convertToTemplateImport).filter(x=>x) as TemplateImport[],
-        components: (objectNode ? objectNode.fields.toArray() : []).map(convertToComponent).filter(x=>x) as Component[],
+    let breadboard: Breadboard = {
+        templateImports: [],
+        components: [],
+        records: [],
     }
+    for (let localBindNode of localBindNodes) {
+        let templateImport = convertToTemplateImport(localBindNode)
+        if (templateImport) {
+            breadboard.templateImports.push(templateImport)
+        }
+    }
+    for (let objectField of (objectNode ? objectNode.fields.toArray() : [])) {
+        let { component, records } = convertToComponent(objectField)
+        if (component) {
+            breadboard.components.push(component)
+            for (let record of records) {
+                breadboard.records.push(record)
+            }
+        }
+    }
+    return breadboard
 }
 
 function convertToTemplateImport(node: ast.LocalBind): TemplateImport | undefined {
@@ -19,7 +36,7 @@ function convertToTemplateImport(node: ast.LocalBind): TemplateImport | undefine
     }
 }
 
-function convertToComponent(node: ast.ObjectField): Component | undefined {
+function convertToComponent(node: ast.ObjectField): { component: Component | undefined, records: Record[] } {
     if (
         node.expr2
         && (ast.isApplyBrace(node.expr2) || (ast.isBinary(node.expr2) && node.expr2.op == 'BopPlus'))
@@ -27,19 +44,27 @@ function convertToComponent(node: ast.ObjectField): Component | undefined {
         && ast.isObjectNode(node.expr2.right)
     ) {
         return {
-            identifier: node.id.name,
-            templateImportVariableName: node.expr2.left.id.name,
-            records: node.expr2.right.fields.toArray().map(convertToRecord).filter(x=>x) as Record[]
+            component: {
+                identifier: node.id.name,
+                templateImportVariableName: node.expr2.left.id.name,
+            },
+            records: node.expr2.right.fields.toArray().map(convertToRecord(node.id.name)) as Record[]
+        }
+    } else {
+        return {
+            component: undefined,
+            records: [],
         }
     }
 }
 
-function convertToRecord(node: ast.ObjectField): Record | undefined {
+function convertToRecord(componentIdentifier: string) { return (node: ast.ObjectField): Record => {
     if (ast.isLiteralString(node.expr2)) {
         return {
             identifier: node.id.name,
             value: node.expr2.value,
             type: 'string',
+            componentIdentifier,
         }
     }
     if (ast.isLiteralNumber(node.expr2)) {
@@ -47,6 +72,7 @@ function convertToRecord(node: ast.ObjectField): Record | undefined {
             identifier: node.id.name,
             value: node.expr2.value,
             type: 'number',
+            componentIdentifier,
         }
     }
     if (ast.isObjectNode(node.expr2)) {
@@ -54,6 +80,7 @@ function convertToRecord(node: ast.ObjectField): Record | undefined {
             identifier: node.id.name,
             value: '{...}',
             type: 'object',
+            componentIdentifier,
         }
     }
     if (ast.isIndex(node.expr2)) {
@@ -61,11 +88,13 @@ function convertToRecord(node: ast.ObjectField): Record | undefined {
             identifier: node.id.name,
             value: '$...',
             type: 'reference',
+            componentIdentifier,
         }
     }
     return {
         identifier: node.id.name,
         value: '?',
         type: 'unknown',
+        componentIdentifier,
     }
-}
+}}
