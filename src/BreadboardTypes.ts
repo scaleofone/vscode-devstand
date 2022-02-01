@@ -31,6 +31,7 @@ export interface Component {
 
 export interface Breadboard {
     templateImports: TemplateImport[],
+    schemaDictionary: TemplateSchemaDictionaryItem[],
     components: Component[],
     records: Record[],
 }

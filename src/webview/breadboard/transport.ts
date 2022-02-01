@@ -1,7 +1,7 @@
 import vscodeApi from '../vscode.js'
 import { Messenger } from '../Messenger'
 
-import { components, records, templateImports } from './stores/breadboard'
+import { schemaDictionary, templateImports, components, records } from './stores/breadboard'
 import * as payloads from '../../TransportPayloads'
 import { Breadboard } from '../../BreadboardTypes'
 
@@ -49,9 +49,10 @@ const extension = {
 
 const webview = {
     hydrate(breadboard: Breadboard): void {
+        schemaDictionary.set(breadboard.schemaDictionary)
+        templateImports.set(breadboard.templateImports)
         components.set(breadboard.components)
         records.set(breadboard.records)
-        templateImports.set(breadboard.templateImports)
     },
 }
 

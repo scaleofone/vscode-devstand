@@ -4,6 +4,7 @@ import { Breadboard, TemplateImport, Component, Record } from '../../../Breadboa
 
 export function toBreadboard(localBindNodes: ast.LocalBind[], objectNode: ast.ObjectNode | undefined): Breadboard {
     let breadboard: Breadboard = {
+        schemaDictionary: [],
         templateImports: [],
         components: [],
         records: [],
