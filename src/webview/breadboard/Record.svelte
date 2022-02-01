@@ -1,5 +1,6 @@
 <script>
     import { records } from './stores/breadboard'
+    import { get } from 'svelte/store'
     import { extension } from './transport'
 
     import Dropdown from './controls/Dropdown.svelte'
@@ -7,7 +8,7 @@
     export let componentIdentifier
     export let identifier
 
-    $: record = $records.find(r => (r.identifier == identifier && r.componentIdentifier == componentIdentifier))
+    $: record = get(records).find(r => (r.identifier == identifier && r.componentIdentifier == componentIdentifier))
 
     function handleDeleteRecord() {
         console.log('handleDeleteRecord')

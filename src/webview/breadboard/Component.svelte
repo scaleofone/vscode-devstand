@@ -1,5 +1,6 @@
 <script>
-    import { components, records } from './stores/breadboard'
+    import { components, records, templateImports, schemaDictionary } from './stores/breadboard'
+    import { get } from 'svelte/store'
     import { extension } from './transport'
 
     import Record from './Record.svelte'
@@ -7,9 +8,13 @@
     import RenameComponentForm from './controls/RenameComponentForm.svelte'
 
     export let identifier
-
     $: component = $components.find(c => c.identifier == identifier)
     $: componentRecords = $records.filter(r => r.componentIdentifier == identifier)
+    $: componentRecordsIdentifiers = componentRecords.map(r => r.identifier)
+    $: templateImport = component ? get(templateImports).find(ti => ti.variableName == component.templateImportVariableName) : undefined
+    $: schema = templateImport ? get(schemaDictionary).find(dictItem => templateImport.targetFile == dictItem.targetFile && templateImport.targetIdentifier == dictItem.targetIdentifier).schema : undefined
+    $: availableRecordIdentifiers = schema ? Object.keys(schema.properties) : []
+    $: schemaDropdownOptions = availableRecordIdentifiers.map(i => (componentRecordsIdentifiers.includes(i) ? '-' : '+')+' '+i)
 
     let renameFormIsVisible = false
     function handleRenameComponent(renameComponentIdentifier) {
@@ -42,6 +47,8 @@
             }
         ]}
     >edit</Dropdown>
+
+    <Dropdown options={ schemaDropdownOptions.map(caption => ({ caption })) }>schema</Dropdown>
 
         {#if renameFormIsVisible}
             <RenameComponentForm
