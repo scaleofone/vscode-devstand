@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="./support.js"></script>
+    <script type="module" src="./StandaloneDomainFacade.js"></script>
+
+    <link href="../webview/breadboard/breadboard.css" rel="stylesheet">
+    <script src="../webview/breadboard/breadboard.js" defer></script>
+
+    <script defer>
+        window.onready(() => {
+            window.StandaloneDomainFacadeInstance.postVoidPayload('editorSettings', {
+                fontSize: 13,
+                lineHeight: 35,
+                lineHeightFraction: 2.7,
+            })
+        })
+    </script>
+
+</head>
+<body></body>
+</html>

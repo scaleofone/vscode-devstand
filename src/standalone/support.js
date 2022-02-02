@@ -27,7 +27,7 @@
             background-color: var(--vscode-input-background);
             position: fixed;
             bottom: 1rem;
-            right: 1rem;
+            left: 1rem;
             outline :none !important;
             opacity: 0.3;
         `)
@@ -58,6 +58,11 @@
                 callback()
             }
         }, 50)
+    }
+
+    window.onready = function(fn) {
+        if (document.readyState != 'loading') { fn(); }
+        else { document.addEventListener('DOMContentLoaded', fn); }
     }
 
 })()
