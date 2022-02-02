@@ -2,6 +2,7 @@ import vscodeApi from '../vscode.js'
 import { Messenger } from '../Messenger'
 
 import { schemaDictionary, templateImports, components, records } from './stores/breadboard'
+import { editorSettings } from './stores/misc'
 import * as payloads from '../../TransportPayloads'
 import { Breadboard } from '../../BreadboardTypes'
 
@@ -53,6 +54,9 @@ const webview = {
         templateImports.set(breadboard.templateImports)
         components.set(breadboard.components)
         records.set(breadboard.records)
+    },
+    editorSettings(payload: payloads.EditorSettings): void {
+        editorSettings.set(payload)
     },
 }
 

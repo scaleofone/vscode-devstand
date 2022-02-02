@@ -1,0 +1,11 @@
+:root {
+    --editorSettings-lineHeight: 18;
+    --editorSettings-lineHeightFraction: 1.5;
+}
+
+.code-font {
+    font-size: var(--vscode-editor-font-size);
+	font-family: var(--vscode-editor-font-family);
+    line-height: calc(var(--editorSettings-lineHeightFraction) * var(--vscode-editor-font-size));
+    display: inline-block;
+}

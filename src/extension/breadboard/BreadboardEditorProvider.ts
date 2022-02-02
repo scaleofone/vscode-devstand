@@ -45,7 +45,10 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
         const webview = {
             hydrate(breadboard: Breadboard): void {
                 messenger.postVoidPayload('hydrate', breadboard)
-            }
+            },
+            editorSettings(payload: payloads.EditorSettings): void {
+                messenger.postVoidPayload('editorSettings', payload)
+            },
         }
 
         // Handle commands received from webview
@@ -114,18 +117,30 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
                 .catch(error => vscode.window.showErrorMessage(error.toString()))
         }
 
+        function sendEditorSettings() {
+            webview.editorSettings(getEditorSettings())
+        }
+
         const _onChangeTextDocument = vscode.workspace.onDidChangeTextDocument(event => {
             if (event.document.uri.toString() === document.uri.toString()) {
                 parseDocumentAndHydrateWebview()
             }
         })
 
+        const _onDidChangeConfiguration = vscode.workspace.onDidChangeConfiguration(event => {
+            if (event.affectsConfiguration('editor')) {
+                sendEditorSettings()
+            }
+        })
+
         const _onDisposePanel = panel.onDidDispose(() => {
             messenger.dispose()
             _onChangeTextDocument.dispose()
+            _onDidChangeConfiguration.dispose()
             _onDisposePanel.dispose()
         })
 
+        sendEditorSettings()
         parseDocumentAndHydrateWebview()
     }
 
@@ -143,6 +158,21 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
             '</head><body></body></html>',
         ].join('')
     }
+}
+
+function getEditorSettings(): payloads.EditorSettings {
+    const editorConfig = vscode.workspace.getConfiguration('editor')
+    const fontSize = parseFloat(editorConfig.get('fontSize').toString())
+    const lineHeightSetting = parseFloat(editorConfig.get('lineHeight').toString())
+    let lineHeight: number, lineHeightFraction: number
+    if (lineHeightSetting < 8) {
+        lineHeightFraction = (lineHeightSetting == 0) ? 1.5 : lineHeightSetting
+        lineHeight = Math.round(fontSize * lineHeightFraction)
+    } else {
+        lineHeight = Math.round(lineHeightSetting)
+        lineHeightFraction = parseFloat((lineHeight / fontSize).toFixed(1))
+    }
+    return { fontSize, lineHeight, lineHeightFraction }
 }
 
 export default BreadboardEditorProvider

@@ -35,7 +35,10 @@
 </script>
 
 <div class="component" style="border:1px solid gray; padding:1rem">
+    <span class="code-font">
     {component.identifier}: {component.templateImportVariableName}
+    </span>
+
     <Dropdown
         options={[
             {

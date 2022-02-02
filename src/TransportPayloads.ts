@@ -44,3 +44,9 @@ export interface CreateTemplateImport {
 export interface DeleteTemplateImport {
     variableName: string
 }
+
+export interface EditorSettings {
+    fontSize: number
+    lineHeight: number,
+    lineHeightFraction: number,
+}
