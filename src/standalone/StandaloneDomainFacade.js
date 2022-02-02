@@ -8,18 +8,19 @@ class StandaloneDomainFacade {
     constructor() {
         this.requestIdSequence = 9000;
         window.addEventListener('message', (event) => this.onDidReceiveMessage(event.data))
+        window.StandaloneDomainFacadeInstance = this
     }
 
     onDidReceiveMessage(message) {
-        if (message.__is == 'void' && message.__from === 'webview') {
+        if (message.is == 'void' && message.from === 'webview') {
             this[message.command].apply(this, [message.payload])
-        } else if (message.__is == 'request' && message.__from === 'webview') {
+        } else if (message.is == 'request' && message.from === 'webview') {
             this[message.command].apply(this, [message.payload])
                 .then(responsePayload => {
                     vscodeApi.postMessage({
-                        __is: 'response',
-                        __from: 'domain',
-                        __requestId: message.__requestId,
+                        is: 'response',
+                        from: 'extension',
+                        requestId: message.requestId,
                         payload: responsePayload
                     })
                 })
@@ -27,20 +28,20 @@ class StandaloneDomainFacade {
     }
 
     postVoidPayload(command, payload) {
-        vscodeApi.postMessage({ __is: 'void', __from: 'domain', command, payload })
+        vscodeApi.postMessage({ is: 'void', from: 'extension', command, payload })
     }
 
     async postRequestPayload(command, payload) {
         return new Promise((resolve, reject) => {
-            let __requestId = ++this.requestIdSequence
+            let requestId = ++this.requestIdSequence
             let responseHandler = (event) => {
-                if (event.data && event.data.__requestId === __requestId && event.data.__is === 'response' && event.data.__from === 'webview') {
+                if (event.data && event.data.requestId === requestId && event.data.is === 'response' && event.data.from === 'webview') {
                     window.removeEventListener('message', responseHandler)
                     resolve(event.data.payload)
                 }
             }
             window.addEventListener('message', responseHandler)
-            vscodeApi.postMessage({ __is: 'request', __from: 'domain', command, payload, __requestId })
+            vscodeApi.postMessage({ is: 'request', from: 'extension', command, payload, requestId })
         })
     }
 
