@@ -1,0 +1,45 @@
+.menu {
+    display: inline-flex;
+    flex-direction: column;
+    width: auto;
+    max-width: 350px;
+}
+
+.menu__item {
+    display: flex;
+    flex-direction: row;
+    width: auto;
+    --menu__item-gap: calc(var(--vscode-font-size) * 0.3);
+    --menu__item-padding: var(--vscode-font-size);
+    --height: calc(var(--vscode-font-size) * 1.7);
+    gap: var(--menu__item-gap);
+    padding: 0 var(--menu__item-padding);
+    height: var(--height);
+    line-height: var(--height);
+    cursor: pointer;
+}
+.menu--mono .menu__item {
+    --menu__item-gap: calc(var(--vscode-editor-font-size) * 0.3);
+    --menu__item-padding: calc(var(--vscode-editor-font-size) * 0.6);
+    --height: calc(var(--editorSettings-lineHeight) * 1px);
+    font-size: var(--vscode-editor-font-size);
+    font-family: var(--vscode-editor-font-family);
+}
+
+
+.menu__item:hover {
+    background-color: var(--vscode-list-inactiveSelectionBackground);
+    color: var(--vscode-list-inactiveSelectionForeground);
+}
+.menu__item.active,
+.menu__item.active:hover {
+    background-color: var(--vscode-list-activeSelectionBackground);
+    color: var(--vscode-list-activeSelectionForeground);
+}
+
+.menu--vertical-padding .menu__item:first-child {
+    margin-top: var(--menu__item-gap);
+}
+.menu--vertical-padding .menu__item:last-child {
+    margin-bottom: var(--menu__item-gap);
+}

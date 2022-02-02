@@ -5,7 +5,38 @@
 
 .code-font {
     font-size: var(--vscode-editor-font-size);
-	font-family: var(--vscode-editor-font-family);
+    font-family: var(--vscode-editor-font-family);
     line-height: calc(var(--editorSettings-lineHeightFraction) * var(--vscode-editor-font-size));
     display: inline-block;
 }
+
+/* Utilities */
+
+.font-mono {
+    font-size: var(--vscode-editor-font-size);
+    font-family: var(--vscode-editor-font-family);
+}
+.font-sans {
+    font-size: var(--vscode-font-size);
+    font-family: var(--vscode-font-family);
+}
+
+.widget-shadow { box-shadow: 0 0 8px 2px var(--vscode-widget-shadow); }
+
+.truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.flex        { display: flex; }
+.inline-flex { display: inline-flex; }
+.flex-none   { flex: none; }
+
+.shrink	  { flex-shrink: 1; }
+.shrink-0 { flex-shrink: 0; }
+
+.grow   { flex-grow: 1; }
+.grow-0 { flex-grow: 0; }
+
+.items-start    { align-items: flex-start; }
+.items-end      { align-items: flex-end; }
+.items-center   { align-items: center; }
+.items-baseline { align-items: baseline; }
+.items-stretch  { align-items: stretch; }

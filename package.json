@@ -101,6 +101,7 @@
   },
   "devDependencies": {
     "@types/vscode": "^1.60.0",
+    "@vscode/codicons": "^0.0.27",
     "esbuild": "^0.12.25",
     "immutable": "^3.8.1",
     "svelte": "^3.42.4",

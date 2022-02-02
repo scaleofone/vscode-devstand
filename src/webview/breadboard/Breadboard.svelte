@@ -5,6 +5,7 @@
 
     import { components } from './stores/breadboard'
 
+    import Menu from './controls/Menu.svelte'
 </script>
 
 {#each $components as component}
@@ -14,6 +15,8 @@
 {/each}
 
 <CreateComponentButton />
+
+<Menu />
 
 <br><br>
 <details>
