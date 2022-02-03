@@ -1,17 +1,16 @@
 export default function(detailsElement: HTMLDetailsElement) {
 
-    const handleClickOutside = (event: Event) => {
+    const handleClickOutside = (event: MouseEvent) => {
         if (! detailsElement.querySelector('summary').contains(event.target as Node)) {
             detailsElement.open = false
         }
     }
-
-    const toggleClickOutsideListener = (event: Event) => {
-        document[
-            detailsElement.open
-                ? 'addEventListener'
-                : 'removeEventListener'
-        ]('click', handleClickOutside, true)
+    const setupClickOutsideListener = (event: Event) => {
+        if (detailsElement.open) {
+            document.addEventListener('click', handleClickOutside, true)
+        } else {
+            document.removeEventListener('click', handleClickOutside, true)
+        }
     }
 
     const changeOrientation = (event: MouseEvent) => {
@@ -31,12 +30,12 @@ export default function(detailsElement: HTMLDetailsElement) {
         }, 1)
     }
 
-    detailsElement.addEventListener('toggle', toggleClickOutsideListener)
+    detailsElement.addEventListener('toggle', setupClickOutsideListener)
     detailsElement.addEventListener('click', changeOrientation)
 
     return {
         destroy() {
-            detailsElement.removeEventListener('toggle', toggleClickOutsideListener)
+            detailsElement.removeEventListener('toggle', setupClickOutsideListener)
             detailsElement.removeEventListener('click', changeOrientation)
             document.removeEventListener('click', handleClickOutside, true)
         }
