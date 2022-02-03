@@ -18,7 +18,7 @@
 
 </script>
 
-<details use:DetailDropdown class="dropdown inline-block">
+<details use:DetailDropdown class="dropdown select-none">
     <summary class="fg-icon hover:fg-link cursor-pointer">{@html iconSchema}</summary>
     <div class="menu menu--mono widget-shadow" style="max-width:300px">
         {#each schemaDropdownOptions as caption}
