@@ -1,4 +1,6 @@
 import '../vscode.css'
+import './controls/Menu.css'
+import './controls/Dropdown.css'
 import './breadboard.css'
 
 import './transport'

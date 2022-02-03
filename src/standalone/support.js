@@ -53,7 +53,7 @@
 
     function whenBodyIsNotEmpty(callback) {
         let interval = setInterval(() => {
-            if (document.body.children.length > 0) {
+            if (document.body && document.body.children.length > 0) {
                 clearInterval(interval)
                 callback()
             }

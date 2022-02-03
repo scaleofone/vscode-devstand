@@ -1,8 +1,8 @@
 .menu {
-    display: inline-flex;
+    display: flex;
     flex-direction: column;
     width: auto;
-    max-width: 350px;
+    background-color: var(--vscode-quickInput-background);
 }
 
 .menu__item {
@@ -27,14 +27,10 @@
 }
 
 
+.menu__item.active,
 .menu__item:hover {
     background-color: var(--vscode-list-inactiveSelectionBackground);
     color: var(--vscode-list-inactiveSelectionForeground);
-}
-.menu__item.active,
-.menu__item.active:hover {
-    background-color: var(--vscode-list-activeSelectionBackground);
-    color: var(--vscode-list-activeSelectionForeground);
 }
 
 .menu--vertical-padding .menu__item:first-child {

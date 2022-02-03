@@ -1,38 +1,14 @@
 .dropdown {
     position: relative;
-    user-select: none;
-    width: auto;
-    display: inline-block;
 }
 .dropdown > summary {
-    height: 1.2rem;
-    width: auto;
-    display: inline-block;
-    cursor: pointer;
+    list-style: none;
 }
-.dropdown > summary:hover {
-    color: blue;
+.dropdown > summary::-webkit-details-marker {
+    display: none
 }
-.dropdown > ul {
-    border: 1px solid #ccc;
-    background-color: white;
+.dropdown > summary + * {
     position: absolute;
-    top: 1.2rem;
     left: 0;
-    width: auto;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    z-index: 1;
-}
-.dropdown > ul > li {
-    list-style: none;
-    padding: 0 3px;
-    margin: 0;
-    cursor: pointer;
-    white-space: nowrap;
-}
-.dropdown > ul > li:hover {
-    background-color: blue;
-    color: white;
+    z-index: 10;
 }
