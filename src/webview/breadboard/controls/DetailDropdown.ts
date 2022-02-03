@@ -8,39 +8,36 @@ export default function(detailsElement: HTMLDetailsElement) {
 
     const toggleClickOutsideListener = (event: Event) => {
         document[
-            (event.target as HTMLDetailsElement).open
+            detailsElement.open
                 ? 'addEventListener'
                 : 'removeEventListener'
         ]('click', handleClickOutside, true)
     }
 
-    let recentClickClientX: number
-    const rememberRecentClick = (event: MouseEvent) => {
-        recentClickClientX = event.clientX
-    }
-
-    const changeOrientation = (event: Event) => {
-        if ((event.target as HTMLDetailsElement).open) {
-            let element: HTMLElement = (event.target as HTMLDetailsElement).querySelector('summary + *')
-            if (window.innerWidth - recentClickClientX < 200) {
-                element.style.left = 'unset'
-                element.style.right = '0'
-            } else {
-                element.style.right = 'unset'
-                element.style.left = '0'
+    const changeOrientation = (event: MouseEvent) => {
+        let menuElement: HTMLElement = detailsElement.querySelector('summary + *')
+        menuElement.style.opacity = '0'
+        setTimeout(() => {
+            if (detailsElement.open) {
+                if ((event.clientX + menuElement.clientWidth) > window.innerWidth) {
+                    menuElement.style.left = 'unset'
+                    menuElement.style.right = '0'
+                } else {
+                    menuElement.style.right = 'unset'
+                    menuElement.style.left = '0'
+                }
             }
-        }
+            menuElement.style.opacity = '1'
+        }, 1)
     }
 
     detailsElement.addEventListener('toggle', toggleClickOutsideListener)
-    detailsElement.addEventListener('click', rememberRecentClick)
-    detailsElement.addEventListener('toggle', changeOrientation)
+    detailsElement.addEventListener('click', changeOrientation)
 
     return {
         destroy() {
             detailsElement.removeEventListener('toggle', toggleClickOutsideListener)
-            detailsElement.removeEventListener('click', rememberRecentClick)
-            detailsElement.removeEventListener('toggle', changeOrientation)
+            detailsElement.removeEventListener('click', changeOrientation)
             document.removeEventListener('click', handleClickOutside, true)
         }
     };
