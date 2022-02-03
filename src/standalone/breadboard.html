@@ -16,6 +16,9 @@
                 lineHeight: 35,
                 lineHeightFraction: 2.7,
             })
+            fetch('/backend/fileGetContents.php?path=/Users/max/Dst/kitchen-sink/tmp/breadboard.json')
+                .then(res => res.json())
+                .then(breadboard => window.StandaloneDomainFacadeInstance.postVoidPayload('hydrate', breadboard))
         })
     </script>
 
