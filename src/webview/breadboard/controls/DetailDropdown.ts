@@ -13,6 +13,19 @@ export default function(detailsElement: HTMLDetailsElement) {
         }
     }
 
+    const handleEscape = (event: KeyboardEvent) => {
+        if (detailsElement.open && event.keyCode == 27) {
+            detailsElement.open = false
+        }
+    }
+    const setupEscapeListener = (event: Event) => {
+        if (detailsElement.open) {
+            document.addEventListener('keyup', handleEscape, true)
+        } else {
+            document.removeEventListener('keyup', handleEscape, true)
+        }
+    }
+
     const changeOrientation = (event: MouseEvent) => {
         let menuElement: HTMLElement = detailsElement.querySelector('summary + *')
         menuElement.style.opacity = '0'
@@ -31,11 +44,13 @@ export default function(detailsElement: HTMLDetailsElement) {
     }
 
     detailsElement.addEventListener('toggle', setupClickOutsideListener)
+    detailsElement.addEventListener('toggle', setupEscapeListener)
     detailsElement.addEventListener('click', changeOrientation)
 
     return {
         destroy() {
             detailsElement.removeEventListener('toggle', setupClickOutsideListener)
+            detailsElement.removeEventListener('toggle', setupEscapeListener)
             detailsElement.removeEventListener('click', changeOrientation)
             document.removeEventListener('click', handleClickOutside, true)
         }
