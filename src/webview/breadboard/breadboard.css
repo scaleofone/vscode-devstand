@@ -5,11 +5,8 @@
     --height-mono: calc(var(--editorSettings-lineHeight) * 1px);
 }
 
-.code-font {
-    font-size: var(--vscode-editor-font-size);
-    font-family: var(--vscode-editor-font-family);
-    line-height: calc(var(--editorSettings-lineHeightFraction) * var(--vscode-editor-font-size));
-    display: inline-block;
+.height-mono {
+    height: var(--height-mono);
 }
 
 /* Utilities */
@@ -41,6 +38,13 @@
 .grow   { flex-grow: 1; }
 .grow-0 { flex-grow: 0; }
 
+.justify-start   { justify-content: flex-start; }
+.justify-end     { justify-content: flex-end; }
+.justify-center  { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.justify-around  { justify-content: space-around; }
+.justify-evenly  { justify-content: space-evenly; }
+
 .items-start    { align-items: flex-start; }
 .items-end      { align-items: flex-end; }
 .items-center   { align-items: center; }
@@ -53,3 +57,8 @@
 
 .cursor-default { cursor: default; }
 .cursor-pointer { cursor: pointer; }
+
+.select-none { user-select: none; }
+.select-text { user-select: text; }
+.select-all { user-select: all; }
+.select-auto { user-select: auto; }

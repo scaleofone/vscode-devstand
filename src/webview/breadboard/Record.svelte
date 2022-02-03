@@ -28,12 +28,20 @@
 
 </script>
 
-<div style="padding: 0 0 0 1rem">
-    <span class="code-font">
-        {record.identifier}: {record.value} ({record.type})
-    </span>
-    <RecordDropdown
-        on:rename={handleRenameRecord}
-        on:delete={handleDeleteRecord}
-    />
+<div class="role-brick role-record">
+
+    <div class="flex items-center height-mono">
+        <div class="grow">
+            <span class="font-mono">
+                {record.identifier}: {record.value} <small style="opacity:0.5">({record.type})</small>
+            </span>
+        </div>
+        <div class="shrink-0">
+            <RecordDropdown
+                on:rename={handleRenameRecord}
+                on:delete={handleDeleteRecord}
+            />
+        </div>
+    </div>
+
 </div>

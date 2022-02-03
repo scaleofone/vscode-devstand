@@ -29,35 +29,46 @@
 
 </script>
 
-<div class="component" style="border:1px solid gray; padding:1rem">
-    <span class="code-font">
-        {component.identifier}: {component.templateImportVariableName}
-    </span>
+<div class="component" id={identifier}>
 
-        <ComponentDropdown
-            on:delete={handleDeleteComponent}
-            on:rename={()=> renameFormIsVisible = true}
-        />
-
-        <ComponentSchemaDropdown
-            identifier={identifier}
-        />
-
+    <div class="role-brick role-component-header">
         {#if renameFormIsVisible}
-            <RenameComponentForm
-                value={identifier}
-                on:success={(event) => handleRenameComponent(event.detail.value)}
-                on:cancel={() => renameFormIsVisible = false}
-            />
+
+            <div class="flex items-center height-mono">
+                <RenameComponentForm
+                    value={identifier}
+                    on:success={(event) => handleRenameComponent(event.detail.value)}
+                    on:cancel={() => renameFormIsVisible = false}
+                />
+            </div>
+
+        {:else}
+
+            <div class="flex items-center height-mono">
+                <div class="font-mono grow">
+                    <b>{component.identifier}</b>: {component.templateImportVariableName}
+                </div>
+                <div class="shrink-0">
+                    <ComponentDropdown
+                        on:delete={handleDeleteComponent}
+                        on:rename={()=> renameFormIsVisible = true}
+                    />
+                </div>
+                <div class="shrink-0">
+                    <ComponentSchemaDropdown
+                        identifier={identifier}
+                    />
+                </div>
+            </div>
+
         {/if}
+    </div>
 
-        <div style="height:0.3rem"></div>
-
-        {#each componentRecords as record}
-            <Record
-                componentIdentifier={identifier}
-                identifier={record.identifier}
-            />
-        {/each}
+    {#each componentRecords as record}
+        <Record
+            componentIdentifier={identifier}
+            identifier={record.identifier}
+        />
+    {/each}
 
 </div>

@@ -6,11 +6,15 @@
     import { components } from './stores/breadboard'
 </script>
 
+<section>
+
 {#each $components as component}
     <Component
         identifier={component.identifier}
     />
 {/each}
+
+</section>
 
 <CreateComponentButton />
 
