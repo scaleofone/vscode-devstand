@@ -30,7 +30,7 @@
             left: 1rem;
             outline :none !important;
             opacity: 0.3;
-        `)
+        `.replace(/\n\s*/gm, ' ').trim())
         selectElement.innerHTML = themes.reduce((html, theme) => {
             return `${ html } <option value="${ theme }" ${ currentTheme == theme ? 'selected' : '' }>${ theme }</option>`
         }, '')
