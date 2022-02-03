@@ -21,7 +21,7 @@
 .menu--mono .menu__item {
     --menu__item-gap: calc(var(--vscode-editor-font-size) * 0.3);
     --menu__item-padding: calc(var(--vscode-editor-font-size) * 0.6);
-    --height: calc(var(--editorSettings-lineHeight) * 1px);
+    --height: var(--height-mono);
     font-size: var(--vscode-editor-font-size);
     font-family: var(--vscode-editor-font-family);
 }

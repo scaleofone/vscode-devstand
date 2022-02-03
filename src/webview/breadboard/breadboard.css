@@ -1,6 +1,8 @@
 :root {
     --editorSettings-lineHeight: 18;
     --editorSettings-lineHeightFraction: 1.5;
+
+    --height-mono: calc(var(--editorSettings-lineHeight) * 1px);
 }
 
 .code-font {
