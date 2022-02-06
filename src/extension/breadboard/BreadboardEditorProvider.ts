@@ -53,7 +53,25 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
 
         // Handle commands received from webview
         const extension = {
-            showMessage(payload: string): void {
+            async showMessage(payload: string): Promise<void> {
+                if (payload == 'reject') { return Promise.reject() }
+                if (payload == 'reject string') { return Promise.reject('String rejected') }
+                if (payload == 'reject object') { return Promise.reject({ prop: 'value', rejected: true }) }
+                if (payload == 'reject error') { return Promise.reject(new Error('Rejected error message')) }
+                if (payload == 'reject custom') {
+                    let error = new Error('Custom message')
+                    error.name = 'CUSTOM'
+                    return Promise.reject(error)
+                }
+                if (payload == 'throw string') { throw 'String thrown' }
+                if (payload == 'throw object') { throw { prop: 'value', thrown: true } }
+                if (payload == 'throw error') { throw new Error('Thrown error message') }
+                if (payload == 'throw custom') {
+                    let error = new Error('Custom message')
+                    error.name = 'CUSTOM'
+                    throw error
+                }
+
                 vscode.window.showInformationMessage(payload)
             },
             async createComponent(payload: payloads.CreateComponent): Promise<void> {

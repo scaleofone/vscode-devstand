@@ -10,8 +10,8 @@ const messenger = new Messenger()
 
 
 const extension = {
-    showMessage(text: string): void {
-        messenger.postVoidPayload('showMessage', text)
+    showMessage(text: string): Promise<void> {
+        return messenger.postRequestPayload('showMessage', text)
     },
     createComponent(payload: payloads.CreateComponent): void {
         messenger.postVoidPayload('createComponent', payload)

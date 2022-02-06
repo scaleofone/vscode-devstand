@@ -10,8 +10,29 @@
     let componentIdentifier4, recordIdentifier4, recordValue4
     let componentIdentifier5, templateImportVariableName5
 
+    let messageText, showMessagePromise
 </script>
 
+
+<input type="text" placeholder="messageText" bind:value={messageText}>
+<button on:click={() => showMessagePromise = extension.showMessage(messageText) }>showMessage</button>
+{#if typeof showMessagePromise != 'undefined' }
+    {#await showMessagePromise}
+        waiting...
+    {:then}
+        <div style="color:green">ok</div>
+    {:catch error}
+        <div style="color:red">typeof error = "{typeof error}"</div>
+        <div style="color:red">error instanceof Error = {(error instanceof Error)}</div>
+        {#if error instanceof Error}
+            <div style="color:red">Error.toString() = "{error}"</div>
+        {:else}
+            <pre style="background-color:#ffc; color:red;">{JSON.stringify(error, null, 2)}</pre>
+        {/if}
+    {/await}
+{/if}
+
+<br><br>
 
 <input type="text" placeholder="componentIdentifier" bind:value={componentIdentifier5}>
 <input type="text" placeholder="templateImportVariableName"  bind:value={templateImportVariableName5}>
