@@ -4,7 +4,7 @@ import { DeleteTemplateImport } from '../../../TransportPayloads'
 
 import * as parser from '../jsonnet/JsonnetParser'
 
-export default async function (document: vscode.TextDocument, payload: DeleteTemplateImport) {
+export default function (document: vscode.TextDocument, payload: DeleteTemplateImport): vscode.TextEdit {
     const text = document.getText()
     const parsed = parser.parse(document.uri.path, text)
     const localBindNodes = parser.getLocalBindNodes(parsed)
@@ -26,10 +26,7 @@ export default async function (document: vscode.TextDocument, payload: DeleteTem
         endColumn = 0
     }
 
-    const edit = new vscode.WorkspaceEdit()
-    edit.delete(
-        document.uri,
+    return vscode.TextEdit.delete(
         new vscode.Range(beginLine, beginColumn, endLine, endColumn)
     )
-    return vscode.workspace.applyEdit(edit)
 }

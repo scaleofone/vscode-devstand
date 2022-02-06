@@ -3,14 +3,12 @@ import { RenameComponent } from '../../../TransportPayloads'
 
 import * as parser from '../jsonnet/JsonnetParser'
 
-export default async function (document: vscode.TextDocument, payload: RenameComponent) {
+export default function (document: vscode.TextDocument, payload: RenameComponent): vscode.TextEdit {
     const text = document.getText()
     const parsed = parser.parse(document.uri.path, text)
     const objectFieldNode = parser.getComponentFieldNode(parsed, payload.before)
 
-    const edit = new vscode.WorkspaceEdit()
-    edit.replace(
-        document.uri,
+    return vscode.TextEdit.replace(
         new vscode.Range(
             objectFieldNode.id.loc.begin.line - 1,
             objectFieldNode.id.loc.begin.column - 1,
@@ -19,5 +17,4 @@ export default async function (document: vscode.TextDocument, payload: RenameCom
         ),
         payload.after
     )
-    return vscode.workspace.applyEdit(edit)
 }

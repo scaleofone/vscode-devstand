@@ -4,7 +4,7 @@ import { CreateRecordValue } from '../../../TransportPayloads'
 
 import * as parser from '../jsonnet/JsonnetParser'
 
-export default async function (document: vscode.TextDocument, payload: CreateRecordValue) {
+export default function (document: vscode.TextDocument, payload: CreateRecordValue): vscode.TextEdit {
     const text = document.getText()
     const parsed = parser.parse(document.uri.path, text)
     const componentObjectNode = parser.getComponentObjectNode(parsed, payload.componentIdentifier)
@@ -24,11 +24,8 @@ export default async function (document: vscode.TextDocument, payload: CreateRec
     let wrappedValue = (typeof payload.recordValue == 'number') ? payload.recordValue.toString() : quot + payload.recordValue + quot
     let insertText = '\n' + tab + tab + `${ payload.recordIdentifier }: ${ wrappedValue }` + ','
 
-    const edit = new vscode.WorkspaceEdit()
-    edit.insert(
-        document.uri,
+    return vscode.TextEdit.insert(
         new vscode.Position(insertLine, insertColumn),
         insertText
     )
-    return vscode.workspace.applyEdit(edit)
 }

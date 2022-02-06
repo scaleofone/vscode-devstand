@@ -5,14 +5,12 @@ import { RenameRecord } from '../../../TransportPayloads'
 
 import * as parser from '../jsonnet/JsonnetParser'
 
-export default async function (document: vscode.TextDocument, payload: RenameRecord) {
+export default function (document: vscode.TextDocument, payload: RenameRecord): vscode.TextEdit {
     const text = document.getText()
     const parsed = parser.parse(document.uri.path, text)
     const recordFieldNode = parser.getRecordFieldNode(parsed, payload.componentIdentifier, payload.recordIdentifier)
 
-    const edit = new vscode.WorkspaceEdit()
-    edit.replace(
-        document.uri,
+    return vscode.TextEdit.replace(
         new vscode.Range(
             recordFieldNode.id.loc.begin.line - 1,
             recordFieldNode.id.loc.begin.column - 1,
@@ -21,5 +19,4 @@ export default async function (document: vscode.TextDocument, payload: RenameRec
         ),
         payload.renameRecordIdentifier
     )
-    return vscode.workspace.applyEdit(edit)
 }

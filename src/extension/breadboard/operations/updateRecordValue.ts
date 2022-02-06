@@ -5,7 +5,7 @@ import { UpdateRecordValue } from '../../../TransportPayloads'
 
 import * as parser from '../jsonnet/JsonnetParser'
 
-export default async function (document: vscode.TextDocument, payload: UpdateRecordValue) {
+export default function (document: vscode.TextDocument, payload: UpdateRecordValue): vscode.TextEdit {
     const text = document.getText()
     const parsed = parser.parse(document.uri.path, text)
     const recordFieldNode = parser.getRecordFieldNode(parsed, payload.componentIdentifier, payload.recordIdentifier)
@@ -20,9 +20,7 @@ export default async function (document: vscode.TextDocument, payload: UpdateRec
         return
     }
 
-    const edit = new vscode.WorkspaceEdit()
-    edit.replace(
-        document.uri,
+    return vscode.TextEdit.replace(
         new vscode.Range(
             targetNode.loc.begin.line -1,
             targetNode.loc.begin.column -1,
@@ -31,5 +29,4 @@ export default async function (document: vscode.TextDocument, payload: UpdateRec
         ),
         payload.updateRecordValue.toString()
     )
-    return vscode.workspace.applyEdit(edit)
 }

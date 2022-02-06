@@ -4,7 +4,7 @@ import { DeleteRecord } from '../../../TransportPayloads'
 
 import * as parser from '../jsonnet/JsonnetParser'
 
-export default async function (document: vscode.TextDocument, payload: DeleteRecord) {
+export default function (document: vscode.TextDocument, payload: DeleteRecord): vscode.TextEdit {
     const text = document.getText()
     const parsed = parser.parse(document.uri.path, text)
     const recordFieldNode = parser.getRecordFieldNode(parsed, payload.componentIdentifier, payload.recordIdentifier)
@@ -38,10 +38,7 @@ export default async function (document: vscode.TextDocument, payload: DeleteRec
         endColumn = 0
     }
 
-    const edit = new vscode.WorkspaceEdit()
-    edit.delete(
-        document.uri,
+    return vscode.TextEdit.delete(
         new vscode.Range(beginLine, beginColumn, endLine, endColumn)
     )
-    return vscode.workspace.applyEdit(edit)
 }
