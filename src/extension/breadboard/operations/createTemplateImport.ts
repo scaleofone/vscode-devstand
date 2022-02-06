@@ -3,7 +3,7 @@ import { CreateTemplateImport } from '../../../TransportPayloads'
 
 import * as parser from '../jsonnet/JsonnetParser'
 
-export default async function (document: vscode.TextDocument, payload: CreateTemplateImport) {
+export default function (document: vscode.TextDocument, payload: CreateTemplateImport): vscode.TextEdit {
     const text = document.getText()
     const parsed = parser.parse(document.uri.path, text)
     const localBindNodes = parser.getLocalBindNodes(parsed)
@@ -19,11 +19,8 @@ export default async function (document: vscode.TextDocument, payload: CreateTem
     }
     const insertText = `\nlocal ${ payload.variableName } = (import '${ payload.targetFile }').${ payload.targetIdentifier };`
 
-    const edit = new vscode.WorkspaceEdit()
-    edit.insert(
-        document.uri,
+    return vscode.TextEdit.insert(
         new vscode.Position(insertLine, insertColumn),
         insertText
     )
-    return vscode.workspace.applyEdit(edit)
 }

@@ -106,17 +106,20 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
                 let result = await createNewComponent()
                 // TODO validate componentIdentifier is already present
                 // TODO validate componentIdentifier is not a reserved jsonnet keyword (eg: local/function)
-                await createComponent(document, {
+                let edit1 = createComponent(document, {
                     componentIdentifier: result.component.identifier,
                     templateImportVariableName: result.component.templateImportVariableName,
                 })
                 // TODO omit creating if targetIdentifier is already present
                 // TODO use another variableName if targetIdentifier is already present
-                await createTemplateImport(document, {
+                let edit2 = createTemplateImport(document, {
                     variableName: result.templateImport.variableName,
                     targetFile: result.templateImport.targetFile,
                     targetIdentifier: result.templateImport.targetIdentifier,
                 })
+                const edit = new vscode.WorkspaceEdit()
+                edit.set(document.uri, [edit1, edit2])
+                await vscode.workspace.applyEdit(edit)
             },
         }
 

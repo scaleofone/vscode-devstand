@@ -4,7 +4,7 @@ import { CreateComponent } from '../../../TransportPayloads'
 
 import * as parser from '../jsonnet/JsonnetParser'
 
-export default async function (document: vscode.TextDocument, payload: CreateComponent) {
+export default function (document: vscode.TextDocument, payload: CreateComponent): vscode.TextEdit {
     const text = document.getText()
     const parsed = parser.parse(document.uri.path, text)
     const objectNode = parser.getObjectNode(parsed)
@@ -20,11 +20,8 @@ export default async function (document: vscode.TextDocument, payload: CreateCom
     let tab = '  ' // two spaces
     let insertText = '\n' + tab + `${ payload.componentIdentifier }: ${ payload.templateImportVariableName } {\n` + tab + '},'
 
-    const edit = new vscode.WorkspaceEdit()
-    edit.insert(
-        document.uri,
+    return vscode.TextEdit.insert(
         new vscode.Position(insertLine, insertColumn),
         insertText
     )
-    return vscode.workspace.applyEdit(edit)
 }
