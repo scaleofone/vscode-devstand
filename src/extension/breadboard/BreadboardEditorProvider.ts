@@ -75,13 +75,19 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
                 vscode.window.showInformationMessage(payload)
             },
             async createComponent(payload: payloads.CreateComponent): Promise<void> {
-                await createComponent(document, payload)
+                let textEdit = createComponent(document, payload)
+                const edit = new vscode.WorkspaceEdit()
+                edit.set(document.uri, [textEdit])
+                await vscode.workspace.applyEdit(edit)
             },
             async renameComponent(payload: payloads.RenameComponent): Promise<void> {
                 await renameComponent(document, payload)
             },
             async createTemplateImport(payload: payloads.CreateTemplateImport): Promise<void> {
-                await createTemplateImport(document, payload)
+                let textEdit = createTemplateImport(document, payload)
+                const edit = new vscode.WorkspaceEdit()
+                edit.set(document.uri, [textEdit])
+                await vscode.workspace.applyEdit(edit)
             },
             async deleteTemplateImport(payload: payloads.DeleteTemplateImport): Promise<void> {
                 await deleteTemplateImport(document, payload)
@@ -106,19 +112,19 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
                 let result = await createNewComponent()
                 // TODO validate componentIdentifier is already present
                 // TODO validate componentIdentifier is not a reserved jsonnet keyword (eg: local/function)
-                let edit1 = createComponent(document, {
+                let textEdit1 = createComponent(document, {
                     componentIdentifier: result.component.identifier,
                     templateImportVariableName: result.component.templateImportVariableName,
                 })
                 // TODO omit creating if targetIdentifier is already present
                 // TODO use another variableName if targetIdentifier is already present
-                let edit2 = createTemplateImport(document, {
+                let textEdit2 = createTemplateImport(document, {
                     variableName: result.templateImport.variableName,
                     targetFile: result.templateImport.targetFile,
                     targetIdentifier: result.templateImport.targetIdentifier,
                 })
                 const edit = new vscode.WorkspaceEdit()
-                edit.set(document.uri, [edit1, edit2])
+                edit.set(document.uri, [textEdit1, textEdit2])
                 await vscode.workspace.applyEdit(edit)
             },
         }
