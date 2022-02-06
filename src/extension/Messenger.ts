@@ -1,4 +1,5 @@
 import vscode from 'vscode'
+import { normaliseErr } from '../errorHandling'
 
 interface MessengerMessage {
     is: 'void' | 'request' | 'response'
@@ -48,11 +49,11 @@ class Messenger {
             try {
                 let result = this.facade[message.command].apply(this.facade, [message.payload])
                 if (this.errorHandler instanceof Function && typeof result == 'object' && result !== null && 'then' in result && typeof result.then == 'function') {
-                    result.then(() => {}, (error: any) => this.errorHandler.apply(undefined, [normaliseError(error), message]))
+                    result.then(() => {}, (error: any) => this.errorHandler.apply(undefined, [normaliseErr(error), message]))
                 }
             } catch (error) {
                 if (this.errorHandler instanceof Function) {
-                    this.errorHandler.apply(undefined, [normaliseError(error), message])
+                    this.errorHandler.apply(undefined, [normaliseErr(error), message])
                 }
             }
         } else if (message.is == 'request' && message.from === 'webview') {
@@ -65,9 +66,9 @@ class Messenger {
                         payload: responseFromFacade
                     })
                 })
-                .catch((error: any) => {
+                .catch((err: any) => {
                     if (this.errorHandler instanceof Function) {
-                        this.errorHandler.apply(undefined, [normaliseError(error), message])
+                        this.errorHandler.apply(undefined, [normaliseErr(err), message])
                     }
                 })
         }
@@ -97,19 +98,6 @@ class Messenger {
             this.disposables.splice(givenDisposableIndex, 1)
         }
     }
-}
-
-function normaliseError(error: any): Error {
-    if (error instanceof Error) return error
-    if (typeof error == 'object' && error !== null) {
-        try {
-            return new Error(JSON.stringify(error))
-        } catch (err) {
-            return new Error('Unknown error object')
-        }
-    }
-    if (typeof error == 'string' || typeof error == 'number') return new Error(error.toString())
-    return new Error('Unknown error: '+error.toString())
 }
 
 export { Messenger, MessengerMessage }

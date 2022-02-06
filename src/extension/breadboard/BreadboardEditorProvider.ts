@@ -105,9 +105,8 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
         messenger.applyReceivedMessagesTo(extension)
         messenger.receiveMessagesFrom(panel.webview)
         messenger.sendMessagesTo(panel.webview)
-        messenger.useErrorHandler((error: Error, message: MessengerMessage) => {
-            vscode.window.showErrorMessage(error.message)
-            console.warn(message)
+        messenger.useErrorHandler((err: Error | object, message: MessengerMessage) => {
+            vscode.window.showErrorMessage((err instanceof Error) ? err.toString() : 'Thrown object: '+JSON.stringify(err))
         })
         messenger.subscribe()
 

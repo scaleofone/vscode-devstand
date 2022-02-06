@@ -1,3 +1,5 @@
+import { normaliseErr } from '../errorHandling'
+
 interface MessengerMessage {
     is: 'void' | 'request' | 'response'
     from: 'webview' | 'extension'
@@ -12,6 +14,11 @@ class Messenger {
     private facade: object
     applyReceivedMessagesTo(facade: object) {
         this.facade = facade
+    }
+
+    private errorHandler: Function | undefined = undefined
+    useErrorHandler(errorHandler: Function) {
+        this.errorHandler = errorHandler
     }
 
     private sender: { postMessage:Function }
@@ -35,6 +42,11 @@ class Messenger {
                         requestId: message.requestId,
                         payload: responseFromFacade
                     })
+                })
+                .catch((err: any) => {
+                    if (this.errorHandler instanceof Function) {
+                        this.errorHandler.apply(undefined, [normaliseErr(err), message])
+                    }
                 })
         }
     }
