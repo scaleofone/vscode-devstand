@@ -1,7 +1,7 @@
-import { normaliseErr } from '../errorHandling'
+import { normaliseErr, convertErrToPayload, convertPayloadToErr } from '../errorHandling'
 
 interface MessengerMessage {
-    is: 'void' | 'request' | 'response'
+    is: 'void' | 'request' | 'response' | 'error'
     from: 'webview' | 'extension'
     requestId?: number
     payload?: any
@@ -47,6 +47,12 @@ class Messenger {
                     if (this.errorHandler instanceof Function) {
                         this.errorHandler.apply(undefined, [normaliseErr(err), message])
                     }
+                    this.sender.postMessage({
+                        is: 'error',
+                        from: 'webview',
+                        requestId: message.requestId,
+                        payload: convertErrToPayload(err),
+                    })
                 })
         }
     }
@@ -60,9 +66,13 @@ class Messenger {
             let requestId = ++this.requestIdSequence
             let responseHandler = (event: MessageEvent) => {
                 let message: MessengerMessage = event.data
-                if (message && message.requestId === requestId && message.is === 'response' && message.from === 'extension') {
+                if (message && message.requestId === requestId && (message.is === 'response' || message.is === 'error') && message.from === 'extension') {
                     this.removeListener(responseHandler)
-                    resolve(message.payload)
+                    if (message.is === 'response') {
+                        resolve(message.payload)
+                    } else if (message.is === 'error') {
+                        reject(convertPayloadToErr(message.payload))
+                    }
                 }
             }
             window.addEventListener('message', responseHandler)

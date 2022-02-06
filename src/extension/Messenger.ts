@@ -1,8 +1,8 @@
 import vscode from 'vscode'
-import { normaliseErr } from '../errorHandling'
+import { normaliseErr, convertErrToPayload, convertPayloadToErr } from '../errorHandling'
 
 interface MessengerMessage {
-    is: 'void' | 'request' | 'response'
+    is: 'void' | 'request' | 'response' | 'error'
     from: 'webview' | 'extension'
     requestId?: number
     payload?: any
@@ -70,6 +70,12 @@ class Messenger {
                     if (this.errorHandler instanceof Function) {
                         this.errorHandler.apply(undefined, [normaliseErr(err), message])
                     }
+                    this.sender.postMessage({
+                        is: 'error',
+                        from: 'extension',
+                        requestId: message.requestId,
+                        payload: convertErrToPayload(err),
+                    })
                 })
         }
     }
@@ -82,9 +88,13 @@ class Messenger {
         return new Promise((resolve, reject) => {
             let requestId = ++this.requestIdSequence
             let disposable = this.receiver.onDidReceiveMessage((message: MessengerMessage) => {
-                if (message.requestId === requestId && message.is === 'response' && message.from === 'webview') {
+                if (message.requestId === requestId && (message.is === 'response' || message.is === 'error') && message.from === 'webview') {
                     this.removeListener(disposable)
-                    resolve(message.payload)
+                    if (message.is === 'response') {
+                        resolve(message.payload)
+                    } else if (message.is === 'error') {
+                        reject(convertPayloadToErr(message.payload))
+                    }
                 }
             }, this, this.disposables)
             this.sender.postMessage({ is: 'request', from: 'extension', command, payload, requestId })
