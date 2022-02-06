@@ -51,6 +51,12 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
             },
         }
 
+        const applyWorkspaceEdit = (textEdits: vscode.TextEdit[]) => {
+            const edit = new vscode.WorkspaceEdit()
+            edit.set(document.uri, textEdits)
+            return vscode.workspace.applyEdit(edit)
+        }
+
         // Handle commands received from webview
         const extension = {
             async showMessage(payload: string): Promise<void> {
@@ -75,19 +81,13 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
                 vscode.window.showInformationMessage(payload)
             },
             async createComponent(payload: payloads.CreateComponent): Promise<void> {
-                let textEdit = createComponent(document, payload)
-                const edit = new vscode.WorkspaceEdit()
-                edit.set(document.uri, [textEdit])
-                await vscode.workspace.applyEdit(edit)
+                await applyWorkspaceEdit([ createComponent(document, payload) ])
             },
             async renameComponent(payload: payloads.RenameComponent): Promise<void> {
                 await renameComponent(document, payload)
             },
             async createTemplateImport(payload: payloads.CreateTemplateImport): Promise<void> {
-                let textEdit = createTemplateImport(document, payload)
-                const edit = new vscode.WorkspaceEdit()
-                edit.set(document.uri, [textEdit])
-                await vscode.workspace.applyEdit(edit)
+                await applyWorkspaceEdit([ createTemplateImport(document, payload) ])
             },
             async deleteTemplateImport(payload: payloads.DeleteTemplateImport): Promise<void> {
                 await deleteTemplateImport(document, payload)
@@ -123,9 +123,7 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
                     targetFile: result.templateImport.targetFile,
                     targetIdentifier: result.templateImport.targetIdentifier,
                 })
-                const edit = new vscode.WorkspaceEdit()
-                edit.set(document.uri, [textEdit1, textEdit2])
-                await vscode.workspace.applyEdit(edit)
+                await applyWorkspaceEdit([ textEdit1, textEdit2 ])
             },
         }
 
