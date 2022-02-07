@@ -43,8 +43,8 @@
 
         <div class="flex items-center height-mono">
             <UpdateRecordForm
-                recordValue={record.value}
-                on:success={(event) => handleUpdateRecord(event.detail.recordValue)}
+                record={record}
+                on:success={(event) => handleUpdateRecord(event.detail.value)}
                 on:cancel={() => updateFormVisible = false}
             />
         </div>
@@ -54,9 +54,8 @@
         <div class="flex items-center height-mono">
             <ModifyRecordForm
                 componentIdentifier={componentIdentifier}
-                recordIdentifier={record.identifier}
-                recordValue={record.value}
-                on:success={(event) => handleModifyRecord(event.detail.recordIdentifier, event.detail.recordValue)}
+                record={record}
+                on:success={(event) => handleModifyRecord(event.detail.identifier, event.detail.value)}
                 on:cancel={() => modifyFormVisible = false}
             />
         </div>

@@ -5,9 +5,9 @@
     import { form, field } from 'svelte-forms'
     import { required } from 'svelte-forms/validators'
 
-    export let recordValue
+    export let record
 
-    const _recordValue = field('recordValue', recordValue, [
+    const _recordValue = field('recordValue', record.value, [
         required(),
     ])
     const _form = form(_recordValue)
@@ -15,9 +15,9 @@
     function captureEnterAndEscape(event) {
         if (event.keyCode == 13 /* Enter */) {
             if (! $_form.valid) { return }
-            if ($_recordValue.value == recordValue) { return dispatch('cancel') }
+            if ($_recordValue.value == record.value) { return dispatch('cancel') }
             dispatch('success', {
-                recordValue: $_recordValue.value,
+                value: $_recordValue.value,
             })
         }
         if (event.keyCode == 27 /* Esc */) { dispatch('cancel') }

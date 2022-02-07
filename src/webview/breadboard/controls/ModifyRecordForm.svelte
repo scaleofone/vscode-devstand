@@ -8,17 +8,16 @@
     import { required } from 'svelte-forms/validators'
 
     export let componentIdentifier
-    export let recordIdentifier
-    export let recordValue
+    export let record
 
-    const _recordIdentifier = field('recordIdentifier', recordIdentifier, [
+    const _recordIdentifier = field('recordIdentifier', record.identifier, [
         required(),
         (val) => ({
             name: 'unique',
-            valid: (val == recordIdentifier || $records.findIndex(r => r.identifier == val && r.componentIdentifier == componentIdentifier) == -1)
+            valid: (val == record.identifier || $records.findIndex(r => r.identifier == val && r.componentIdentifier == componentIdentifier) == -1)
         }),
     ])
-    const _recordValue = field('recordValue', recordValue, [
+    const _recordValue = field('recordValue', record.value, [
         required(),
     ])
     const _form = form(_recordIdentifier, _recordValue)
@@ -26,10 +25,10 @@
     function captureEnterAndEscape(event) {
         if (event.keyCode == 13 /* Enter */) {
             if (! $_form.valid) { return }
-            if ($_recordIdentifier.value == recordIdentifier && $_recordValue.value == recordValue) { return dispatch('cancel') }
+            if ($_recordIdentifier.value == record.identifier && $_recordValue.value == record.value) { return dispatch('cancel') }
             dispatch('success', {
-                recordIdentifier: $_recordIdentifier.value,
-                recordValue: $_recordValue.value,
+                identifier: $_recordIdentifier.value,
+                value: $_recordValue.value,
             })
         }
         if (event.keyCode == 27 /* Esc */) { dispatch('cancel') }
