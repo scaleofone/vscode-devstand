@@ -112,6 +112,12 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
             async updateRecordValue(payload: payloads.UpdateRecordValue): Promise<void> {
                 await applyWorkspaceEdit([ updateRecordValue(document, payload) ])
             },
+            async modifyRecord(payload: payloads.ModifyRecord): Promise<void> {
+                await applyWorkspaceEdit([
+                    updateRecordValue(document, payload),
+                    renameRecord(document, payload),
+                ])
+            },
 
             async actionCreateComponent(): Promise<void> {
                 let result = await createNewComponent()

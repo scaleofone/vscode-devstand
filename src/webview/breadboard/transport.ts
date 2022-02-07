@@ -46,6 +46,9 @@ const extension = {
     updateRecordValue(payload: payloads.UpdateRecordValue): void {
         messenger.postVoidPayload('updateRecordValue', payload)
     },
+    modifyRecord(payload: payloads.ModifyRecord): void {
+        messenger.postVoidPayload('modifyRecord', payload)
+    },
     actionCreateComponent(): void {
         messenger.postVoidPayload('actionCreateComponent', null)
     },

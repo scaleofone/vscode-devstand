@@ -29,6 +29,13 @@ export interface RenameRecord {
     renameRecordIdentifier: string
 }
 
+export interface ModifyRecord {
+    componentIdentifier: string
+    recordIdentifier: string
+    renameRecordIdentifier: string
+    updateRecordValue: string | number
+}
+
 export interface UpdateRecordValue {
     componentIdentifier: string
     recordIdentifier: string

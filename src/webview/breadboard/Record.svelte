@@ -23,15 +23,22 @@
         })
     }
     function handleUpdateRecord(updValue) {
-        console.log('TBD handleUpdateRecord')
-        console.log(`BEFORE: ${componentIdentifier}.${record.identifier} = ${record.value}`)
-        console.log(`AFTER: ${componentIdentifier}.${record.identifier} = ${updValue}`)
+        console.log('handleUpdateRecord')
+        extension.updateRecordValue({
+            componentIdentifier,
+            recordIdentifier: record.identifier,
+            updateRecordValue: updValue,
+        })
         updateFormVisible = false
     }
     function handleModifyRecord(updIdentifier, updValue) {
-        console.log('TBD handleModifyRecord')
-        console.log(`BEFORE: ${componentIdentifier}.${record.identifier} = ${record.value}`)
-        console.log(`AFTER: ${componentIdentifier}.${updIdentifier} = ${updValue}`)
+        console.log('handleModifyRecord')
+        extension.modifyRecord({
+            componentIdentifier,
+            recordIdentifier: record.identifier,
+            renameRecordIdentifier: updIdentifier,
+            updateRecordValue: updValue,
+        })
         modifyFormVisible = false
     }
 
