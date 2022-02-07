@@ -69,6 +69,7 @@ class Messenger {
                 let message: MessengerMessage = event.data
                 if (message && message.requestId === requestId && (message.is === 'response' || message.is === 'error') && message.from === 'extension') {
                     window.removeEventListener('message', responseHandler)
+                    abortSignal.removeEventListener('abort', onAbort)
                     if (message.is === 'response') {
                         resolve(message.payload)
                     } else if (message.is === 'error') {
@@ -76,7 +77,8 @@ class Messenger {
                     }
                 }
             }
-            abortSignal.addEventListener('abort', () => window.removeEventListener('message', responseHandler), { once: true })
+            let onAbort = () => window.removeEventListener('message', responseHandler)
+            abortSignal.addEventListener('abort', onAbort, { once: true })
             window.addEventListener('message', responseHandler)
             this.sender.postMessage({ is: 'request', from: 'webview', command, payload, requestId })
         })
