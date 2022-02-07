@@ -12,11 +12,11 @@
     $: componentRecords = $records.filter(r => r.componentIdentifier == identifier)
 
     let renameFormIsVisible = false
-    function handleRenameComponent(renameComponentIdentifier) {
+    function handleRenameComponent(updIdentifier) {
         console.log('handleRenameComponent')
         extension.renameComponent({
             before: identifier,
-            after: renameComponentIdentifier,
+            after: updIdentifier,
         })
         renameFormIsVisible = false
     }
@@ -36,8 +36,8 @@
 
             <div class="flex items-center height-mono">
                 <RenameComponentForm
-                    value={identifier}
-                    on:success={(event) => handleRenameComponent(event.detail.value)}
+                    component={component}
+                    on:success={(event) => handleRenameComponent(event.detail.identifier)}
                     on:cancel={() => renameFormIsVisible = false}
                 />
             </div>

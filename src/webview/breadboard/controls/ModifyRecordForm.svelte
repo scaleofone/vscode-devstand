@@ -3,6 +3,7 @@
     const dispatch = createEventDispatcher()
 
     import { records } from '../stores/breadboard'
+    import { get } from 'svelte/store'
 
     import { form, field } from 'svelte-forms'
     import { required } from 'svelte-forms/validators'
@@ -14,7 +15,7 @@
         required(),
         (val) => ({
             name: 'unique',
-            valid: (val == record.identifier || $records.findIndex(r => r.identifier == val && r.componentIdentifier == componentIdentifier) == -1)
+            valid: (val == record.identifier || get(records).findIndex(r => r.identifier == val && r.componentIdentifier == componentIdentifier) == -1)
         }),
     ])
     const _recordValue = field('recordValue', record.value, [

@@ -3,31 +3,31 @@
     const dispatch = createEventDispatcher()
 
     import { components } from '../stores/breadboard'
+    import { get } from 'svelte/store'
 
     import { form, field } from 'svelte-forms'
     import { required } from 'svelte-forms/validators'
 
-    export let value = ''
+    export let component
 
     let textInput
 
-    const componentIdentifier = field('componentIdentifier', value, [
+    const _componentIdentifier = field('componentIdentifier', component.identifier, [
         required(),
         (val) => ({
             name: 'unique',
-            valid: (value == val || $components.findIndex(component => component.identifier == val) == -1)
+            valid: (val == component.identifier || get(components).findIndex(c => c.identifier == val) == -1)
         }),
     ])
-    const formInstance = form(componentIdentifier)
+    const _form = form(_componentIdentifier)
 
     function captureEnterAndEscape(event) {
         if (event.keyCode == 13 /* Enter */) {
-            if (! $formInstance.valid) { return }
-            if ($componentIdentifier.value != value) {
-                dispatch('success', { value: $componentIdentifier.value })
-            } else {
-                dispatch('cancel')
-            }
+            if (! $_form.valid) { return }
+            if ($_componentIdentifier.value == component.identifier) { return dispatch('cancel') }
+            dispatch('success', {
+                identifier: $_componentIdentifier.value,
+            })
         }
         if (event.keyCode == 27 /* Esc */) { dispatch('cancel') }
     }
@@ -38,10 +38,10 @@
 <div>
     <input type="text"
         bind:this={textInput}
-        bind:value={$componentIdentifier.value}
+        bind:value={$_componentIdentifier.value}
         on:keydown={captureEnterAndEscape}
     >
-    {#if ! $formInstance.valid}
-        <span style="color:red">{$formInstance.errors[0]}</span>
+    {#if ! $_form.valid}
+        <span style="color:red">{$_form.errors[0]}</span>
     {/if}
 </div>
