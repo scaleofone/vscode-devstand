@@ -67,7 +67,7 @@ class Messenger {
             let responseHandler = (event: MessageEvent) => {
                 let message: MessengerMessage = event.data
                 if (message && message.requestId === requestId && (message.is === 'response' || message.is === 'error') && message.from === 'extension') {
-                    this.removeListener(responseHandler)
+                    window.removeEventListener('message', responseHandler)
                     if (message.is === 'response') {
                         resolve(message.payload)
                     } else if (message.is === 'error') {
@@ -78,10 +78,6 @@ class Messenger {
             window.addEventListener('message', responseHandler)
             this.sender.postMessage({ is: 'request', from: 'webview', command, payload, requestId })
         })
-    }
-
-    private removeListener(responseHandler) {
-        window.removeEventListener('message', responseHandler)
     }
 }
 
