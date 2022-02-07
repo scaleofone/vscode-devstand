@@ -1,4 +1,5 @@
 import { normaliseErr, convertErrToPayload, convertPayloadToErr } from '../errorHandling'
+import { AbortablePromise } from '../AbortablePromise'
 
 interface MessengerMessage {
     is: 'void' | 'request' | 'response' | 'error'
@@ -61,8 +62,8 @@ class Messenger {
         this.sender.postMessage({ is: 'void', from: 'webview', command, payload })
     }
 
-    async postRequestPayload(command: string, payload: any): Promise<any> {
-        return new Promise((resolve, reject) => {
+    postRequestPayload(command: string, payload: any): AbortablePromise<any> {
+        return new AbortablePromise((resolve, reject, abortSignal) => {
             let requestId = ++this.requestIdSequence
             let responseHandler = (event: MessageEvent) => {
                 let message: MessengerMessage = event.data
@@ -75,6 +76,7 @@ class Messenger {
                     }
                 }
             }
+            abortSignal.addEventListener('abort', () => window.removeEventListener('message', responseHandler), { once: true })
             window.addEventListener('message', responseHandler)
             this.sender.postMessage({ is: 'request', from: 'webview', command, payload, requestId })
         })

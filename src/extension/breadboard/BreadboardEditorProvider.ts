@@ -59,6 +59,11 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
 
         // Handle commands received from webview
         const extension = {
+            slowOperation(): Promise<string> {
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => { resolve('howdy!') }, 5000)
+                })
+            },
             async showMessage(payload: string): Promise<void> {
                 if (payload == 'reject') { return Promise.reject() }
                 if (payload == 'reject string') { return Promise.reject('String rejected') }

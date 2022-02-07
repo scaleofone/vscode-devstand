@@ -10,6 +10,9 @@ const messenger = new Messenger()
 
 
 const extension = {
+    slowOperation(): Promise<string> {
+        return messenger.postRequestPayload('slowOperation', null)
+    },
     showMessage(text: string): Promise<void> {
         return messenger.postRequestPayload('showMessage', text)
     },

@@ -11,9 +11,20 @@
     let componentIdentifier5, templateImportVariableName5
 
     let messageText, showMessagePromise
+    let slowOperationPromise
 </script>
 
 
+<button on:click={() => slowOperationPromise = extension.slowOperation() }>invoke slowOperation</button>
+<button on:click={() => slowOperationPromise.abort() }>abort slowOperation</button>
+{#if typeof slowOperationPromise != 'undefined' }
+    {#await slowOperationPromise} waiting...
+    {:then result} <div style="color:green">ok {result}</div>
+    {:catch error} <div style="color:red">{error}</div>
+    {/await}
+{/if}
+
+<br><br>
 <input type="text" placeholder="messageText" bind:value={messageText}>
 <button on:click={() => showMessagePromise = extension.showMessage(messageText) }>showMessage</button>
 {#if typeof showMessagePromise != 'undefined' }
