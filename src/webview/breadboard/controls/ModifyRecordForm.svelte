@@ -10,6 +10,12 @@
 
     export let componentIdentifier
     export let record
+    export let rejectedMessage
+
+    $: showRejectedMessage = !! rejectedMessage
+    function hideRejectedMessage() {
+        showRejectedMessage = false
+    }
 
     const _recordIdentifier = field('recordIdentifier', record.identifier, [
         required(),
@@ -36,18 +42,23 @@
     }
 </script>
 
-<div>
+<div
+    on:keyup={() => hideRejectedMessage()}
+    >
     <input type="text"
         placeholder="identifier"
         bind:value={$_recordIdentifier.value}
-        on:keydown={captureEnterAndEscape}
+        on:keyup={captureEnterAndEscape}
     >
     <input type="text"
         placeholder="value"
         bind:value={$_recordValue.value}
-        on:keydown={captureEnterAndEscape}
+        on:keyup={captureEnterAndEscape}
     >
     {#if ! $_form.valid}
         <span style="color:red">{$_form.errors[0]}</span>
+    {/if}
+    {#if showRejectedMessage}
+        <span style="color:darkred">{rejectedMessage}</span>
     {/if}
 </div>

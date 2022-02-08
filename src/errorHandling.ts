@@ -17,7 +17,9 @@ export function normaliseErr(err: any): Error | object {
 
 export function convertErrToPayload (err: any): string | object {
     let result = normaliseErr(err)
-    if (result instanceof Error) {
+    if (result instanceof Error && 'toJson' in result && typeof result['toJson'] == 'function') {
+        return (result['toJson'] as Function).apply(result)
+    } else if (result instanceof Error) {
         return result.toString()
     } else {
         return result
@@ -27,7 +29,11 @@ export function convertErrToPayload (err: any): string | object {
 export function convertPayloadToErr (err: string | object): Error | object {
     try {
         if (typeof err == 'object') {
-            return err
+            if ('name' in err && 'message' in err && err['name'] == 'ValidationError') {
+                return new ValidationError(err['message'], err['field'])
+            } else {
+                return err
+            }
         } else {
             let error = new Error(err.toString())
             if (err.toString().match(/^[a-z]{1,}$/im)) {
@@ -45,4 +51,24 @@ export function convertPayloadToErr (err: string | object): Error | object {
     } catch (e) {
         return new Error()
     }
+}
+
+export class ValidationError extends Error {
+    public field: string
+    constructor(message: string, field: string) {
+        super(message.toString())
+        this.name = 'ValidationError'
+        this.field = field.toString()
+    }
+    toJson(): object {
+        return {
+            name: this.name,
+            message: this.message,
+            field: this.field,
+        }
+    }
+}
+
+export function shouldReportError(err: any) {
+    return ! (err instanceof ValidationError)
 }

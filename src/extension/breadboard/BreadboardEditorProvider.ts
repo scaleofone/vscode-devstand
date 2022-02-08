@@ -15,6 +15,7 @@ import updateRecordValue from './operations/updateRecordValue'
 import createComponent from './operations/createComponent'
 
 import * as payloads from '../../TransportPayloads'
+import { shouldReportError, ValidationError } from '../../errorHandling'
 
 class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
     public static readonly viewType = 'KitchenSink.BreadboardEditorProvider'
@@ -113,6 +114,9 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
                 await applyWorkspaceEdit([ updateRecordValue(document, payload) ])
             },
             async modifyRecord(payload: payloads.ModifyRecord): Promise<void> {
+                if (payload.updateRecordValue == 'ololo') {
+                    throw new ValidationError('Value not allowed '+Math.random().toString().substr(2, 3), 'updateRecordValue')
+                }
                 await applyWorkspaceEdit([
                     updateRecordValue(document, payload),
                     renameRecord(document, payload),
@@ -142,6 +146,7 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
         messenger.receiveMessagesFrom(panel.webview)
         messenger.sendMessagesTo(panel.webview)
         messenger.useErrorHandler((err: Error | object, message: MessengerMessage) => {
+            if (! shouldReportError(err)) { return }
             vscode.window.showErrorMessage((err instanceof Error) ? err.toString() : 'Thrown object: '+JSON.stringify(err))
         })
         messenger.subscribe()

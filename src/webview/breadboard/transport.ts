@@ -5,15 +5,16 @@ import { schemaDictionary, templateImports, components, records } from './stores
 import { editorSettings } from './stores/misc'
 import * as payloads from '../../TransportPayloads'
 import { Breadboard } from '../../BreadboardTypes'
+import { AbortablePromise } from '../../AbortablePromise.js'
 
 const messenger = new Messenger()
 
 
 const extension = {
-    slowOperation(): Promise<string> {
+    slowOperation(): AbortablePromise<string> {
         return messenger.postRequestPayload('slowOperation', null)
     },
-    showMessage(text: string): Promise<void> {
+    showMessage(text: string): AbortablePromise<void> {
         return messenger.postRequestPayload('showMessage', text)
     },
     createComponent(payload: payloads.CreateComponent): void {
@@ -46,8 +47,8 @@ const extension = {
     updateRecordValue(payload: payloads.UpdateRecordValue): void {
         messenger.postVoidPayload('updateRecordValue', payload)
     },
-    modifyRecord(payload: payloads.ModifyRecord): void {
-        messenger.postVoidPayload('modifyRecord', payload)
+    modifyRecord(payload: payloads.ModifyRecord): AbortablePromise<void> {
+        return messenger.postRequestPayload('modifyRecord', payload)
     },
     actionCreateComponent(): void {
         messenger.postVoidPayload('actionCreateComponent', null)
