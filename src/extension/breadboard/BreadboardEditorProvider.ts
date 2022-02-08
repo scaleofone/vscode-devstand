@@ -111,6 +111,9 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
                 await applyWorkspaceEdit([ renameRecord(document, payload) ])
             },
             async updateRecordValue(payload: payloads.UpdateRecordValue): Promise<void> {
+                if (payload.updateRecordValue == 'ololo') {
+                    throw new ValidationError('Value not allowed '+Math.random().toString().substr(2, 3), 'updateRecordValue')
+                }
                 await applyWorkspaceEdit([ updateRecordValue(document, payload) ])
             },
             async modifyRecord(payload: payloads.ModifyRecord): Promise<void> {

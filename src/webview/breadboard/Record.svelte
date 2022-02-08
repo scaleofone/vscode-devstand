@@ -22,15 +22,6 @@
             recordIdentifier: identifier,
         })
     }
-    function handleUpdateRecord(updValue) {
-        console.log('handleUpdateRecord')
-        extension.updateRecordValue({
-            componentIdentifier,
-            recordIdentifier: record.identifier,
-            updateRecordValue: updValue,
-        })
-        updateFormVisible = false
-    }
 
 </script>
 
@@ -41,7 +32,8 @@
         <div class="flex items-center height-mono">
             <UpdateRecordForm
                 record={record}
-                on:success={(event) => handleUpdateRecord(event.detail.value)}
+                on:success={(event) => console.log('modified Record', event.detail) }
+                on:success={() => updateFormVisible = false}
                 on:cancel={() => updateFormVisible = false}
             />
         </div>

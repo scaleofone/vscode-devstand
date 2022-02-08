@@ -2,21 +2,43 @@
     import { createEventDispatcher } from 'svelte'
     const dispatch = createEventDispatcher()
 
+    import { extension } from '../transport'
+
     import { form, field } from 'svelte-forms'
     import { required } from 'svelte-forms/validators'
 
     export let record
 
+    let rejectedMessage
+    function handleUpdateRecord({ value }) {
+        extension.updateRecordValue({
+            componentIdentifier: record.componentIdentifier,
+            recordIdentifier: record.identifier,
+            updateRecordValue: value,
+        }).then(() => {
+            rejectedMessage = null
+            dispatch('success', {...record, value })
+        }).catch(err => {
+            rejectedMessage = (err instanceof Error) ? (err.message || err.toString()) : err.toString()
+        })
+    }
+
+    $: showRejectedMessage = !! rejectedMessage
+    function hideRejectedMessage() {
+        showRejectedMessage = false
+    }
+
     const _recordValue = field('recordValue', record.value, [
         required(),
     ])
     const _form = form(_recordValue)
+    $: hideRejectedMessage($_form) // called each time when form is changed
 
     function captureEnterAndEscape(event) {
         if (event.keyCode == 13 /* Enter */) {
             if (! $_form.valid) { return }
             if ($_recordValue.value == record.value) { return dispatch('cancel') }
-            dispatch('success', {
+            handleUpdateRecord({
                 value: $_recordValue.value,
             })
         }
@@ -24,12 +46,10 @@
     }
 </script>
 
-<div>
     <input type="text"
         bind:value={$_recordValue.value}
-        on:keydown={captureEnterAndEscape}
+        on:keyup={captureEnterAndEscape}
     >
-    {#if ! $_form.valid}
-        <span style="color:red">{$_form.errors[0]}</span>
+    {#if (showRejectedMessage && rejectedMessage) || ! $_form.valid}
+        <div style="background:red; color:white;">{(showRejectedMessage && rejectedMessage) ? rejectedMessage : $_form.errors[0]}</div>
     {/if}
-</div>

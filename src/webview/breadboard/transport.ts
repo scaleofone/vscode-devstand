@@ -44,8 +44,8 @@ const extension = {
         }
         messenger.postVoidPayload('createRecordValue', payload)
     },
-    updateRecordValue(payload: payloads.UpdateRecordValue): void {
-        messenger.postVoidPayload('updateRecordValue', payload)
+    updateRecordValue(payload: payloads.UpdateRecordValue): AbortablePromise<void> {
+        return messenger.postRequestPayload('updateRecordValue', payload)
     },
     modifyRecord(payload: payloads.ModifyRecord): AbortablePromise<void> {
         return messenger.postRequestPayload('modifyRecord', payload)
