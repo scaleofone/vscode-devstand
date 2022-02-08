@@ -9,13 +9,12 @@
     import { form, field } from 'svelte-forms'
     import { required } from 'svelte-forms/validators'
 
-    export let componentIdentifier
     export let record
 
     let rejectedMessage
     function handleModifyRecord({ identifier, value }) {
         extension.modifyRecord({
-            componentIdentifier,
+            componentIdentifier: record.componentIdentifier,
             recordIdentifier: record.identifier,
             renameRecordIdentifier: identifier,
             updateRecordValue: value,
@@ -36,13 +35,14 @@
         required(),
         (val) => ({
             name: 'unique',
-            valid: (val == record.identifier || get(records).findIndex(r => r.identifier == val && r.componentIdentifier == componentIdentifier) == -1)
+            valid: (val == record.identifier || get(records).findIndex(r => r.identifier == val && r.componentIdentifier == record.componentIdentifier) == -1)
         }),
     ])
     const _recordValue = field('recordValue', record.value, [
         required(),
     ])
     const _form = form(_recordIdentifier, _recordValue)
+    $: hideRejectedMessage($_form) // called each time when form is changed
 
     function captureEnterAndEscape(event) {
         if (event.keyCode == 13 /* Enter */) {
@@ -57,9 +57,7 @@
     }
 </script>
 
-<div
-    on:keyup={() => hideRejectedMessage()}
-    >
+
     <input type="text"
         placeholder="identifier"
         bind:value={$_recordIdentifier.value}
@@ -70,10 +68,6 @@
         bind:value={$_recordValue.value}
         on:keyup={captureEnterAndEscape}
     >
-    {#if ! $_form.valid}
-        <span style="color:red">{$_form.errors[0]}</span>
+    {#if (showRejectedMessage && rejectedMessage) || ! $_form.valid}
+        <div style="background:red; color:white;">{(showRejectedMessage && rejectedMessage) ? rejectedMessage : $_form.errors[0]}</div>
     {/if}
-    {#if showRejectedMessage}
-        <span style="color:darkred">{rejectedMessage}</span>
-    {/if}
-</div>

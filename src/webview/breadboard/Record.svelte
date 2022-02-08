@@ -50,7 +50,6 @@
 
         <div class="flex items-center height-mono">
             <ModifyRecordForm
-                componentIdentifier={componentIdentifier}
                 record={record}
                 on:success={(event) => console.log('modified Record', event.detail) }
                 on:success={() => modifyFormVisible = false}
