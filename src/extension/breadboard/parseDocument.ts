@@ -14,6 +14,7 @@ export default async function(document: vscode.TextDocument): Promise<Breadboard
             records: [],
         })
     }
+    const msecStart = (new Date()).getTime()
     try {
         const parsed = parser.parse(document.uri.path, text)
         const breadboard = converter.toBreadboard(
@@ -28,6 +29,8 @@ export default async function(document: vscode.TextDocument): Promise<Breadboard
                 ti.targetFile == dictItem.targetFile && ti.targetIdentifier == dictItem.targetIdentifier
             )) != -1
         ))
+        const msecEnd = (new Date()).getTime()
+        console.log('function parseDocument took '+((msecEnd - msecStart) / 1000)+' seconds')
         return Promise.resolve(breadboard)
     } catch {
         vscode.window.showInformationMessage('Could not parse jsonnet file')
