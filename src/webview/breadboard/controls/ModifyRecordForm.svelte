@@ -2,6 +2,7 @@
     import { createEventDispatcher } from 'svelte'
     const dispatch = createEventDispatcher()
 
+    import { extension } from '../transport'
     import { records } from '../stores/breadboard'
     import { get } from 'svelte/store'
 
@@ -10,7 +11,21 @@
 
     export let componentIdentifier
     export let record
-    export let rejectedMessage
+
+    let rejectedMessage
+    function handleModifyRecord({ identifier, value }) {
+        extension.modifyRecord({
+            componentIdentifier,
+            recordIdentifier: record.identifier,
+            renameRecordIdentifier: identifier,
+            updateRecordValue: value,
+        }).then(() => {
+            rejectedMessage = null
+            dispatch('success', {...record, identifier, value })
+        }).catch(err => {
+            rejectedMessage = (err instanceof Error) ? (err.message || err.toString()) : err.toString()
+        })
+    }
 
     $: showRejectedMessage = !! rejectedMessage
     function hideRejectedMessage() {
@@ -33,7 +48,7 @@
         if (event.keyCode == 13 /* Enter */) {
             if (! $_form.valid) { return }
             if ($_recordIdentifier.value == record.identifier && $_recordValue.value == record.value) { return dispatch('cancel') }
-            dispatch('success', {
+            handleModifyRecord({
                 identifier: $_recordIdentifier.value,
                 value: $_recordValue.value,
             })

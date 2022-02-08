@@ -13,7 +13,6 @@
     $: record = get(records).find(r => (r.identifier == identifier && r.componentIdentifier == componentIdentifier))
 
     let modifyFormVisible = false
-    let modifyFormRejectedMessage = null
     let updateFormVisible = false
 
     function handleDeleteRecord() {
@@ -31,20 +30,6 @@
             updateRecordValue: updValue,
         })
         updateFormVisible = false
-    }
-    function handleModifyRecord(updIdentifier, updValue) {
-        console.log('handleModifyRecord')
-        extension.modifyRecord({
-            componentIdentifier,
-            recordIdentifier: record.identifier,
-            renameRecordIdentifier: updIdentifier,
-            updateRecordValue: updValue,
-        }).then(() => {
-            modifyFormVisible = false
-            modifyFormRejectedMessage = null
-        }).catch(err => {
-            modifyFormRejectedMessage = (err instanceof Error) ? (err.message || err.toString()) : err.toString()
-        })
     }
 
 </script>
@@ -67,8 +52,8 @@
             <ModifyRecordForm
                 componentIdentifier={componentIdentifier}
                 record={record}
-                rejectedMessage={modifyFormRejectedMessage}
-                on:success={(event) => handleModifyRecord(event.detail.identifier, event.detail.value)}
+                on:success={(event) => console.log('modified Record', event.detail) }
+                on:success={() => modifyFormVisible = false}
                 on:cancel={() => modifyFormVisible = false}
             />
         </div>
