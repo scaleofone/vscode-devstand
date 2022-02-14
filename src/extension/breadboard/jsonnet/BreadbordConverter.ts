@@ -49,7 +49,7 @@ function convertToComponent(node: ast.ObjectField): { component: Component | und
                 identifier: node.id.name,
                 templateImportVariableName: node.expr2.left.id.name,
             },
-            records: node.expr2.right.fields.toArray().map(convertToRecord(node.id.name)) as Record[]
+            records: node.expr2.right.fields.toArray().map(convertToRecord(node.id.name, undefined)).flat(1) as Record[]
         }
     } else {
         return {
@@ -59,43 +59,56 @@ function convertToComponent(node: ast.ObjectField): { component: Component | und
     }
 }
 
-function convertToRecord(componentIdentifier: string) { return (node: ast.ObjectField): Record => {
+function convertToRecord(componentIdentifier: string, scope: string | undefined) { return (node: ast.ObjectField): Record[] => {
     if (ast.isLiteralString(node.expr2)) {
-        return {
+        return [{
+            inSchema: undefined,
             identifier: node.id.name,
             value: node.expr2.value,
             type: 'string',
             componentIdentifier,
-        }
+            scope,
+        }]
     }
     if (ast.isLiteralNumber(node.expr2)) {
-        return {
+        return [{
+            inSchema: undefined,
             identifier: node.id.name,
             value: node.expr2.value,
             type: 'number',
             componentIdentifier,
-        }
+            scope,
+        }]
     }
     if (ast.isObjectNode(node.expr2)) {
-        return {
-            identifier: node.id.name,
-            value: '{...}',
-            type: 'object',
-            componentIdentifier,
-        }
+        return [
+            {
+                inSchema: undefined,
+                identifier: node.id.name,
+                value: '{...}',
+                type: 'object',
+                componentIdentifier,
+                scope,
+            },
+            ...node.expr2.fields.toArray().map(convertToRecord(componentIdentifier, (scope ? scope+'.' : '')+node.id.name)).flat(1)
+        ]
     }
     if (ast.isIndex(node.expr2)) {
-        return {
+        return [{
+            inSchema: undefined,
             identifier: node.id.name,
             value: '$...',
             type: 'reference',
             componentIdentifier,
-        }
+            scope,
+        }]
     }
-    return {
+    return [{
+        inSchema: undefined,
         identifier: node.id.name,
         value: '?',
         type: 'unknown',
         componentIdentifier,
-    }
+        scope,
+    }]
 }}

@@ -1,5 +1,5 @@
 import vscode from 'vscode'
-import { Breadboard } from '../../BreadboardTypes'
+import { Breadboard, TemplateSchema } from '../../BreadboardTypes'
 import * as parser from './jsonnet/JsonnetParser'
 import * as converter from './jsonnet/BreadbordConverter'
 import findAvailableTemplates from './findAvailableTemplates'
@@ -29,6 +29,33 @@ export default async function(document: vscode.TextDocument): Promise<Breadboard
                 ti.targetFile == dictItem.targetFile && ti.targetIdentifier == dictItem.targetIdentifier
             )) != -1
         ))
+        let schemaPerComponent = breadboard.components.reduce((obj, c) => {
+            let ti = breadboard.templateImports.find(ti => ti.variableName == c.templateImportVariableName)
+            let sdi = breadboard.schemaDictionary.find(sdi => sdi.targetFile == ti.targetFile && sdi.targetIdentifier == ti.targetIdentifier)
+            obj[c.identifier] = sdi.schema
+            return obj
+        }, {})
+        for (let record of breadboard.records) {
+            let schema: TemplateSchema = schemaPerComponent[record.componentIdentifier]
+            // TODO support deeper nesting of scope
+            if (record.scope && record.scope.indexOf('.') == -1) {
+                if (
+                    Object.keys(schema.properties).includes(record.scope)
+                    && 'type' in schema.properties[record.scope]
+                    && typeof schema.properties[record.scope].type == 'string'
+                    && schema.properties[record.scope].type == 'object'
+                    && 'properties' in schema.properties[record.scope]
+                    && typeof schema.properties[record.scope].properties == 'object'
+                    && Object.keys(schema.properties[record.scope].properties).includes(record.identifier)
+                ) {
+                    record.inSchema = true
+                }
+            } else if (! record.scope) {
+                if (Object.keys(schema.properties).includes(record.identifier)) {
+                    record.inSchema = true
+                }
+            }
+        }
         const msecEnd = (new Date()).getTime()
         console.log('function parseDocument took '+((msecEnd - msecStart) / 1000)+' seconds')
         return Promise.resolve(breadboard)

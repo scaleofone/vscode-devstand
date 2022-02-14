@@ -53,9 +53,14 @@
 
         <div class="flex items-center height-mono">
             <div class="grow">
+
                 <span class="font-mono">
-                    {record.identifier}: {record.value} <small style="opacity:0.5">({record.type})</small>
+                    {#if record.scope}<small style="opacity:0.5">{record.scope}.</small>{/if}{record.identifier}
+                    {#if ! record.inSchema} <small style="color:red">!inSchema</small>{/if}
+                    {#if ['number', 'string'].includes(record.type)} = {record.value}{/if}
+                    <small style="opacity:0.5">[{record.type}]</small>
                 </span>
+
             </div>
             <div class="shrink-0">
                 <RecordDropdown

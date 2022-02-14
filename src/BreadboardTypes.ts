@@ -20,8 +20,10 @@ export interface TemplateImport {
 export interface Record {
     type: 'string' | 'number' | 'object' | 'reference' | 'unknown', // 'null' | 'boolean' | 'array' |
     componentIdentifier: string,
+    scope: string | undefined,
     identifier: string,
     value: string | number,
+    inSchema: boolean | undefined,
 }
 
 export interface Component {
