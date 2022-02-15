@@ -90,7 +90,24 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
                 await applyWorkspaceEdit([ renameComponent(document, payload) ])
             },
             async deleteComponent(payload: payloads.DeleteComponent): Promise<void> {
-                await applyWorkspaceEdit([ deleteComponent(document, payload) ])
+                let textEdits = [
+                    deleteComponent(document, payload)
+                ]
+
+                let breadboard = await parseDocument(document)
+                const componentToDelete = breadboard.components.find(c => c.identifier == payload.identifier)
+                const otherComponentsOfTheSameTemplate = breadboard.components.filter(c => (
+                    c.templateImportVariableName == componentToDelete.templateImportVariableName
+                    && c.identifier != componentToDelete.identifier
+                ))
+                if (otherComponentsOfTheSameTemplate.length == 0) {
+                    textEdits.push(
+                        deleteTemplateImport(document, {
+                            variableName: componentToDelete.templateImportVariableName
+                        })
+                    )
+                }
+                await applyWorkspaceEdit(textEdits)
             },
             async deleteRecord(payload: payloads.DeleteRecord): Promise<void> {
                 await applyWorkspaceEdit([ deleteRecord(document, payload) ])
@@ -116,20 +133,33 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
 
             async actionCreateComponent(): Promise<void> {
                 let result = await createNewComponent()
-                // TODO validate componentIdentifier is already present
-                // TODO validate componentIdentifier is not a reserved jsonnet keyword (eg: local/function)
-                let textEdit1 = createComponent(document, {
-                    componentIdentifier: result.component.identifier,
-                    templateImportVariableName: result.component.templateImportVariableName,
-                })
-                // TODO omit creating if targetIdentifier is already present
-                // TODO use another variableName if targetIdentifier is already present
-                let textEdit2 = createTemplateImport(document, {
-                    variableName: result.templateImport.variableName,
-                    targetFile: result.templateImport.targetFile,
-                    targetIdentifier: result.templateImport.targetIdentifier,
-                })
-                await applyWorkspaceEdit([ textEdit1, textEdit2 ])
+
+                let breadboard = await parseDocument(document)
+                const alreadyPresentTemplateImport = breadboard.templateImports.find(ti => (
+                    ti.targetFile == result.templateImport.targetFile
+                    && ti.targetIdentifier == result.templateImport.targetIdentifier
+                ))
+
+                let textEdits = [
+                    createComponent(document, {
+                        componentIdentifier: result.component.identifier,
+                        templateImportVariableName: (
+                            alreadyPresentTemplateImport
+                                ? alreadyPresentTemplateImport.variableName
+                                : result.component.templateImportVariableName
+                        ),
+                    })
+                ]
+                if (! alreadyPresentTemplateImport) {
+                    textEdits.push(
+                        createTemplateImport(document, {
+                            variableName: result.templateImport.variableName,
+                            targetFile: result.templateImport.targetFile,
+                            targetIdentifier: result.templateImport.targetIdentifier,
+                        })
+                    )
+                }
+                await applyWorkspaceEdit(textEdits)
             },
         }
 

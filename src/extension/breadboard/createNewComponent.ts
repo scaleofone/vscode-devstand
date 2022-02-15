@@ -20,12 +20,13 @@ export default async function(): Promise<{ templateImport:TemplateImport, compon
         variableName: selectedTemplate.targetIdentifier,
     }
     let selectedComponentName = await vscode.window.showInputBox({ title: 'Name of the square' })
+    // TODO validate componentIdentifier is already present
+    // TODO validate componentIdentifier is not a reserved jsonnet keyword (eg: local/function)
     return {
         templateImport,
         component: {
             identifier: selectedComponentName,
             templateImportVariableName: templateImport.variableName,
-            records: [],
         },
     }
 }
