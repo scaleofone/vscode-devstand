@@ -1,10 +1,6 @@
 <script>
     import { extension } from './transport'
-    let variableName, targetFile, targetIdentifier
-    let variableName2
-    let componentIdentifier2, recordIdentifier2, renameRecordIdentifier2
     let componentIdentifier4, recordIdentifier4, recordValue4
-    let componentIdentifier5, templateImportVariableName5
 
     let messageText, showMessagePromise
     let slowOperationPromise
@@ -36,32 +32,6 @@
         {/if}
     {/await}
 {/if}
-
-<br><br>
-
-<input type="text" placeholder="componentIdentifier" bind:value={componentIdentifier5}>
-<input type="text" placeholder="templateImportVariableName"  bind:value={templateImportVariableName5}>
-<button on:click={() => extension.createComponent({ componentIdentifier: componentIdentifier5, templateImportVariableName: templateImportVariableName5 })}>createComponent</button>
-
-
-<br><br>
-
-<input type="text" placeholder="variableName" bind:value={variableName}>
-<input type="text" placeholder="targetFile"  bind:value={targetFile}>
-<input type="text" placeholder="targetIdentifier"  bind:value={targetIdentifier}>
-<button on:click={() => extension.createTemplateImport({ variableName, targetFile, targetIdentifier })}>createTemplateImport</button>
-
-<br><br>
-
-<input type="text" placeholder="variableName" bind:value={variableName2}>
-<button on:click={() => extension.deleteTemplateImport({ variableName: variableName2 })}>deleteTemplateImport</button>
-
-<br><br>
-
-<input type="text" placeholder="componentIdentifier" bind:value={componentIdentifier2}>
-<input type="text" placeholder="recordIdentifier" bind:value={recordIdentifier2}>
-<input type="text" placeholder="renameRecordIdentifier" bind:value={renameRecordIdentifier2}>
-<button on:click={() => extension.renameRecord({ componentIdentifier:componentIdentifier2, recordIdentifier:recordIdentifier2, renameRecordIdentifier: renameRecordIdentifier2 })}>renameRecord</button>
 
 <br><br>
 

@@ -86,17 +86,8 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
 
                 vscode.window.showInformationMessage(payload)
             },
-            async createComponent(payload: payloads.CreateComponent): Promise<void> {
-                await applyWorkspaceEdit([ createComponent(document, payload) ])
-            },
             async renameComponent(payload: payloads.RenameComponent): Promise<void> {
                 await applyWorkspaceEdit([ renameComponent(document, payload) ])
-            },
-            async createTemplateImport(payload: payloads.CreateTemplateImport): Promise<void> {
-                await applyWorkspaceEdit([ createTemplateImport(document, payload) ])
-            },
-            async deleteTemplateImport(payload: payloads.DeleteTemplateImport): Promise<void> {
-                await applyWorkspaceEdit([ deleteTemplateImport(document, payload) ])
             },
             async deleteComponent(payload: payloads.DeleteComponent): Promise<void> {
                 await applyWorkspaceEdit([ deleteComponent(document, payload) ])
@@ -106,9 +97,6 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
             },
             async createRecordValue(payload: payloads.CreateRecordValue): Promise<void> {
                 await applyWorkspaceEdit([ createRecordValue(document, payload) ])
-            },
-            async renameRecord(payload: payloads.RenameRecord): Promise<void> {
-                await applyWorkspaceEdit([ renameRecord(document, payload) ])
             },
             async updateRecordValue(payload: payloads.UpdateRecordValue): Promise<void> {
                 if (payload.updateRecordValue == 'ololo') {
