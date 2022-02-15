@@ -11,6 +11,9 @@ const messenger = new Messenger()
 
 
 const extension = {
+    openDocument(payload: payloads.OpenDocument): void {
+        messenger.postVoidPayload('openDocument', payload)
+    },
     slowOperation(): AbortablePromise<string> {
         return messenger.postRequestPayload('slowOperation', null)
     },

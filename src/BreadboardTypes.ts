@@ -17,6 +17,13 @@ export interface TemplateImport {
     targetIdentifier: string,
 }
 
+export interface VscodeRange {
+    startLine: number
+    startCharacter: number
+    endLine: number
+    endCharacter: number
+}
+
 export interface Record {
     type: 'string' | 'number' | 'object' | 'reference' | 'unknown', // 'null' | 'boolean' | 'array' |
     componentIdentifier: string,
@@ -24,11 +31,13 @@ export interface Record {
     identifier: string,
     value: string | number,
     inSchema: boolean | undefined,
+    vscodeRange?: VscodeRange,
 }
 
 export interface Component {
     identifier: string,
     templateImportVariableName: string,
+    vscodeRange?: VscodeRange,
 }
 
 export interface Breadboard {

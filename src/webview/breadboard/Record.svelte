@@ -64,6 +64,7 @@
             </div>
             <div class="shrink-0">
                 <RecordDropdown
+                    record={record}
                     on:modify={()=> { updateFormVisible = false; modifyFormVisible = true; }}
                     on:update={()=> { modifyFormVisible = false; updateFormVisible = true; }}
                     on:delete={handleDeleteRecord}

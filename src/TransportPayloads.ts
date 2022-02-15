@@ -1,3 +1,5 @@
+import { VscodeRange } from './BreadboardTypes'
+
 export interface CreateComponent {
     componentIdentifier: string
     templateImportVariableName: string
@@ -10,6 +12,13 @@ export interface RenameComponent {
 
 export interface DeleteComponent {
     identifier: string
+}
+
+export interface OpenDocument {
+    preserveFocus?: boolean
+    preview?: boolean
+    selection?: VscodeRange
+    viewColumn?: 'Active' | 'Beside'
 }
 
 export interface CreateRecordValue {

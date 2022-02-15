@@ -1,6 +1,6 @@
 import * as ast from '../../../../heptio-vscode-jsonnet/compiler/lexical-analysis/ast'
 
-import { Breadboard, TemplateImport, Component, Record } from '../../../BreadboardTypes'
+import { Breadboard, TemplateImport, Component, Record, VscodeRange } from '../../../BreadboardTypes'
 
 export function toBreadboard(localBindNodes: ast.LocalBind[], objectNode: ast.ObjectNode | undefined): Breadboard {
     let breadboard: Breadboard = {
@@ -38,6 +38,12 @@ function convertToTemplateImport(node: ast.LocalBind): TemplateImport | undefine
 }
 
 function convertToComponent(node: ast.ObjectField): { component: Component | undefined, records: Record[] } {
+    const vscodeRange: VscodeRange = {
+        startLine: node.loc.begin.line - 1,
+        startCharacter: node.loc.begin.column - 1,
+        endLine: node.loc.end.line - 1,
+        endCharacter: node.loc.end.column - 1,
+    }
     if (
         node.expr2
         && (ast.isApplyBrace(node.expr2) || (ast.isBinary(node.expr2) && node.expr2.op == 'BopPlus'))
@@ -48,6 +54,7 @@ function convertToComponent(node: ast.ObjectField): { component: Component | und
             component: {
                 identifier: node.id.name,
                 templateImportVariableName: node.expr2.left.id.name,
+                vscodeRange,
             },
             records: node.expr2.right.fields.toArray().map(convertToRecord(node.id.name, undefined)).flat(1) as Record[]
         }
@@ -60,6 +67,12 @@ function convertToComponent(node: ast.ObjectField): { component: Component | und
 }
 
 function convertToRecord(componentIdentifier: string, scope: string | undefined) { return (node: ast.ObjectField): Record[] => {
+    const vscodeRange: VscodeRange = {
+        startLine: node.loc.begin.line - 1,
+        startCharacter: node.loc.begin.column - 1,
+        endLine: node.loc.end.line - 1,
+        endCharacter: node.loc.end.column - 1,
+    }
     if (ast.isLiteralString(node.expr2)) {
         return [{
             inSchema: undefined,
@@ -68,6 +81,7 @@ function convertToRecord(componentIdentifier: string, scope: string | undefined)
             type: 'string',
             componentIdentifier,
             scope,
+            vscodeRange,
         }]
     }
     if (ast.isLiteralNumber(node.expr2)) {
@@ -78,6 +92,7 @@ function convertToRecord(componentIdentifier: string, scope: string | undefined)
             type: 'number',
             componentIdentifier,
             scope,
+            vscodeRange,
         }]
     }
     if (ast.isObjectNode(node.expr2)) {
@@ -89,6 +104,7 @@ function convertToRecord(componentIdentifier: string, scope: string | undefined)
                 type: 'object',
                 componentIdentifier,
                 scope,
+                vscodeRange,
             },
             ...node.expr2.fields.toArray().map(convertToRecord(componentIdentifier, (scope ? scope+'.' : '')+node.id.name)).flat(1)
         ]
@@ -101,6 +117,7 @@ function convertToRecord(componentIdentifier: string, scope: string | undefined)
             type: 'reference',
             componentIdentifier,
             scope,
+            vscodeRange,
         }]
     }
     return [{
@@ -110,5 +127,6 @@ function convertToRecord(componentIdentifier: string, scope: string | undefined)
         type: 'unknown',
         componentIdentifier,
         scope,
+        vscodeRange,
     }]
 }}
