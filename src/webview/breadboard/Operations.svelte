@@ -1,12 +1,8 @@
 <script>
     import { extension } from './transport'
-    let before, after
     let variableName, targetFile, targetIdentifier
     let variableName2
-    let variableName3
-    let recordIdentifier1, componentIdentifier1
     let componentIdentifier2, recordIdentifier2, renameRecordIdentifier2
-    let componentIdentifier3, recordIdentifier3, updateRecordValue3
     let componentIdentifier4, recordIdentifier4, recordValue4
     let componentIdentifier5, templateImportVariableName5
 
@@ -28,10 +24,8 @@
 <input type="text" placeholder="messageText" bind:value={messageText}>
 <button on:click={() => showMessagePromise = extension.showMessage(messageText) }>showMessage</button>
 {#if typeof showMessagePromise != 'undefined' }
-    {#await showMessagePromise}
-        waiting...
-    {:then}
-        <div style="color:green">ok</div>
+    {#await showMessagePromise} waiting...
+    {:then} <div style="color:green">ok</div>
     {:catch error}
         <div style="color:red">typeof error = "{typeof error}"</div>
         <div style="color:red">error instanceof Error = {(error instanceof Error)}</div>
@@ -49,11 +43,6 @@
 <input type="text" placeholder="templateImportVariableName"  bind:value={templateImportVariableName5}>
 <button on:click={() => extension.createComponent({ componentIdentifier: componentIdentifier5, templateImportVariableName: templateImportVariableName5 })}>createComponent</button>
 
-<br><br>
-
-<input type="text" placeholder="before" bind:value={before}>
-<input type="text" placeholder="after"  bind:value={after}>
-<button on:click={() => extension.renameComponent({ before, after })}>renameComponent</button>
 
 <br><br>
 
@@ -69,17 +58,6 @@
 
 <br><br>
 
-<input type="text" placeholder="identifier" bind:value={variableName3}>
-<button on:click={() => extension.deleteComponent({ identifier: variableName3 })}>deleteComponent</button>
-
-<br><br>
-
-<input type="text" placeholder="componentIdentifier" bind:value={componentIdentifier1}>
-<input type="text" placeholder="recordIdentifier" bind:value={recordIdentifier1}>
-<button on:click={() => extension.deleteRecord({ componentIdentifier:componentIdentifier1, recordIdentifier:recordIdentifier1 })}>deleteRecord</button>
-
-<br><br>
-
 <input type="text" placeholder="componentIdentifier" bind:value={componentIdentifier2}>
 <input type="text" placeholder="recordIdentifier" bind:value={recordIdentifier2}>
 <input type="text" placeholder="renameRecordIdentifier" bind:value={renameRecordIdentifier2}>
@@ -91,10 +69,3 @@
 <input type="text" placeholder="recordIdentifier" bind:value={recordIdentifier4}>
 <input type="text" placeholder="recordValue" bind:value={recordValue4}>
 <button on:click={() => extension.createRecordValue({ componentIdentifier:componentIdentifier4, recordIdentifier:recordIdentifier4, recordValue: recordValue4 })}>createRecordValue</button>
-
-<br><br>
-
-<input type="text" placeholder="componentIdentifier" bind:value={componentIdentifier3}>
-<input type="text" placeholder="recordIdentifier" bind:value={recordIdentifier3}>
-<input type="text" placeholder="updateRecordValue" bind:value={updateRecordValue3}>
-<button on:click={() => extension.updateRecordValue({ componentIdentifier:componentIdentifier3, recordIdentifier:recordIdentifier3, updateRecordValue: updateRecordValue3 })}>updateRecordValue</button>
