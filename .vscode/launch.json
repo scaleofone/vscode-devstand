@@ -12,7 +12,8 @@
             "outFiles": [
                 "${workspaceFolder}/dist/extension/**/*.cjs",
             ],
-            "preLaunchTask": "npm: extension-watch",
+            "preLaunchTask": "Watch all",
+            "postDebugTask": "task-terminate-all-vscode-tasks",
         },
         {
             "name": "Watch & run WEB extension",
@@ -27,7 +28,8 @@
             "outFiles": [
                 "${workspaceFolder}/dist/extension/**/*.js",
             ],
-            "preLaunchTask": "npm: extension-web-watch",
+            "preLaunchTask": "Watch all WEB",
+            "postDebugTask": "task-terminate-all-vscode-tasks",
         },
     ]
 }
