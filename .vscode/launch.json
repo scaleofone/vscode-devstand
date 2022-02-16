@@ -13,7 +13,7 @@
                 "${workspaceFolder}/dist/extension/**/*.cjs",
             ],
             "preLaunchTask": "Watch all",
-            "postDebugTask": "task-terminate-all-vscode-tasks",
+            // "postDebugTask": "task-terminate-all-vscode-tasks",
         },
         {
             "name": "Watch & run WEB extension",
@@ -29,7 +29,7 @@
                 "${workspaceFolder}/dist/extension/**/*.js",
             ],
             "preLaunchTask": "Watch all WEB",
-            "postDebugTask": "task-terminate-all-vscode-tasks",
+            // "postDebugTask": "task-terminate-all-vscode-tasks",
         },
     ]
 }
