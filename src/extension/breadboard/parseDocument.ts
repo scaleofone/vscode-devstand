@@ -39,16 +39,20 @@ export default async function(document: vscode.TextDocument): Promise<Breadboard
             let schema: TemplateSchema = schemaPerComponent[record.componentIdentifier]
             // TODO support deeper nesting of scope
             if (record.scope && record.scope.indexOf('.') == -1) {
-                if (
-                    Object.keys(schema.properties).includes(record.scope)
-                    && 'type' in schema.properties[record.scope]
-                    && typeof schema.properties[record.scope].type == 'string'
-                    && schema.properties[record.scope].type == 'object'
-                    && 'properties' in schema.properties[record.scope]
-                    && typeof schema.properties[record.scope].properties == 'object'
-                    && Object.keys(schema.properties[record.scope].properties).includes(record.identifier)
-                ) {
-                    record.inSchema = true
+                const scopedSchema = schema.properties[record.scope]
+                if (typeof scopedSchema == 'object' && scopedSchema && scopedSchema.type == 'object') {
+                    if (typeof scopedSchema.properties == 'object' && Object.keys(scopedSchema.properties).includes(record.identifier)) {
+                        record.inSchema = true
+                    } else if (typeof scopedSchema.patternProperties == 'object') {
+                        for (let pattern of Object.keys(scopedSchema.patternProperties)) {
+                            try {
+                                if (record.identifier.match(new RegExp(pattern))) {
+                                   record.inSchema = true
+                                   break
+                                }
+                            } catch (error) { /* do nothing */ }
+                        }
+                    }
                 }
             } else if (! record.scope) {
                 if (Object.keys(schema.properties).includes(record.identifier)) {
