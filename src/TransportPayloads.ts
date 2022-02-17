@@ -24,7 +24,7 @@ export interface OpenDocument {
 export interface CreateRecordValue {
     componentIdentifier: string
     recordIdentifier: string
-    recordValue: string | number
+    recordValue: string | number | null
 }
 
 export interface DeleteRecord {

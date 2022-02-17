@@ -6,24 +6,52 @@
     import DetailDropdown from './controls/DetailDropdown'
     import iconSchema from '@vscode/codicons/src/icons/code.svg'
 
-    export let identifier
+    export let component
 
-    $: component = $components.find(c => c.identifier == identifier)
-    $: componentRecords = $records.filter(r => r.componentIdentifier == identifier)
+    $: componentRecords = $records.filter(r => r.componentIdentifier == component.identifier)
     $: componentRecordsIdentifiers = componentRecords.map(r => r.identifier)
     $: templateImport = component ? get(templateImports).find(ti => ti.variableName == component.templateImportVariableName) : undefined
     $: schemaDictionaryItem = templateImport ? get(schemaDictionary).find(dictItem => templateImport.targetFile == dictItem.targetFile && templateImport.targetIdentifier == dictItem.targetIdentifier) : undefined
     $: schema = schemaDictionaryItem ? schemaDictionaryItem.schema : undefined
     $: availableRecordIdentifiers = schema ? Object.keys(schema.properties) : []
-    $: schemaDropdownOptions = availableRecordIdentifiers.map(i => (componentRecordsIdentifiers.includes(i) ? '-' : '+')+' '+i)
 
+    $: schemaDropdownItems = availableRecordIdentifiers.map(recordIdentifier => {
+        return {
+            recordIdentifier,
+            alreadyAdded: componentRecordsIdentifiers.includes(recordIdentifier),
+        }
+    })
+
+    function addRecord({ recordIdentifier, alreadyAdded }) {
+        if (alreadyAdded) return
+        let record = {
+            componentIdentifier: component.identifier,
+            scope: undefined, // TODO define scope while adding Records
+            identifier: recordIdentifier,
+            type: 'null',
+            value: null,
+            inSchema: true,
+        }
+        dispatch('addRecord', record)
+    }
 </script>
 
 <details use:DetailDropdown class="dropdown select-none">
     <summary class="fg-icon hover:fg-link cursor-pointer">{@html iconSchema}</summary>
     <div class="menu menu--mono widget-shadow" style="max-width:300px">
-        {#each schemaDropdownOptions as caption}
-            <div class="menu__item"><span class="grow truncate">{caption}</span></div>
+        {#each schemaDropdownItems as item}
+            <div class="menu__item"
+                class:alreadyAdded="{item.alreadyAdded}"
+                on:click="{()=>addRecord(item)}"
+            >
+                <span class="grow truncate">{item.recordIdentifier}</span>
+            </div>
         {/each}
     </div>
 </details>
+
+<style>
+    .menu__item.alreadyAdded {
+        color: #ccc;
+    }
+</style>

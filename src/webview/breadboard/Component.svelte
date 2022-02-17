@@ -26,6 +26,13 @@
             identifier: identifier,
         })
     }
+    function handleAddRecord(record) {
+        extension.createRecordValue({
+            componentIdentifier: record.componentIdentifier,
+            recordIdentifier: record.identifier,
+            recordValue: null,
+        })
+    }
 
 </script>
 
@@ -57,7 +64,8 @@
                 </div>
                 <div class="shrink-0">
                     <ComponentSchemaDropdown
-                        identifier={identifier}
+                        component={component}
+                        on:addRecord={(event) => handleAddRecord(event.detail)}
                     />
                 </div>
             </div>

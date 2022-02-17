@@ -30,9 +30,6 @@ const extension = {
         messenger.postVoidPayload('deleteRecord', payload)
     },
     createRecordValue(payload: payloads.CreateRecordValue): void {
-        if (payload.recordValue.toString().match(/^[1-9][0-9]*$/)) {
-            payload.recordValue = parseInt(payload.recordValue.toString())
-        }
         messenger.postVoidPayload('createRecordValue', payload)
     },
     updateRecordValue(payload: payloads.UpdateRecordValue): AbortablePromise<void> {

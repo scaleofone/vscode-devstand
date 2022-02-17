@@ -21,7 +21,11 @@ export default function (document: vscode.TextDocument, payload: CreateRecordVal
 
     let tab = '  ' // two spaces
     let quot = '\'' // single quot
-    let wrappedValue = (typeof payload.recordValue == 'number') ? payload.recordValue.toString() : quot + payload.recordValue + quot
+    let wrappedValue = (payload.recordValue === null) ? 'null' : payload.recordValue.toString()
+    const insertTextRequiresQuotes = ! (typeof payload.recordValue == 'number' || payload.recordValue === null)
+    if (insertTextRequiresQuotes) {
+        wrappedValue = quot + wrappedValue + quot
+    }
     let insertText = '\n' + tab + tab + `${ payload.recordIdentifier }: ${ wrappedValue }` + ','
 
     return vscode.TextEdit.insert(
