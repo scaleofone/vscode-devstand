@@ -11,6 +11,13 @@
 
     let rejectedMessage
     function handleUpdateRecord({ value }) {
+        // TODO weird type coercion
+        if (typeof value == 'string' && value.match(/^[1-9]{1}[0-9]*$/)) {
+            value = parseInt(value)
+        }
+        if (typeof value == 'string' && value.match(/^[0-9]*\.[0-9]*$/)) {
+            value = parseFloat(value)
+        }
         extension.updateRecordValue({
             componentIdentifier: record.componentIdentifier,
             recordIdentifier: record.identifier,
@@ -28,6 +35,7 @@
         showRejectedMessage = false
     }
 
+    // BUG allow editing only Record[type=number|string]
     const _recordValue = field('recordValue', record.value, [
         required(),
     ])

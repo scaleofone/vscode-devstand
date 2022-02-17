@@ -15,18 +15,31 @@ export default function (document: vscode.TextDocument, payload: UpdateRecordVal
         ast.isLiteralStringSingle(targetNode)
         || ast.isLiteralStringDouble(targetNode)
         || ast.isLiteralNumber(targetNode)
+        || ast.isLiteralNull(targetNode)
     )) {
         vscode.window.showErrorMessage(`node[type=${ targetNode.type }] is not supported`)
         return
     }
 
+    let beginLine = targetNode.loc.begin.line - 1
+    let beginColumn = targetNode.loc.begin.column - 1
+    let endLine = targetNode.loc.end.line - 1
+    let endColumn = targetNode.loc.end.column - 1
+
+    let insertText = (payload.updateRecordValue === null) ? 'null' : payload.updateRecordValue.toString()
+    let quot = '\'' // single quot
+
+    const targetNodeHasQuotes = ast.isLiteralStringSingle(targetNode) || ast.isLiteralStringDouble(targetNode)
+    const insertTextRequiresQuotes = ! (typeof payload.updateRecordValue == 'number' || payload.updateRecordValue === null)
+    if (targetNodeHasQuotes && ! insertTextRequiresQuotes) {
+        beginColumn -= 1
+        endColumn += 1
+    } else if (! targetNodeHasQuotes && insertTextRequiresQuotes) {
+        insertText = quot + insertText + quot
+    }
+
     return vscode.TextEdit.replace(
-        new vscode.Range(
-            targetNode.loc.begin.line -1,
-            targetNode.loc.begin.column -1,
-            targetNode.loc.end.line -1,
-            targetNode.loc.end.column -1
-        ),
-        payload.updateRecordValue.toString()
+        new vscode.Range(beginLine, beginColumn, endLine, endColumn),
+        insertText
     )
 }

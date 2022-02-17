@@ -13,6 +13,13 @@
 
     let rejectedMessage
     function handleModifyRecord({ identifier, value }) {
+        // TODO weird type coercion
+        if (typeof value == 'string' && value.match(/^[1-9]{1}[0-9]*$/)) {
+            value = parseInt(value)
+        }
+        if (typeof value == 'string' && value.match(/^[0-9]*\.[0-9]*$/)) {
+            value = parseFloat(value)
+        }
         extension.modifyRecord({
             componentIdentifier: record.componentIdentifier,
             recordIdentifier: record.identifier,
@@ -38,6 +45,7 @@
             valid: (val == record.identifier || get(records).findIndex(r => r.identifier == val && r.componentIdentifier == record.componentIdentifier) == -1)
         }),
     ])
+    // BUG allow editing only Record[type=number|string]
     const _recordValue = field('recordValue', record.value, [
         required(),
     ])
