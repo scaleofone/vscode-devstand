@@ -25,11 +25,11 @@ export interface VscodeRange {
 }
 
 export interface Record {
-    type: 'string' | 'number' | 'object' | 'reference' | 'unsupported', // 'null' | 'boolean' | 'array' |
+    type: 'string' | 'number' | 'object' | 'reference' | 'null' | 'unsupported', // 'boolean' | 'array' |
     componentIdentifier: string,
     scope: string | undefined,
     identifier: string,
-    value: string | number,
+    value: string | number | null,
     inSchema: boolean | undefined,
     vscodeRange?: VscodeRange,
 }

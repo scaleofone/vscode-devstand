@@ -73,6 +73,17 @@ function convertToRecord(componentIdentifier: string, scope: string | undefined)
         endLine: node.loc.end.line - 1,
         endCharacter: node.loc.end.column - 1,
     }
+    if (ast.isLiteralNull(node.expr2)) {
+        return [{
+            inSchema: undefined,
+            identifier: node.id.name,
+            value: null,
+            type: 'null',
+            componentIdentifier,
+            scope,
+            vscodeRange,
+        }]
+    }
     if (ast.isLiteralString(node.expr2)) {
         return [{
             inSchema: undefined,
