@@ -56,7 +56,7 @@ function convertToComponent(node: ast.ObjectField): { component: Component | und
                 templateImportVariableName: node.expr2.left.id.name,
                 vscodeRange,
             },
-            records: node.expr2.right.fields.toArray().map(convertToRecord(node.id.name, undefined)).flat(1) as Record[]
+            records: node.expr2.right.fields.toArray().map(convertToRecord(node.id.name, '')).flat(1) as Record[]
         }
     } else {
         return {
@@ -66,7 +66,7 @@ function convertToComponent(node: ast.ObjectField): { component: Component | und
     }
 }
 
-function convertToRecord(componentIdentifier: string, scope: string | undefined) { return (node: ast.ObjectField): Record[] => {
+function convertToRecord(componentIdentifier: string, scope: string) { return (node: ast.ObjectField): Record[] => {
     const vscodeRange: VscodeRange = {
         startLine: node.loc.begin.line - 1,
         startCharacter: node.loc.begin.column - 1,
