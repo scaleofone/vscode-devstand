@@ -15,7 +15,7 @@ export default function (document: vscode.TextDocument, payload: DeleteRecord): 
         || ast.isLiteralNumber(recordFieldNode.expr2)
         || ast.isIndex(recordFieldNode.expr2)
     )) {
-        throw new Error(`node[type=${ recordFieldNode.expr2.type }] is unsupported`)
+        throw new Error(`node[type=${ recordFieldNode.expr2.type }] is not supported`)
     }
 
     let beginLine = recordFieldNode.loc.begin.line -1

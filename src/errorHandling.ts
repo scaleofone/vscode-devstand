@@ -5,7 +5,7 @@ export function normaliseErr(err: any): Error | object {
             JSON.stringify(err) // checking here whether err can be stringified
             return err
         } catch (e) {
-            return new Error('Unknown thrown object: { '+Object.getOwnPropertyNames(err).join(', ')+' }')
+            return new Error('un-stringify-able thrown object: { '+Object.getOwnPropertyNames(err).join(', ')+' }')
         }
     }
     try {

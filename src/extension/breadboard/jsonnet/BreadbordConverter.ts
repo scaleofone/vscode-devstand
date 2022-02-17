@@ -124,7 +124,7 @@ function convertToRecord(componentIdentifier: string, scope: string | undefined)
         inSchema: undefined,
         identifier: node.id.name,
         value: '?',
-        type: 'unknown',
+        type: 'unsupported',
         componentIdentifier,
         scope,
         vscodeRange,

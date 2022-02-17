@@ -16,7 +16,7 @@ export default function (document: vscode.TextDocument, payload: UpdateRecordVal
         || ast.isLiteralStringDouble(targetNode)
         || ast.isLiteralNumber(targetNode)
     )) {
-        vscode.window.showErrorMessage(`node[type=${ targetNode.type }] is unsupported`)
+        vscode.window.showErrorMessage(`node[type=${ targetNode.type }] is not supported`)
         return
     }
 

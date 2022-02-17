@@ -25,7 +25,7 @@ export interface VscodeRange {
 }
 
 export interface Record {
-    type: 'string' | 'number' | 'object' | 'reference' | 'unknown', // 'null' | 'boolean' | 'array' |
+    type: 'string' | 'number' | 'object' | 'reference' | 'unsupported', // 'null' | 'boolean' | 'array' |
     componentIdentifier: string,
     scope: string | undefined,
     identifier: string,
