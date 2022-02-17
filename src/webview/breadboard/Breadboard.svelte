@@ -1,5 +1,6 @@
 <script>
     import Operations from './Operations.svelte'
+    import StorePreview from './StorePreview.svelte'
     import Component from './Component.svelte'
     import CreateComponentButton from './controls/CreateComponentButton.svelte'
 
@@ -18,8 +19,5 @@
 
 <CreateComponentButton />
 
-<br><br>
-<details>
-    <summary>Operations</summary>
-    <Operations />
-</details>
+<StorePreview />
+<Operations />

@@ -1,10 +1,15 @@
 <script>
     import { extension } from './transport'
-    let componentIdentifier4, recordIdentifier4, recordValue4
 
     let messageText, showMessagePromise
     let slowOperationPromise
 </script>
+
+<br>
+<details class="inline-block">
+    <summary class="cursor-pointer hover:fg-link select-none">Operations</summary>
+    <br>
+    <div style="min-width: 400px;">
 
 
 <button on:click={() => slowOperationPromise = extension.slowOperation() }>invoke slowOperation</button>
@@ -33,9 +38,6 @@
     {/await}
 {/if}
 
+</div>
 <br><br>
-
-<input type="text" placeholder="componentIdentifier" bind:value={componentIdentifier4}>
-<input type="text" placeholder="recordIdentifier" bind:value={recordIdentifier4}>
-<input type="text" placeholder="recordValue" bind:value={recordValue4}>
-<button on:click={() => extension.createRecordValue({ componentIdentifier:componentIdentifier4, recordIdentifier:recordIdentifier4, recordValue: recordValue4 })}>createRecordValue</button>
+</details>
