@@ -30,7 +30,8 @@
         extension.createRecordValue({
             componentIdentifier: record.componentIdentifier,
             recordIdentifier: record.identifier,
-            recordValue: null,
+            recordValue: record.value,
+            recordType: record.type,
         })
     }
 

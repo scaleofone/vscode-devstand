@@ -25,6 +25,7 @@ export interface CreateRecordValue {
     componentIdentifier: string
     recordIdentifier: string
     recordValue: string | number | null
+    recordType: 'string' | 'number' | 'null' | 'object'
 }
 
 export interface DeleteRecord {

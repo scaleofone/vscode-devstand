@@ -19,17 +19,22 @@
         return {
             recordIdentifier,
             alreadyAdded: componentRecordsIdentifiers.includes(recordIdentifier),
+            recordSchema: (typeof schema == 'object' && typeof schema.properties == 'object' && typeof schema.properties[recordIdentifier] == 'object') ? schema.properties[recordIdentifier] : undefined,
         }
     })
 
-    function addRecord({ recordIdentifier, alreadyAdded }) {
+    function addRecord({ recordIdentifier, alreadyAdded, recordSchema }) {
         if (alreadyAdded) return
+
+        let type = (typeof recordSchema == 'object' && typeof recordSchema.type == 'string' && ['object', 'string', 'number'].includes(recordSchema.type.toLowerCase())) ? recordSchema.type.toLowerCase() : 'null'
+        let value = (typeof recordSchema == 'object' && ['object', 'string', 'number'].includes(typeof recordSchema.default)) ? recordSchema.default : null
+
         let record = {
             componentIdentifier: component.identifier,
             scope: undefined, // TODO define scope while adding Records
             identifier: recordIdentifier,
-            type: 'null',
-            value: null,
+            type,
+            value,
             inSchema: true,
         }
         dispatch('addRecord', record)
