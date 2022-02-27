@@ -60,6 +60,7 @@ export default async function(document: vscode.TextDocument): Promise<Breadboard
                 }
             }
         }
+        breadboard.records = breadboard.records.filter(record => record.inSchema)
         const msecEnd = (new Date()).getTime()
         console.log('function parseDocument took '+((msecEnd - msecStart) / 1000)+' seconds')
         return Promise.resolve(breadboard)
