@@ -25,11 +25,12 @@ export interface VscodeRange {
 }
 
 export interface Record {
-    type: 'string' | 'number' | 'object' | 'reference' | 'composition' | 'null' | 'unsupported', // 'boolean' | 'array' |
+    type: 'string' | 'number' | 'object' | 'reference' | 'composition' | 'concatenation' | 'null' | 'unsupported', // 'boolean' | 'array' |
     componentIdentifier: string,
     scope: string,
     identifier: string,
     value: string | number | null,
+    concatenationItems?: Array<string | string[]>,
     inSchema: boolean | undefined,
     referencedComponentIdentifier?: string,
     referencedRecordIdentifier?: string,

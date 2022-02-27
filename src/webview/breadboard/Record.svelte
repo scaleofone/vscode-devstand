@@ -59,6 +59,15 @@
                     {#if ! record.inSchema} <small style="color:red">!inSchema</small>{/if}
                     {#if ['number', 'string'].includes(record.type)} = {record.value}{/if}
                     {#if ['reference', 'composition'].includes(record.type)} = <span style="color:blue; font-weight:bold">{record.referencedComponentIdentifier}</span>.<span style="color:blue">{record.referencedRecordIdentifier}</span>{/if}
+                    {#if record.type == 'concatenation'} =
+                        {#each record.concatenationItems as item}
+                            {#if Array.isArray(item)}
+                                <span style="color:blue; font-weight:bold">{item[1]}</span>.<span style="color:blue">{item[2]}</span>
+                            {:else}
+                                {item}
+                            {/if}
+                        {/each}
+                    {/if}
                     <small style="opacity:0.5">[{record.type}]</small>
                 </span>
 

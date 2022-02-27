@@ -163,6 +163,32 @@ function convertToRecord(componentIdentifier: string, scope: string) { return (n
             ]
         }
     }
+    if (ast.isBinary(node.expr2) && node.expr2.op == 'BopPlus') {
+        let concatenation = []
+        try {
+            concatenation = convertToConcatenation(node.expr2)
+        } catch (err) {
+            console.error(err)
+        }
+        const reference = concatenation.find(ref => Array.isArray(ref) && ref.length == 3 && ref[0] == '$')
+        if (reference && concatenation.length > 1) {
+            const stringifiedConcatenation = concatenation.map(item => Array.isArray(item) ? item.join('.') : item)
+            const referencedComponentIdentifier = reference[1]
+            const referencedRecordIdentifier = reference[2]
+            return [{
+                inSchema: undefined,
+                identifier: node.id.name,
+                value: stringifiedConcatenation.join(' + '),
+                concatenationItems: concatenation,
+                type: 'concatenation',
+                referencedComponentIdentifier,
+                referencedRecordIdentifier,
+                componentIdentifier,
+                scope,
+                vscodeRange,
+            }]
+        }
+    }
     return [{
         inSchema: undefined,
         identifier: node.id.name,
@@ -182,5 +208,28 @@ function convertToReference(node: ast.Index): string[] {
     if (ast.isDollar(node.target)) {
         result = [...result, '$']
     }
+    return result
+}
+
+function convertToConcatenation(node: ast.Binary): Array<string | string[]> {
+    let result = []
+    if (ast.isIndex(node.right)) {
+        result = [...result, convertToReference(node.right).reverse()]
+    } else if (ast.isLiteralString(node.right)) {
+        result = [...result, node.right.value]
+    } else {
+        throw `Concatenation RIGHT unsupported with Node[type=${ node.right.type }]`
+    }
+
+    if (ast.isIndex(node.left)) {
+        result = [convertToReference(node.left).reverse(), ...result]
+    } else if (ast.isBinary(node.left)) {
+        result = [...convertToConcatenation(node.left), ...result]
+    } else if (ast.isLiteralString(node.left)) {
+        result = [node.left.value, ...result]
+    } else {
+        throw `Concatenation LEFT unsupported with Node[type=${ node.right.type }]`
+    }
+
     return result
 }
