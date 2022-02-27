@@ -121,15 +121,47 @@ function convertToRecord(componentIdentifier: string, scope: string) { return (n
         ]
     }
     if (ast.isIndex(node.expr2)) {
-        return [{
-            inSchema: undefined,
-            identifier: node.id.name,
-            value: '$...',
-            type: 'reference',
-            componentIdentifier,
-            scope,
-            vscodeRange,
-        }]
+        const reference = convertToReference(node.expr2).reverse()
+        if (reference.length == 3 && reference[0] == '$') {
+            const referencedComponentIdentifier = reference[1]
+            const referencedRecordIdentifier = reference[2]
+            return [{
+                inSchema: undefined,
+                identifier: node.id.name,
+                value: reference.join('.'),
+                type: 'reference',
+                referencedComponentIdentifier,
+                referencedRecordIdentifier,
+                componentIdentifier,
+                scope,
+                vscodeRange,
+            }]
+        }
+    }
+    if (
+        (ast.isApplyBrace(node.expr2) || (ast.isBinary(node.expr2) && node.expr2.op == 'BopPlus'))
+        && ast.isIndex(node.expr2.left)
+        && ast.isObjectNode(node.expr2.right)
+    ) {
+        const reference = convertToReference(node.expr2.left).reverse()
+        if (reference.length == 3 && reference[0] == '$') {
+            const referencedComponentIdentifier = reference[1]
+            const referencedRecordIdentifier = reference[2]
+            return [
+                {
+                    inSchema: undefined,
+                    identifier: node.id.name,
+                    value: reference.join('.'),
+                    type: 'composition',
+                    referencedComponentIdentifier,
+                    referencedRecordIdentifier,
+                    componentIdentifier,
+                    scope,
+                    vscodeRange,
+                },
+                ...node.expr2.right.fields.toArray().map(convertToRecord(componentIdentifier, node.id.name)).flat(1) as Record[]
+            ]
+        }
     }
     return [{
         inSchema: undefined,
@@ -141,3 +173,14 @@ function convertToRecord(componentIdentifier: string, scope: string) { return (n
         vscodeRange,
     }]
 }}
+
+function convertToReference(node: ast.Index): string[] {
+    let result = [node.id.name]
+    if (ast.isIndex(node.target)) {
+        result = [...result, ...convertToReference(node.target).flat(1)]
+    }
+    if (ast.isDollar(node.target)) {
+        result = [...result, '$']
+    }
+    return result
+}
