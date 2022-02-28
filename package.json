@@ -32,7 +32,7 @@
             "filenamePattern": "*breadboard.jsonnet"
           }
         ],
-        "priority": "option"
+        "priority": "default"
       },
       {
         "viewType": "KitchenSink.EditorProvider",
