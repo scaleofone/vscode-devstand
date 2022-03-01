@@ -1,5 +1,51 @@
 import { Writable, writable, get } from 'svelte/store'
-import { updateSquareStyle } from './breadboard'
+import { updateSquareStyle, components } from './breadboard'
+
+export interface Square {
+    uuid: string
+    cornerY: number
+    cornerX: number
+    colorIndex: number
+    colorHex: string
+}
+
+export const squares: Writable<Square[]> = writable([])
+
+export const colors = ['#ee5396', '#00bcd4', '#8a3ffc', '#ffc107', '#03a9f4', '#8bc34a', '#ff9800', '#009688']
+
+components.subscribe(($components) => {
+    let updSquares = []
+    let $squares = get(squares)
+    let usedColorIndexes = []
+    function nextColorIndex() {
+        for (let i = 0; i < colors.length; i++) {
+            if (! usedColorIndexes.includes(i)) {
+                return i
+            }
+        }
+        throw 'not enough colors'
+    }
+    for (let component of $components) {
+        let square = $squares.find(s => s.uuid == component.identifier)
+        if (square) {
+            // merge data
+        } else {
+            let colorIndex = nextColorIndex()
+            square = {
+                uuid: component.identifier,
+                cornerY: 100,
+                cornerX: 200,
+                colorIndex,
+                colorHex: colors[colorIndex],
+            }
+        }
+        usedColorIndexes.push(square.colorIndex)
+        updSquares.push(JSON.parse(JSON.stringify(square)))
+    }
+    squares.set(updSquares)
+    console.log('!!! updSquares')
+})
+
 
 let preventGrabbing = false
 
@@ -43,16 +89,19 @@ export function onContainerPointerMove(event: PointerEvent) {
 
 export function onContainerPointerUp(event: PointerEvent) {
     if (get(grabbingSquareUuid)) {
-        updateSquareStyle({
-            uuid: get(grabbingSquareUuid),
-            cornerX: (get(grabbingCornerX) >= 0 ? get(grabbingCornerX) : 0),
-            cornerY: (get(grabbingCornerY) >= 0 ? get(grabbingCornerY) : 0),
-        })
+        let _squares = get(squares)
+        let squareIndex = _squares.findIndex(s => s.uuid == get(grabbingSquareUuid))
+        let square = _squares[squareIndex]
+        square.cornerY = (get(grabbingCornerY) >= 0 ? get(grabbingCornerY) : 0),
+        square.cornerX = (get(grabbingCornerX) >= 0 ? get(grabbingCornerX) : 0)
+        _squares.splice(squareIndex, 1, square)
+        squares.set(_squares)
 
-        // DO I NEED THIS ?
-        // styles have to be (but they are not) updated automatically after vuex mutation
-        // if (parseInt(grabbingSquareElement.style.left) < 0) grabbingSquareElement.style.left = '0px'
-        // if (parseInt(grabbingSquareElement.style.top) < 0) grabbingSquareElement.style.top = '0px'
+        // styles have to be (but they are not) updated automatically after mutation in the store
+        get(grabbingSquareElement).style.top = `${square.cornerY}px`
+        get(grabbingSquareElement).style.left = `${square.cornerX}px`
+
+        updateSquareStyle(square)
 
         grabbingSquareUuid.set('')
         grabbingSquareElement.set(null)

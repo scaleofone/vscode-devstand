@@ -1,9 +1,9 @@
 <script>
-    import { grabbingSquareUuid, handleGrabStartEvent } from './stores/visual'
+    import { get } from 'svelte/store'
+    import { grabbingSquareUuid, handleGrabStartEvent, squares } from './stores/visual'
 
-    let squareUuid = Math.random().toString().substring(2)
-    let style_corner_y = 100
-    let style_corner_x = 200
+    export let identifier = ''
+    $: square = get(squares).find(s => s.uuid == identifier)
 
     let squareElement;
 
@@ -11,15 +11,16 @@
 
 <div bind:this={squareElement}
     class="square"
-    class:is-grabbing={ $grabbingSquareUuid === squareUuid }
+    class:is-grabbing={ $grabbingSquareUuid === square.uuid }
     style={[
-        `top: ${style_corner_y}px`,
-        `left: ${style_corner_x}px`,
+        `top: ${square.cornerY}px`,
+        `left: ${square.cornerX}px`,
+        `--square-color: ${square.colorHex}`
     ].join(';')}
     >
-        <div class="height-mono select-none cursor-grab" style="min-width: 1rem; background-color: orange;"
+        <div class="height-mono select-none cursor-grab" style="min-width: 1rem; background-color: var(--square-color);"
             on:pointerdown={(event) => {
-                handleGrabStartEvent(event, event.target, squareElement, squareUuid)
+                handleGrabStartEvent(event, event.target, squareElement, square.uuid)
             }}
             ></div>
 

@@ -74,7 +74,7 @@
         {/if}
     </div>
 
-    {#each componentRecords as record}
+    {#each componentRecords as record (identifier+record.identifier) }
         <Record
             componentIdentifier={identifier}
             identifier={record.identifier}
