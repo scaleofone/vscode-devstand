@@ -216,16 +216,16 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
     }
 
     getHtmlForWebview(webview: vscode.Webview): string {
+        const cspHeader = `default-src 'self' ${webview.cspSource}; `
+                        + `style-src 'self' 'unsafe-inline' ${webview.cspSource}; `
+        const styleHref = webview.asWebviewUri(vscode.Uri.joinPath(this.extensionUri, 'dist/webview/breadboard/visual.css'))
+        const scriptHref = webview.asWebviewUri(vscode.Uri.joinPath(this.extensionUri, 'dist/webview/breadboard/visual.js'))
         return [
             '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">',
             '<meta name="viewport" content="width=device-width, initial-scale=1.0">',
-                '<meta content="default-src ', webview.cspSource, ';" http-equiv="Content-Security-Policy">',
-                '<link rel="stylesheet" href="',
-                    webview.asWebviewUri(vscode.Uri.joinPath(this.extensionUri, 'dist/webview/breadboard/visual.css')),
-                '">',
-                '<script defer src="',
-                    webview.asWebviewUri(vscode.Uri.joinPath(this.extensionUri, 'dist/webview/breadboard/visual.js')),
-                '"></script>',
+                `<meta content="${cspHeader}" http-equiv="Content-Security-Policy">`,
+                `<link href="${styleHref}" rel="stylesheet">`,
+                `<script defer src="${scriptHref}"></script>`,
             '</head><body></body></html>',
         ].join('')
     }
