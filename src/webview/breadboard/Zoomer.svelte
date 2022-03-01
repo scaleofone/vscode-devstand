@@ -1,25 +1,22 @@
 <script>
-    import { createEventDispatcher } from 'svelte'
-    const dispatch = createEventDispatcher()
+    import { zoom } from './stores/visual'
 
     import iconPlus from '@vscode/codicons/src/icons/add.svg'
     import iconMinus from '@vscode/codicons/src/icons/chrome-minimize.svg'
 
-    export let zoom = 1
-
     const variations = [0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]
-    $: offset = variations.indexOf(zoom)
+    $: offset = variations.indexOf($zoom)
     $: zoomInEnabled = offset < variations.length - 1
     $: zoomOutEnabled = offset > 0
 
     function zoomIn() {
         if (zoomInEnabled) {
-            dispatch('zoom', variations[offset + 1])
+            zoom.set(variations[offset + 1])
         }
     }
     function zoomOut() {
         if (zoomOutEnabled) {
-            dispatch('zoom', variations[offset - 1])
+            zoom.set(variations[offset - 1])
         }
     }
 
