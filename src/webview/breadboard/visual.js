@@ -1,6 +1,13 @@
 import '../vscode.css'
+
+import './controls/Menu.css'
+import './controls/Dropdown.css'
+import './Component.css'
+import './Record.css'
 import './breadboard.css'
+
 import './visual.css'
+import './visual-map.css'
 
 import './transport'
 import Visual from './Visual.svelte'

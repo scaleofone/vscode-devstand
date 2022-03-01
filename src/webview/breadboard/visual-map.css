@@ -1,0 +1,131 @@
+.map-surface-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    overflow: scroll;
+    overscroll-behavior: contain;
+}
+
+.map-surface {
+    transform-origin: 0 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.map-bg-image {
+    background-image: url("static/dots.png");
+    background-position: top left;
+    background-repeat: repeat;
+    background-size: 100px;
+}
+.bg-scrollable {
+    background-attachment: local;
+}
+
+
+.square {
+    position: absolute;
+    z-index: 2;
+    min-width: 8rem;
+    border: 1px solid #ccc;
+    background: white;
+
+    box-shadow: 1px 2px 2px 0px rgba(0,0,0,0.3);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.shadow-square {
+    box-shadow: 1px 2px 2px 0px rgba(0,0,0,0.3);
+}
+
+.square.is-grabbing {
+    transform: scale(1.02);
+    box-shadow: 5px 10px 10px 0px rgba(0,0,0,0.2);
+}
+
+.map-anchor {
+    height: 0px;
+    margin-top: 0.8rem;
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+}
+.map-square-anchor {
+    margin-top: 1.1rem;
+}
+
+
+
+.map-reference-handle-wrapper {
+    position: absolute;
+    height: 18px;
+    left: -12px;
+    width: 18px;
+}
+.map-reference-handle {
+    /* background: 4px 0 url("static/circle.svg") no-repeat; */
+    height: 18px;
+    width: 18px;
+    user-select: none;
+    cursor: grab;
+    line-height: 18px;
+    vertical-align: middle;
+    text-align: center;
+    padding-left: 6px;
+}
+.show-map-reference .map-reference-handle-wrapper {
+    opacity: 0;
+}
+.show-map-reference:hover .map-reference-handle-wrapper {
+    opacity: 1;
+}
+
+
+svg path.animated {
+    stroke-dasharray: 5;
+    animation: dashdraw 0.2s linear infinite;
+}
+@keyframes dashdraw {
+    0% {
+        stroke-dashoffset: 10;
+    }
+}
+
+
+.map-group-header {
+    background-color: #eef0f3;
+    padding-top: 3px;
+    padding-bottom: 4px;
+    border-bottom: 4px solid white;
+    border-top: 4px solid white;
+}
+.map-group-header.is-topmost {
+    border-top: 0;
+    margin-top: -4px;
+}
+
+.injected-secret .map-group-header {
+    border-top: 0;
+    border-bottom: 2px solid white;
+}
+.injected-secret .map-group-header+.is-variable {
+    padding-top: 4px;
+}
+.injected-secret > .is-variable:last-child {
+    padding-bottom: 4px;
+}
+.square > .injected-secret {
+    padding-top: 4px;
+}
+.square > .injected-secret + .injected-secret {
+    padding-top: 0;
+}
+.square > .injected-secret:last-child {
+    margin-bottom: -4px;
+}
+.square > .injected-secret:last-child .map-group-header {
+    border-bottom: 0;
+}

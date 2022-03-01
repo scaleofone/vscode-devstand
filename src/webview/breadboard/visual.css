@@ -1,2 +1,15 @@
 /* TODO visuals */
 button[disabled] { opacity: 0.8; }
+
+.t-1, .t-n1, .t-2, .t-n2, .t-3, .t-n3 { position: relative; }
+.t-1 { top: 1px; } .t-n1 { top: -1px; }
+.t-2 { top: 2px; } .t-n2 { top: -2px; }
+.t-3 { top: 3px; } .t-n3 { top: -3px; }
+
+.cursor-default { cursor: default; }
+.cursor-grab { cursor: grab; }
+
+.cursor-grabbing-everywhere { user-select: none !important; }
+.cursor-grabbing-everywhere * { cursor: grabbing !important; }
+
+.bg-light { background-color: #f8f9fa !important; }

@@ -25,6 +25,7 @@ esbuild
         sourcemap: options.sourcemap ? 'inline' : false,
         loader: {
             '.svg': 'text',
+            '.png': 'base64',
         },
         plugins: [
             sveltePlugin({

@@ -57,6 +57,7 @@
 
 .cursor-default { cursor: default; }
 .cursor-pointer { cursor: pointer; }
+.cursor-grab { cursor: grab; }
 
 .select-none { user-select: none; }
 .select-text { user-select: text; }
