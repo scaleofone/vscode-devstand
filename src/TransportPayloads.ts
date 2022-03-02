@@ -39,6 +39,13 @@ export interface RenameRecord {
     renameRecordIdentifier: string
 }
 
+export interface MutateComponentGeometry {
+    componentIdentifier: string
+    cornerY: number
+    cornerX: number
+    colorIndex: number
+}
+
 export interface ModifyRecord {
     componentIdentifier: string
     recordIdentifier: string

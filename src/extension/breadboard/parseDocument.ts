@@ -93,13 +93,13 @@ export default async function(document: vscode.TextDocument): Promise<Breadboard
 }
 
 function geometryForComponent(identifier: string, meta: object): { cornerY: number, cornerX: number, colorIndex: number } {
-    const geometry = ((typeof meta == 'object' && meta && 'geometry' in meta && identifier in meta['geometry']) ? meta['geometry'][identifier] : '').split(',')
-    if (geometry.length != 3) {
+    const geometry = (typeof meta == 'object' && meta && 'geometry' in meta && identifier in meta['geometry']) ? meta['geometry'][identifier] : []
+    if (! (Array.isArray(geometry) && geometry.length == 3 && typeof geometry[0] == 'number' && typeof geometry[1] == 'number' && typeof geometry[2] == 'number')) {
         throw 'corrupted geomety'
     }
     return {
-        cornerY: parseInt(geometry[0]),
-        cornerX: parseInt(geometry[1]),
-        colorIndex: parseInt(geometry[2]),
+        cornerY: geometry[0],
+        cornerX: geometry[1],
+        colorIndex: geometry[2],
     }
 }

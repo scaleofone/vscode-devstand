@@ -13,6 +13,7 @@ import createRecordValue from './operations/createRecordValue'
 import renameRecord from './operations/renameRecord'
 import updateRecordValue from './operations/updateRecordValue'
 import createComponent from './operations/createComponent'
+import mutateComponentGeometry from './operations/mutateComponentGeometry'
 
 import * as payloads from '../../TransportPayloads'
 import { shouldReportError, ValidationError } from '../../errorHandling'
@@ -93,6 +94,9 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
                 }
 
                 vscode.window.showInformationMessage(payload)
+            },
+            async mutateComponentGeometry(payload: payloads.MutateComponentGeometry): Promise<void> {
+                await applyWorkspaceEdit([ mutateComponentGeometry(document, payload) ])
             },
             async renameComponent(payload: payloads.RenameComponent): Promise<void> {
                 await applyWorkspaceEdit([ renameComponent(document, payload) ])

@@ -41,6 +41,9 @@ const extension = {
     actionCreateComponent(): void {
         messenger.postVoidPayload('actionCreateComponent', null)
     },
+    mutateComponentGeometry(payload: payloads.MutateComponentGeometry): void {
+        messenger.postVoidPayload('mutateComponentGeometry', payload)
+    }
 }
 
 const webview = {

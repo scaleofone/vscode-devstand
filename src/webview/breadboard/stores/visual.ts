@@ -1,5 +1,5 @@
 import { Writable, writable, derived, get } from 'svelte/store'
-import { mutateComponent, components } from './breadboard'
+import { mutateComponentGeometry, components } from './breadboard'
 
 export const colors: Writable<string[]> = writable(['#ee5396', '#00bcd4', '#8a3ffc', '#ffc107', '#03a9f4', '#8bc34a', '#ff9800', '#009688'])
 
@@ -75,7 +75,7 @@ export function onContainerPointerUp(event: PointerEvent) {
 
 
         let componentIdentifier = get(grabbingSquareUuid)
-        setTimeout(() => mutateComponent(componentIdentifier, { cornerY, cornerX }), 400) // in order to .square animation to happen
+        setTimeout(() => mutateComponentGeometry(componentIdentifier, cornerY, cornerX), 400) // in order to .square animation to happen
 
         grabbingSquareUuid.set('')
         grabbingSquareElement.set(null)
