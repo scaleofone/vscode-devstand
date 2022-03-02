@@ -41,6 +41,9 @@ export interface Component {
     identifier: string,
     templateImportVariableName: string,
     vscodeRange?: VscodeRange,
+    cornerY: number
+    cornerX: number
+    colorIndex: number
 }
 
 export interface Breadboard {

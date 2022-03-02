@@ -1,9 +1,11 @@
 <script>
     import { get } from 'svelte/store'
-    import { grabbingSquareUuid, handleGrabStartEvent, squares } from './stores/visual'
+    import { components } from './stores/breadboard'
+    import { grabbingSquareUuid, handleGrabStartEvent, colorHexForIndex } from './stores/visual'
 
     export let identifier = ''
-    $: square = get(squares).find(s => s.uuid == identifier)
+    $: component = get(components).find(c => c.identifier == identifier)
+    $: colorHex = colorHexForIndex(component.colorIndex)
 
     let squareElement;
 
@@ -11,16 +13,16 @@
 
 <div bind:this={squareElement}
     class="square"
-    class:is-grabbing={ $grabbingSquareUuid === square.uuid }
+    class:is-grabbing={ $grabbingSquareUuid === identifier }
     style={[
-        `top: ${square.cornerY}px`,
-        `left: ${square.cornerX}px`,
-        `--square-color: ${square.colorHex}`
+        `top: ${component.cornerY}px`,
+        `left: ${component.cornerX}px`,
+        `--square-color: ${colorHex}`
     ].join(';')}
     >
         <div class="height-mono select-none cursor-grab" style="min-width: 1rem; background-color: var(--square-color);"
             on:pointerdown={(event) => {
-                handleGrabStartEvent(event, event.target, squareElement, square.uuid)
+                handleGrabStartEvent(event, event.target, squareElement, identifier)
             }}
             ></div>
 

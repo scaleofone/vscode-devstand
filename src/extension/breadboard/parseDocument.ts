@@ -61,11 +61,45 @@ export default async function(document: vscode.TextDocument): Promise<Breadboard
             }
         }
         breadboard.records = breadboard.records.filter(record => record.inSchema)
+
+        // Store geometry data within each Component
+        let usedColorIndexes = []
+        for (let c = 0; c < breadboard.components.length; c++) {
+            try {
+                const geometry = geometryForComponent(breadboard.components[c].identifier, breadboard.meta)
+                breadboard.components[c] = { ...breadboard.components[c], ...geometry }
+                usedColorIndexes.push(geometry.colorIndex)
+            } catch (err) { /* do nothing */}
+        }
+        let availableColorIndexes = []
+        for (let a = 0; a < 50; a++) {
+            if (! usedColorIndexes.includes(a)) {
+                availableColorIndexes.push(a)
+            }
+        }
+        for (let c = 0; c < breadboard.components.length; c++) {
+            if (typeof breadboard.components[c].colorIndex == 'undefined') {
+                breadboard.components[c] = {...breadboard.components[c], colorIndex: availableColorIndexes.shift(), cornerY: 0, cornerX: 0 }
+            }
+        }
+
         const msecEnd = (new Date()).getTime()
         console.log('function parseDocument took '+((msecEnd - msecStart) / 1000)+' seconds')
         return Promise.resolve(breadboard)
     } catch {
         vscode.window.showInformationMessage('Could not parse jsonnet file')
         return Promise.reject(new Error('Could not parse jsonnet file'))
+    }
+}
+
+function geometryForComponent(identifier: string, meta: object): { cornerY: number, cornerX: number, colorIndex: number } {
+    const geometry = ((typeof meta == 'object' && meta && 'geometry' in meta && identifier in meta['geometry']) ? meta['geometry'][identifier] : '').split(',')
+    if (geometry.length != 3) {
+        throw 'corrupted geomety'
+    }
+    return {
+        cornerY: parseInt(geometry[0]),
+        cornerX: parseInt(geometry[1]),
+        colorIndex: parseInt(geometry[2]),
     }
 }
