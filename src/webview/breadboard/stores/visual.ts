@@ -75,7 +75,7 @@ export function onContainerPointerUp(event: PointerEvent) {
 
 
         let componentIdentifier = get(grabbingSquareUuid)
-        setTimeout(() => mutateComponentGeometry(componentIdentifier, cornerY, cornerX), 400) // in order to .square animation to happen
+        setTimeout(() => mutateComponentGeometry(componentIdentifier, cornerY, cornerX), 300) // in order to .square animation to happen
 
         grabbingSquareUuid.set('')
         grabbingSquareElement.set(null)

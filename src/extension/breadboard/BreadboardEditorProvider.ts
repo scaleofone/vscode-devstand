@@ -1,4 +1,6 @@
 import vscode from 'vscode'
+import { debounce } from 'throttle-debounce'
+
 import { Messenger, MessengerMessage } from '../Messenger'
 import { Breadboard } from '../../BreadboardTypes'
 import parseDocument from './parseDocument'
@@ -186,7 +188,8 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
         })
         messenger.subscribe()
 
-        function parseDocumentAndHydrateWebview() {
+        const parseDocumentAndHydrateWebview = debounce(50, false, _parseDocumentAndHydrateWebview)
+        function _parseDocumentAndHydrateWebview() {
             parseDocument(document)
                 .then(breadboard => webview.hydrate(breadboard))
                 .catch(error => vscode.window.showErrorMessage(error.toString()))
