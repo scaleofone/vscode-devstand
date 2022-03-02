@@ -1,3 +1,4 @@
+import { throttle } from 'throttle-debounce'
 import { Writable, writable, derived, get } from 'svelte/store'
 import { mutateComponentGeometry, components } from './breadboard'
 
@@ -27,9 +28,6 @@ export function colorHexForIndex(colorIndex: number): string {
 let preventGrabbing = false
 
 export const zoom: Writable<number> = writable(1)
-export const canvasWidth: Writable<number> = writable(1200)
-export const canvasHeight: Writable<number> = writable(950)
-
 
 export const grabbingSquareUuid: Writable<string> = writable('')
 
@@ -38,6 +36,50 @@ const grabbingCornerOffsetX: Writable<number> = writable(0)
 const grabbingCornerOffsetY: Writable<number> = writable(0)
 const grabbingCornerX: Writable<number> = writable(0)
 const grabbingCornerY: Writable<number> = writable(0)
+
+export const mostDistantCornerX = derived(components, ($components) => {
+    return $components.length > 0 ? Math.max.apply(Math, $components.map(c => c.cornerX)) : 0
+}, 0)
+export const mostDistantCornerY = derived(components, ($components) => {
+    return $components.length > 0 ? Math.max.apply(Math, $components.map(c => c.cornerY)) : 0
+}, 0)
+export const canvasComputedWidth = derived([mostDistantCornerX, grabbingCornerX], ([$mostDistantCornerX, $grabbingCornerX]) => {
+    return Math.max($mostDistantCornerX, $grabbingCornerX)
+}, 0)
+export const canvasComputedHeight = derived([mostDistantCornerY, grabbingCornerY], ([$mostDistantCornerY, $grabbingCornerY]) => {
+    return Math.max($mostDistantCornerY, $grabbingCornerY)
+}, 0)
+
+const mostDistantSquareWidth = 500
+const mostDistantSquareHeight = 300
+
+export const canvasWidth: Writable<number> = writable(get(mostDistantCornerX) + mostDistantSquareWidth)
+export const canvasHeight: Writable<number> = writable(get(mostDistantCornerX) + mostDistantSquareHeight)
+
+let canvasInitiallySized = false
+const initialCanvasWidth = canvasComputedWidth.subscribe(($canvasComputedWidth) => {
+    if ($canvasComputedWidth > 0) {
+        canvasWidth.set($canvasComputedWidth + mostDistantSquareWidth)
+        canvasInitiallySized = true
+        initialCanvasWidth()
+    }
+})
+const initialCanvasHeight = canvasComputedHeight.subscribe(($canvasComputedHeight) => {
+    if ($canvasComputedHeight > 0) {
+        canvasHeight.set($canvasComputedHeight + mostDistantSquareHeight)
+        canvasInitiallySized = true
+        initialCanvasHeight()
+    }
+})
+canvasComputedWidth.subscribe(throttle(100, false, ($canvasComputedWidth) => {
+    if (! canvasInitiallySized) return
+    canvasWidth.set($canvasComputedWidth + mostDistantSquareWidth)
+}))
+canvasComputedHeight.subscribe(throttle(100, false, ($canvasComputedHeight) => {
+    if (! canvasInitiallySized) return
+    canvasHeight.set($canvasComputedHeight + mostDistantSquareHeight)
+}))
+
 
 export function handleGrabStartEvent(event: PointerEvent, knobElement: HTMLDivElement, squareElement: HTMLDivElement, squareUuid: string) {
     if (event.button > 0) return
@@ -69,10 +111,8 @@ export function onContainerPointerUp(event: PointerEvent) {
         const cornerY = (get(grabbingCornerY) >= 0 ? get(grabbingCornerY) : 0)
         const cornerX = (get(grabbingCornerX) >= 0 ? get(grabbingCornerX) : 0)
 
-        // styles have to be (but they are not) updated automatically after mutation in the store
         get(grabbingSquareElement).style.top = `${cornerY}px`
         get(grabbingSquareElement).style.left = `${cornerX}px`
-
 
         let componentIdentifier = get(grabbingSquareUuid)
         setTimeout(() => mutateComponentGeometry(componentIdentifier, cornerY, cornerX), 300) // in order to .square animation to happen
@@ -81,8 +121,14 @@ export function onContainerPointerUp(event: PointerEvent) {
         grabbingSquareElement.set(null)
         grabbingCornerOffsetX.set(0)
         grabbingCornerOffsetY.set(0)
-        grabbingCornerX.set(0)
-        grabbingCornerY.set(0)
+
+        // in order to $canvasComputedWidth and $canvasComputedHeight stores being properly calculated
+        // before $components store receives updated (see setTimeout above, 300ms)
+        setTimeout(() => {
+            grabbingCornerX.set(0)
+            grabbingCornerY.set(0)
+        }, 310)
+
     }
 }
 
