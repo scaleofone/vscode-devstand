@@ -48,4 +48,5 @@ export interface Breadboard {
     schemaDictionary: TemplateSchemaDictionaryItem[],
     components: Component[],
     records: Record[],
+    meta?: object | undefined,
 }

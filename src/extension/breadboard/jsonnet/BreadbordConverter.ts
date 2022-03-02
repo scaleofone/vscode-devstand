@@ -16,12 +16,15 @@ export function toBreadboard(localBindNodes: ast.LocalBind[], objectNode: ast.Ob
         }
     }
     for (let objectField of (objectNode ? objectNode.fields.toArray() : [])) {
-        let { component, records } = convertToComponent(objectField)
+        let { component, records, meta } = convertToComponent(objectField)
         if (component) {
             breadboard.components.push(component)
             for (let record of records) {
                 breadboard.records.push(record)
             }
+        }
+        if (meta) {
+            breadboard.meta = meta
         }
     }
     return breadboard
@@ -37,7 +40,7 @@ function convertToTemplateImport(node: ast.LocalBind): TemplateImport | undefine
     }
 }
 
-function convertToComponent(node: ast.ObjectField): { component: Component | undefined, records: Record[] } {
+function convertToComponent(node: ast.ObjectField): { component: Component | undefined, records: Record[], meta: object | undefined } {
     const vscodeRange: VscodeRange = {
         startLine: node.loc.begin.line - 1,
         startCharacter: node.loc.begin.column - 1,
@@ -51,6 +54,7 @@ function convertToComponent(node: ast.ObjectField): { component: Component | und
         && ast.isObjectNode(node.expr2.right)
     ) {
         return {
+            meta: undefined,
             component: {
                 identifier: node.id.name,
                 templateImportVariableName: node.expr2.left.id.name,
@@ -59,7 +63,14 @@ function convertToComponent(node: ast.ObjectField): { component: Component | und
             records: node.expr2.right.fields.toArray().map(convertToRecord(node.id.name, '')).flat(1) as Record[]
         }
     } else {
+        let meta = undefined
+        if (node.id.name == 'meta' && ast.isLiteralString(node.expr2)) {
+            try {
+                meta = JSON.parse(node.expr2.value)
+            } catch { /* do nothing */ }
+        }
         return {
+            meta,
             component: undefined,
             records: [],
         }
