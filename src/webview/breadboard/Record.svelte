@@ -1,16 +1,11 @@
 <script>
-    import { records } from './stores/breadboard'
-    import { get } from 'svelte/store'
     import { extension } from './transport'
 
     import RecordDropdown from './RecordDropdown.svelte'
     import UpdateRecordForm from './controls/UpdateRecordForm.svelte'
     import ModifyRecordForm from './controls/ModifyRecordForm.svelte'
 
-    export let componentIdentifier
-    export let identifier
-
-    $: record = get(records).find(r => (r.identifier == identifier && r.componentIdentifier == componentIdentifier))
+    export let record
 
     let modifyFormVisible = false
     let updateFormVisible = false
@@ -18,8 +13,8 @@
     function handleDeleteRecord() {
         console.log('handleDeleteRecord')
         extension.deleteRecord({
-            componentIdentifier: componentIdentifier,
-            recordIdentifier: identifier,
+            componentIdentifier: record.componentIdentifier,
+            recordIdentifier: record.identifier,
         })
     }
 
@@ -59,7 +54,7 @@
                     {#if ['number', 'string'].includes(record.type)} = {record.value}{/if}
                     {#if ['reference', 'composition'].includes(record.type)} = <span style="color:blue; font-weight:bold">{record.referencedComponentIdentifier}</span>.<span style="color:blue">{record.referencedRecordIdentifier}</span>{/if}
                     {#if record.type == 'concatenation'} =
-                        {#each record.concatenationItems as item}
+                        {#each record.concatenationItems as item (item)}
                             {#if Array.isArray(item)}
                                 <span style="color:blue; font-weight:bold">{item[1]}</span>.<span style="color:blue">{item[2]}</span>
                             {:else}

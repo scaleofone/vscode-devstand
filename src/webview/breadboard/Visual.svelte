@@ -13,10 +13,10 @@
 <Surface>
     {#each $components as component (component)}
         <Square
-            identifier={component.identifier}
+            component={component}
             >
             <Component
-                identifier={component.identifier}
+                component={component}
             />
         </Square>
     {/each}

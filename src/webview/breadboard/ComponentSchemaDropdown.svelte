@@ -2,7 +2,7 @@
     import { createEventDispatcher } from 'svelte'
     const dispatch = createEventDispatcher()
     import { get } from 'svelte/store'
-    import { components, records, templateImports, schemaDictionary } from './stores/breadboard'
+    import { records, templateImports, schemaDictionary } from './stores/breadboard'
     import DetailDropdown from './controls/DetailDropdown'
     import iconSchema from '@vscode/codicons/src/icons/code.svg'
 
@@ -44,7 +44,7 @@
 <details use:DetailDropdown class="dropdown select-none">
     <summary class="fg-icon hover:fg-link cursor-pointer">{@html iconSchema}</summary>
     <div class="menu menu--mono widget-shadow" style="max-width:300px">
-        {#each schemaDropdownItems as item}
+        {#each schemaDropdownItems as item (item)}
             <div class="menu__item"
                 class:alreadyAdded="{item.alreadyAdded}"
                 on:click="{()=>addRecord(item)}"

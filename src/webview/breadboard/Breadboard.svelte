@@ -9,9 +9,9 @@
 
 <section>
 
-{#each $components as component}
+{#each $components as component (component)}
     <Component
-        identifier={component.identifier}
+        component={component}
     />
 {/each}
 

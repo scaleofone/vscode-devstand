@@ -1,5 +1,5 @@
 <script>
-    import { components, records } from './stores/breadboard'
+    import { records } from './stores/breadboard'
     import { extension } from './transport'
 
     import Record from './Record.svelte'
@@ -7,15 +7,14 @@
     import ComponentSchemaDropdown from './ComponentSchemaDropdown.svelte'
     import RenameComponentForm from './controls/RenameComponentForm.svelte'
 
-    export let identifier
-    $: component = $components.find(c => c.identifier == identifier)
-    $: componentRecords = $records.filter(r => r.componentIdentifier == identifier)
+    export let component
+    $: componentRecords = $records.filter(r => r.componentIdentifier == component.identifier)
 
     let renameFormIsVisible = false
     function handleRenameComponent(updIdentifier) {
         console.log('handleRenameComponent')
         extension.renameComponent({
-            before: identifier,
+            before: component.identifier,
             after: updIdentifier,
         })
         renameFormIsVisible = false
@@ -23,7 +22,7 @@
     function handleDeleteComponent() {
         console.log('handleDeleteComponent')
         extension.deleteComponent({
-            identifier: identifier,
+            identifier: component.identifier,
         })
     }
     function handleAddRecord(record) {
@@ -37,7 +36,7 @@
 
 </script>
 
-<div class="component" id={identifier}>
+<div class="component" id={component.identifier}>
 
     <div class="role-brick role-component-header">
         {#if renameFormIsVisible}
@@ -76,8 +75,7 @@
 
     {#each componentRecords as record (record) }
         <Record
-            componentIdentifier={identifier}
-            identifier={record.identifier}
+            record={record}
         />
     {/each}
 
