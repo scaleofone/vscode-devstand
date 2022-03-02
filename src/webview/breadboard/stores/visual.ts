@@ -73,7 +73,9 @@ export function onContainerPointerUp(event: PointerEvent) {
         get(grabbingSquareElement).style.top = `${cornerY}px`
         get(grabbingSquareElement).style.left = `${cornerX}px`
 
-        mutateComponent(get(grabbingSquareUuid), { cornerY, cornerX })
+
+        let componentIdentifier = get(grabbingSquareUuid)
+        setTimeout(() => mutateComponent(componentIdentifier, { cornerY, cornerX }), 400) // in order to .square animation to happen
 
         grabbingSquareUuid.set('')
         grabbingSquareElement.set(null)
