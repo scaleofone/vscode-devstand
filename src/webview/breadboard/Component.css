@@ -2,7 +2,3 @@
     display: inline-flex;
     flex-direction: column;
 }
-
-.role-brick:hover {
-    background-color: var(--vscode-editor-background);
-}

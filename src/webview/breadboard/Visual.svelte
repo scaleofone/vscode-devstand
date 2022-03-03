@@ -6,6 +6,7 @@
 
     import Surface from './Surface.svelte'
     import Square from './Square.svelte'
+    import Brick from './Brick.svelte'
     import Zoomer from './Zoomer.svelte'
 
     import Component from './Component.svelte'
@@ -25,9 +26,15 @@
                 >
 
                 {#each $records.filter(r => r.componentIdentifier == component.identifier ) as record (record) }
-                    <Record
+                    <Brick
                         record={record}
-                    />
+                        >
+
+                        <Record
+                            record={record}
+                        />
+
+                    </Brick>
                 {/each}
 
             </Component>

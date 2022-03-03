@@ -27,3 +27,43 @@
 .zoom-button.disabled:focus {
     outline-color: var(--vscode-textSeparator-foreground) !important;
 }
+
+
+
+.record-knob {
+    position: relative;
+    width: 0;
+    --knob-size: 16px;
+}
+.record-knob:before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    top: 50%;
+    margin-top: calc(-0.5 * var(--knob-size));
+    left: calc(-0.5 * var(--knob-size));
+    height: var(--knob-size);
+    width: var(--knob-size);
+
+    border-radius: 50%;
+    border: 1px solid var(--square-border-color);
+    background: var(--vscode-editor-background);
+}
+.record-knob:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -3px;
+    margin-top: -3px;
+    height: 6px;
+    width: 6px;
+    border-radius: 50%;
+    background: var(--square-color);
+}
+
+.show-record-knob-on-hover .record-knob {
+    opacity: 0;
+}
+.show-record-knob-on-hover:hover .record-knob {
+    opacity: 1;
+}

@@ -21,7 +21,7 @@
 
 </script>
 
-<div class="role-brick role-record">
+
 
     {#if updateFormVisible}
 
@@ -80,7 +80,3 @@
         </div>
 
     {/if}
-
-
-
-</div>

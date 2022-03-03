@@ -29,10 +29,11 @@
 
 
 .square {
+    --square-border-color: var(--vscode-input-border);
     position: absolute;
     z-index: 2;
     min-width: 8rem;
-    border: 1px solid #ccc;
+    border: 1px solid var(--square-border-color);
     background: white;
 
     box-shadow: 1px 2px 2px 0px rgba(0,0,0,0.3);
@@ -56,32 +57,6 @@
 }
 .map-square-anchor {
     margin-top: 1.1rem;
-}
-
-
-
-.map-reference-handle-wrapper {
-    position: absolute;
-    height: 18px;
-    left: -12px;
-    width: 18px;
-}
-.map-reference-handle {
-    /* background: 4px 0 url("static/circle.svg") no-repeat; */
-    height: 18px;
-    width: 18px;
-    user-select: none;
-    cursor: grab;
-    line-height: 18px;
-    vertical-align: middle;
-    text-align: center;
-    padding-left: 6px;
-}
-.show-map-reference .map-reference-handle-wrapper {
-    opacity: 0;
-}
-.show-map-reference:hover .map-reference-handle-wrapper {
-    opacity: 1;
 }
 
 
