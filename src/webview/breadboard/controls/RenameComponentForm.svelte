@@ -8,6 +8,7 @@
     import { form, field } from 'svelte-forms'
     import { required } from 'svelte-forms/validators'
 
+    /** @type {import('../../../BreadboardTypes').Component} */
     export let component
 
     let textInput

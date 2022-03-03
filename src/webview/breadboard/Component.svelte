@@ -5,6 +5,7 @@
     import ComponentSchemaDropdown from './ComponentSchemaDropdown.svelte'
     import RenameComponentForm from './controls/RenameComponentForm.svelte'
 
+    /** @type {import('../../BreadboardTypes').Component} */
     export let component
 
     let renameFormIsVisible = false

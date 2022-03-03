@@ -7,6 +7,7 @@
     import { form, field } from 'svelte-forms'
     import { required } from 'svelte-forms/validators'
 
+    /** @type {import('../../../BreadboardTypes').Record} */
     export let record
 
     let rejectedMessage

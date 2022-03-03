@@ -5,6 +5,7 @@
 
     import { extension } from './transport'
 
+    /** @type {import('../../BreadboardTypes').Record} */
     export let record
 
     $: canReveal = 'vscodeRange' in record

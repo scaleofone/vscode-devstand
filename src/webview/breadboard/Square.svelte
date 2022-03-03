@@ -1,6 +1,7 @@
 <script>
     import { grabbingSquareUuid, handleGrabStartEvent, colorHexForIndex } from './stores/visual'
 
+    /** @type {import('../../BreadboardTypes').Component} */
     export let component
 
     $: colorHex = colorHexForIndex(component.colorIndex)

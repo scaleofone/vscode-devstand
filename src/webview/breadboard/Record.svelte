@@ -5,6 +5,7 @@
     import UpdateRecordForm from './controls/UpdateRecordForm.svelte'
     import ModifyRecordForm from './controls/ModifyRecordForm.svelte'
 
+    /** @type {import('../../BreadboardTypes').Record} */
     export let record
 
     let modifyFormVisible = false

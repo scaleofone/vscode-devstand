@@ -6,6 +6,7 @@
     import DetailDropdown from './controls/DetailDropdown'
     import iconSchema from '@vscode/codicons/src/icons/code.svg'
 
+    /** @type {import('../../BreadboardTypes').Component} */
     export let component
 
     $: componentRecords = $records.filter(r => r.componentIdentifier == component.identifier)

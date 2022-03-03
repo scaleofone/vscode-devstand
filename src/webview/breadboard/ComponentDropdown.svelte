@@ -6,6 +6,7 @@
 
     import { extension } from './transport'
 
+    /** @type {import('../../BreadboardTypes').Component} */
     export let component
 
     $: canReveal = 'vscodeRange' in component
