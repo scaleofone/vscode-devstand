@@ -63,3 +63,11 @@
 .select-text { user-select: text; }
 .select-all { user-select: all; }
 .select-auto { user-select: auto; }
+
+.underline-dotted {
+    text-decoration-style: dotted;
+    text-decoration-thickness: 2px;
+    text-decoration-color: red;
+    text-decoration-line: underline;
+    text-underline-offset: 2px;
+}

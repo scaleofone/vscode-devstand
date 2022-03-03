@@ -60,7 +60,9 @@ export default async function(document: vscode.TextDocument): Promise<Breadboard
                 }
             }
         }
-        breadboard.records = breadboard.records.filter(record => record.inSchema)
+
+        // Omit records missing in schema
+        // breadboard.records = breadboard.records.filter(record => record.inSchema)
 
         // Store geometry data within each Component
         let usedColorIndexes = []
