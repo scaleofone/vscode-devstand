@@ -46,8 +46,7 @@ class Messenger {
 
     onDidReceiveMessage(message: MessengerMessage) {
         if (message.is == 'ready' && message.from === 'webview') {
-            this.isReady = true
-            // console.log('isReady', this.isReady, '[from=webview]')
+            this.ready(message.payload as boolean, 'WEBVIEW')
             this.flushOnReady()
         }
         if (message.is == 'void' && message.from === 'webview') {
@@ -87,9 +86,9 @@ class Messenger {
 
     isReady: boolean = false
     unreadyQueue: Function[] = []
-    notReady() {
-        this.isReady = false
-        // console.log('isReady', this.isReady, '[from=Provider]')
+    ready(isReady: boolean, from?: string) {
+        this.isReady = isReady
+        // console.log('isReady', this.isReady, from)
     }
     flushOnReady() {
         let callback = this.unreadyQueue.shift()

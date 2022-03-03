@@ -1,6 +1,6 @@
 <script>
     import { onMount } from 'svelte'
-    import { webviewIsReady } from './transport'
+    import { messengerReady } from './transport'
 
     import { components } from './stores/breadboard'
 
@@ -10,7 +10,7 @@
 
     import Component from './Component.svelte'
 
-    onMount(webviewIsReady)
+    onMount(() => messengerReady(true))
 </script>
 
 
