@@ -1,6 +1,6 @@
 <script>
     import { onMount } from 'svelte'
-    import { messengerReady } from './transport'
+    import { extension, messengerReady } from './transport'
 
     import { components, records } from './stores/breadboard'
 
@@ -27,7 +27,7 @@
                 {#each $records.filter(r => r.componentIdentifier == component.identifier ) as record (record) }
                     <Record
                         record={record}
-            />
+                    />
                 {/each}
 
             </Component>
@@ -35,8 +35,15 @@
     {/each}
 </Surface>
 
-<div style="position: fixed; bottom: 0; right: 0; padding: 1rem;">
-    <Zoomer />
+<div style="position: fixed; bottom: 0; right: 0; padding: 0.5rem 1rem 1rem 0.5rem; background-color: var(--vscode-editor-background)">
+    <div class="flex" style="gap: 5px; --button-size: 40px">
+        <Zoomer />
+        <button
+            style="height: var(--button-size); padding-left: 1.5rem; padding-right: 1.5rem"
+            on:click={() => extension.actionCreateComponent()}
+        >Create component</button>
+    </div>
+
 </div>
 
 <div style="position: fixed; top: 0; right: 0; padding: 1rem;">

@@ -9,7 +9,7 @@ export default function (document: vscode.TextDocument, payload: CreateComponent
     const parsed = parser.parse(document.uri.path, text)
     const objectNode = parser.getObjectNode(parsed)
     if (! objectNode) throw new Error(`ObjectNode not found`)
-    const siblingComponentFieldNode = objectNode.fields.last()
+    const siblingComponentFieldNode = objectNode.fields.findLast(field => field.id.name != 'meta')
 
     let insertLine = siblingComponentFieldNode.loc.end.line -1
     let insertColumn = siblingComponentFieldNode.loc.end.column -1

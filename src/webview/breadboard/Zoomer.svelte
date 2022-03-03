@@ -36,17 +36,17 @@
 
 </script>
 
-<div class="flex" style="gap: 1px; --button-size: 40px"
-    on:wheel={onWheel}
-    >
+
     <button type="button"
-        class="select-none flex items-center justify-center" style="width: var(--button-size); height: var(--button-size);"
-        disabled={!zoomOutEnabled}
+        class="select-none flex items-center justify-center zoom-button"
+        class:disabled={!zoomOutEnabled}
         on:click={() => zoomOut()}
+        on:wheel={onWheel}
     >{@html iconMinus}</button>
+
     <button type="button"
-        class="select-none flex items-center justify-center" style="width: var(--button-size); height: var(--button-size);"
-        disabled={!zoomInEnabled}
+        class="select-none flex items-center justify-center zoom-button"
+        class:disabled={!zoomInEnabled}
         on:click={() => zoomIn()}
+        on:wheel={onWheel}
     >{@html iconPlus}</button>
-</div>
