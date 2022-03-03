@@ -1,9 +1,12 @@
 <script>
+    import { canvasWidth, canvasHeight } from './stores/canvas'
+
     import {
-        zoom, canvasWidth, canvasHeight,
+        zoom,
         grabbingSquareUuid,
         onContainerPointerMove, onContainerPointerUp
     } from './stores/visual'
+
 </script>
 
 <div class="map-surface-container map-bg-image bg-scrollable"
