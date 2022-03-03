@@ -2,13 +2,14 @@
     import { onMount } from 'svelte'
     import { messengerReady } from './transport'
 
-    import { components } from './stores/breadboard'
+    import { components, records } from './stores/breadboard'
 
     import Surface from './Surface.svelte'
     import Square from './Square.svelte'
     import Zoomer from './Zoomer.svelte'
 
     import Component from './Component.svelte'
+    import Record from './Record.svelte'
 
     onMount(() => messengerReady(true))
 </script>
@@ -21,7 +22,15 @@
             >
             <Component
                 component={component}
+                >
+
+                {#each $records.filter(r => r.componentIdentifier == component.identifier ) as record (record) }
+                    <Record
+                        record={record}
             />
+                {/each}
+
+            </Component>
         </Square>
     {/each}
 </Surface>

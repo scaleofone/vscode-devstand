@@ -1,14 +1,11 @@
 <script>
-    import { records } from './stores/breadboard'
     import { extension } from './transport'
 
-    import Record from './Record.svelte'
     import ComponentDropdown from './ComponentDropdown.svelte'
     import ComponentSchemaDropdown from './ComponentSchemaDropdown.svelte'
     import RenameComponentForm from './controls/RenameComponentForm.svelte'
 
     export let component
-    $: componentRecords = $records.filter(r => r.componentIdentifier == component.identifier)
 
     let renameFormIsVisible = false
     function handleRenameComponent(updIdentifier) {
@@ -36,7 +33,7 @@
 
 </script>
 
-<div class="component" id={component.identifier}>
+<div class="component">
 
     <div class="role-brick role-component-header">
         {#if renameFormIsVisible}
@@ -73,10 +70,6 @@
         {/if}
     </div>
 
-    {#each componentRecords as record (record) }
-        <Record
-            record={record}
-        />
-    {/each}
+    <slot></slot>
 
 </div>

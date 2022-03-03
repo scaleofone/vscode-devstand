@@ -6,9 +6,3 @@
 .role-brick:hover {
     background-color: var(--vscode-editor-background);
 }
-
-
-.component:nth-child(1n) { background-color: rgb(254 242 242); }
-.component:nth-child(2n) { background-color: rgb(247 254 231); }
-.component:nth-child(3n) { background-color: rgb(236 254 255); }
-.component:nth-child(4n) { background-color: rgb(254 252 232); }
