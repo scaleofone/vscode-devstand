@@ -1,4 +1,7 @@
 <script>
+    import { onMount } from 'svelte'
+    import { webviewIsReady } from './transport'
+
     import { components } from './stores/breadboard'
 
     import Surface from './Surface.svelte'
@@ -7,6 +10,7 @@
 
     import Component from './Component.svelte'
 
+    onMount(webviewIsReady)
 </script>
 
 

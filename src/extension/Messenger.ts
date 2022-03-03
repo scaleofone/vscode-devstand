@@ -2,7 +2,7 @@ import vscode from 'vscode'
 import { normaliseErr, convertErrToPayload, convertPayloadToErr } from '../errorHandling'
 
 interface MessengerMessage {
-    is: 'void' | 'request' | 'response' | 'error'
+    is: 'void' | 'request' | 'response' | 'error' | 'ready'
     from: 'webview' | 'extension'
     requestId?: number
     payload?: any
@@ -45,6 +45,11 @@ class Messenger {
     }
 
     onDidReceiveMessage(message: MessengerMessage) {
+        if (message.is == 'ready' && message.from === 'webview') {
+            this.isReady = true
+            // console.log('isReady', this.isReady, '[from=webview]')
+            this.flushOnReady()
+        }
         if (message.is == 'void' && message.from === 'webview') {
             try {
                 let result = this.facade[message.command].apply(this.facade, [message.payload])
@@ -80,7 +85,27 @@ class Messenger {
         }
     }
 
+    isReady: boolean = false
+    unreadyQueue: Function[] = []
+    notReady() {
+        this.isReady = false
+        // console.log('isReady', this.isReady, '[from=Provider]')
+    }
+    flushOnReady() {
+        let callback = this.unreadyQueue.shift()
+        while (callback) {
+            // console.log('flushing...')
+            callback.apply(this)
+            callback = this.unreadyQueue.shift()
+        }
+    }
     postVoidPayload(command: string, payload: any): void {
+        if (! this.isReady) {
+            // console.log('queued', command)
+            this.unreadyQueue.push(() => this.postVoidPayload(command, payload))
+            return
+        }
+        // console.log('postVoidPayload', command)
         this.sender.postMessage({ is: 'void', from: 'extension', command, payload })
     }
 

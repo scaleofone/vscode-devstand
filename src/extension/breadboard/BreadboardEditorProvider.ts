@@ -211,11 +211,20 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
             }
         })
 
+        const _onDidChangeViewState = panel.onDidChangeViewState((event) => {
+            messenger.notReady()
+            if (event.webviewPanel.visible) {
+                sendEditorSettings()
+                parseDocumentAndHydrateWebview()
+            }
+        })
+
         const _onDisposePanel = panel.onDidDispose(() => {
             messenger.dispose()
             _onChangeTextDocument.dispose()
             _onDidChangeConfiguration.dispose()
             _onDisposePanel.dispose()
+            _onDidChangeViewState.dispose()
         })
 
         sendEditorSettings()

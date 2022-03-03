@@ -2,7 +2,7 @@ import { normaliseErr, convertErrToPayload, convertPayloadToErr } from '../error
 import { AbortablePromise } from '../AbortablePromise'
 
 interface MessengerMessage {
-    is: 'void' | 'request' | 'response' | 'error'
+    is: 'void' | 'request' | 'response' | 'error' | 'ready'
     from: 'webview' | 'extension'
     requestId?: number
     payload?: any
@@ -82,6 +82,10 @@ class Messenger {
             window.addEventListener('message', responseHandler)
             this.sender.postMessage({ is: 'request', from: 'webview', command, payload, requestId })
         })
+    }
+
+    ready(isReady: boolean) {
+        this.sender.postMessage({ is: 'ready', from: 'webview', payload: isReady })
     }
 }
 

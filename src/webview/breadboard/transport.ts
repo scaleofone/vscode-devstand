@@ -62,4 +62,8 @@ messenger.applyReceivedMessagesTo(webview)
 messenger.sendMessagesTo(vscodeApi)
 messenger.subscribe()
 
-export { extension }
+function webviewIsReady(): void {
+    messenger.ready(true)
+}
+
+export { extension, webviewIsReady }
