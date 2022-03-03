@@ -15,7 +15,7 @@
 
 
 .zoom-button {
-    background: transparent;
+    background: transparent !important;
     color: var(--vscode-foreground);
     min-width: var(--button-size);
     width: var(--button-size);
