@@ -1,5 +1,8 @@
 <script>
     import { extension } from './transport'
+    import { colorHexForIndex } from './stores/visual'
+    import { components } from './stores/breadboard'
+    import { get } from 'svelte/store'
 
     import RecordDropdown from './RecordDropdown.svelte'
     import UpdateRecordForm from './controls/UpdateRecordForm.svelte'
@@ -7,6 +10,9 @@
 
     /** @type {import('../../BreadboardTypes').Record} */
     export let record
+
+    $: referencedComponent = record.referencedComponentIdentifier ? get(components).find(c => c.identifier == record.referencedComponentIdentifier) : undefined
+    $: referencedComponentColorHex = referencedComponent ? colorHexForIndex(referencedComponent.colorIndex) : undefined
 
     let modifyFormVisible = false
     let updateFormVisible = false
@@ -47,25 +53,40 @@
 
     {:else}
 
-        <div class="flex items-center height-mono">
+        <div class="flex items-center height-mono"
+            style={[
+                `--referenced-component-color: ${referencedComponentColorHex || '#00F'}`
+            ].join(';')}
+            >
+
             <div class="grow">
 
                 <span class="font-mono">
+
                     <span class:underline-dotted={! record.inSchema}>
-                    {#if record.scope}<small style="opacity:0.5">{record.scope}.</small>{/if}{record.identifier}
+                        {#if record.scope}<small>{record.scope}.</small>{/if}{record.identifier}
                     </span>
-                    {#if ['number', 'string'].includes(record.type)} = {record.value}{/if}
-                    {#if ['reference', 'composition'].includes(record.type)} = <span style="color:blue; font-weight:bold">{record.referencedComponentIdentifier}</span>.<span style="color:blue">{record.referencedRecordIdentifier}</span>{/if}
-                    {#if record.type == 'concatenation'} =
+
+                    {#if ['number', 'string'].includes(record.type)}
+                        {record.value}
+                    {/if}
+
+                    {#if ['reference', 'composition'].includes(record.type)}
+                        <span style="color: var(--referenced-component-color); font-weight:bold">{record.referencedComponentIdentifier}.</span><span style="color: var(--referenced-component-color)">{record.referencedRecordIdentifier}</span>
+                    {/if}
+
+                    {#if record.type == 'concatenation'}
                         {#each record.concatenationItems as item (item)}
                             {#if Array.isArray(item)}
-                                <span style="color:blue; font-weight:bold">{item[1]}</span>.<span style="color:blue">{item[2]}</span>
+                                <span style="color: var(--referenced-component-color); font-weight:bold">{item[1]}</span>.<span style="color: var(--referenced-component-color)">{item[2]}</span>
                             {:else}
                                 {item}
                             {/if}
                         {/each}
                     {/if}
+
                     <small style="opacity:0.5">[{record.type}]</small>
+
                 </span>
 
             </div>
