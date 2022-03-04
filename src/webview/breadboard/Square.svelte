@@ -19,7 +19,7 @@
         `--square-color: ${colorHex}`
     ].join(';')}
     >
-        <div class="height-mono select-none cursor-grab" style="min-width: 1rem; background-color: var(--square-color);"
+        <div class="height-mono select-none cursor-grab margin-bottom-neg-height-mono"
             on:pointerdown={(event) => {
                 handleGrabStartEvent(event, event.target, squareElement, component.identifier)
             }}

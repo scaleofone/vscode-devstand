@@ -11,6 +11,9 @@
 .height-mono {
     height: var(--height-mono);
 }
+.margin-bottom-neg-height-mono {
+    margin-bottom: calc(-1 * var(--height-mono));
+}
 
 /* Utilities */
 

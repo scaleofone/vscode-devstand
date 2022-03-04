@@ -31,6 +31,13 @@
             recordType: record.type,
         })
     }
+    function forwardPointerEventToSquareKnob(event) {
+        const squareKnob = event.target.closest('.component').previousElementSibling
+        if (squareKnob) {
+            let fwdEvent = new PointerEvent(event.type, event)
+            squareKnob.dispatchEvent(fwdEvent)
+        }
+    }
 
 </script>
 
@@ -50,9 +57,15 @@
         {:else}
 
             <div class="flex items-center height-mono">
-                <div class="font-mono grow">
-                    <b>{component.identifier}</b>: {component.templateImportVariableName}
-                </div>
+
+                <div class="font-mono" style="font-weight: bold; color: var(--square-color);">{component.identifier}</div>
+
+                <div class="grow height-mono cursor-grab" style="min-width: 1rem"
+                    on:pointerdown={forwardPointerEventToSquareKnob}
+                ></div>
+
+                <div class="font-mono" style="opacity: 0.5;">{component.templateImportVariableName}</div>
+
                 <div class="shrink-0">
                     <ComponentDropdown
                         component={component}
