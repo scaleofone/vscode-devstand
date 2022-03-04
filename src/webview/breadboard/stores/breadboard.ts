@@ -7,9 +7,10 @@ export const templateImports: Writable<TemplateImport[]> = writable([])
 export const components: Writable<Component[]> = writable([])
 export const records: Writable<Record[]> = writable([])
 
-export function mutateComponentGeometry(componentIdentifier: string, cornerY: number, cornerX: number): Component {
-    console.log('mutateComponentGeometry', componentIdentifier, cornerY, cornerX)
+export function mutateComponentGeometry(componentIdentifier: string, cornerY: number, cornerX: number): Component | undefined {
     const component = mutateCollectionItem(components, 'identifier', componentIdentifier, { cornerY, cornerX }) as Component
+    if (! component) { return }
+    console.log('mutateComponentGeometry', componentIdentifier, cornerY, cornerX)
     extension.mutateComponentGeometry({
         componentIdentifier: componentIdentifier,
         cornerY,
@@ -19,10 +20,12 @@ export function mutateComponentGeometry(componentIdentifier: string, cornerY: nu
     return component
 }
 
-function mutateCollectionItem(store: Writable<object[]>, idAttr: string, idValue: string, data: object): object {
+function mutateCollectionItem(store: Writable<object[]>, idAttr: string, idValue: string, data: object): object | undefined {
     let collection = get(store)
     let index = collection.findIndex(item => item[idAttr] === idValue)
     let item = collection[index]
+    let updatedItem = {...item, ...data}
+    if (JSON.stringify(item) === JSON.stringify(updatedItem)) { return }
     item = {...item, ...data}
     collection.splice(index, 1, item)
     store.set(collection)
