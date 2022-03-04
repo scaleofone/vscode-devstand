@@ -29,6 +29,7 @@ export interface Record {
     componentIdentifier: string,
     scope: string,
     identifier: string,
+    path: string,
     value: string | number | null,
     concatenationItems?: Array<string | string[]>,
     inSchema: boolean | undefined,

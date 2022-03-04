@@ -51,10 +51,10 @@ export function handleGrabStartEvent(event: PointerEvent, knobElement: HTMLDivEl
     grabbingCornerY.set(toCornerY(event.clientY))
 }
 
-export function handleReferenceGrabStartEvent(event: PointerEvent, recordPath: string, record: Record, trolleyElement?: HTMLDivElement) {
+export function handleReferenceGrabStartEvent(event: PointerEvent, record: Record, trolleyElement?: HTMLDivElement) {
     let component = get(components).find(c => c.identifier == record.componentIdentifier)
     grabbingVariableColorHex.set(colorHexForIndex(component.colorIndex))
-    grabbingVariableUuid.set(recordPath)
+    grabbingVariableUuid.set(record.path)
     grabbingRecord.set(record)
     grabbingCornerOffsetX.set(event.offsetX) //  + knobElement.offsetLeft
     grabbingCornerOffsetY.set(event.offsetY) // + knobElement.offsetTop + 2

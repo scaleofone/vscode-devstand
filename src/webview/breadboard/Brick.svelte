@@ -4,8 +4,6 @@
     /** @type {import('../../BreadboardTypes').Record} */
     export let record
 
-    $: recordPath = `$.${record.componentIdentifier}.${record.scope ? record.scope+'.' : ''}${record.identifier}`
-
 </script>
 
 <div class="flex items-center show-record-knob-on-hover">
@@ -14,7 +12,7 @@
 
     <div class="shrink cursor-grab height-mono record-knob"
         on:pointerdown={(event) => {
-            handleReferenceGrabStartEvent(event, recordPath, record)
+            handleReferenceGrabStartEvent(event, record)
         }}
     ></div>
 

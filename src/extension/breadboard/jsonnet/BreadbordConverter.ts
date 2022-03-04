@@ -84,10 +84,14 @@ function convertToRecord(componentIdentifier: string, scope: string) { return (n
         endLine: node.loc.end.line - 1,
         endCharacter: node.loc.end.column - 1,
     }
+    const identifier = node.id.name
+    const path = `$.${componentIdentifier}.${scope ? scope+'.' : ''}${identifier}`
+
     if (ast.isLiteralNull(node.expr2)) {
         return [{
             inSchema: undefined,
-            identifier: node.id.name,
+            identifier,
+            path,
             value: null,
             type: 'null',
             componentIdentifier,
@@ -98,7 +102,8 @@ function convertToRecord(componentIdentifier: string, scope: string) { return (n
     if (ast.isLiteralString(node.expr2)) {
         return [{
             inSchema: undefined,
-            identifier: node.id.name,
+            identifier,
+            path,
             value: node.expr2.value,
             type: 'string',
             componentIdentifier,
@@ -109,7 +114,8 @@ function convertToRecord(componentIdentifier: string, scope: string) { return (n
     if (ast.isLiteralNumber(node.expr2)) {
         return [{
             inSchema: undefined,
-            identifier: node.id.name,
+            identifier,
+            path,
             value: node.expr2.value,
             type: 'number',
             componentIdentifier,
@@ -121,7 +127,8 @@ function convertToRecord(componentIdentifier: string, scope: string) { return (n
         return [
             {
                 inSchema: undefined,
-                identifier: node.id.name,
+                identifier,
+                path,
                 value: '{...}',
                 type: 'object',
                 componentIdentifier,
@@ -138,7 +145,8 @@ function convertToRecord(componentIdentifier: string, scope: string) { return (n
             const referencedRecordIdentifier = reference[2]
             return [{
                 inSchema: undefined,
-                identifier: node.id.name,
+                identifier,
+                path,
                 value: reference.join('.'),
                 type: 'reference',
                 referencedComponentIdentifier,
@@ -161,7 +169,8 @@ function convertToRecord(componentIdentifier: string, scope: string) { return (n
             return [
                 {
                     inSchema: undefined,
-                    identifier: node.id.name,
+                    identifier,
+                    path,
                     value: reference.join('.'),
                     type: 'composition',
                     referencedComponentIdentifier,
@@ -188,7 +197,8 @@ function convertToRecord(componentIdentifier: string, scope: string) { return (n
             const referencedRecordIdentifier = reference[2]
             return [{
                 inSchema: undefined,
-                identifier: node.id.name,
+                identifier,
+                path,
                 value: stringifiedConcatenation.join(' + '),
                 concatenationItems: concatenation,
                 type: 'concatenation',
@@ -202,7 +212,8 @@ function convertToRecord(componentIdentifier: string, scope: string) { return (n
     }
     return [{
         inSchema: undefined,
-        identifier: node.id.name,
+        identifier,
+        path,
         value: '?',
         type: 'unsupported',
         componentIdentifier,
