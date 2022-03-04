@@ -3,6 +3,9 @@
     --editorSettings-lineHeightFraction: 1.5;
 
     --height-mono: calc(var(--editorSettings-lineHeight) * 1px);
+
+    --square-border-color: var(--vscode-input-border);
+    --knob-size: 18px;
 }
 
 .height-mono {

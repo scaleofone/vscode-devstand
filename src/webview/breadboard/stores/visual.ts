@@ -1,5 +1,6 @@
 import { Writable, writable, derived, get } from 'svelte/store'
 import { mutateComponentGeometry, components } from './breadboard'
+import { Record } from '../../../BreadboardTypes'
 
 export const colors: Writable<string[]> = writable(['#ee5396', '#00bcd4', '#8a3ffc', '#ffc107', '#03a9f4', '#8bc34a', '#ff9800', '#009688'])
 
@@ -29,8 +30,12 @@ let preventGrabbing = false
 export const zoom: Writable<number> = writable(1)
 
 export const grabbingSquareUuid: Writable<string> = writable('')
+export const grabbingVariableUuid: Writable<string> = writable('')
+export const grabbingRecord: Writable<Record> = writable(null)
+export const grabbingVariableColorHex: Writable<string> = writable('')
 
 const grabbingSquareElement: Writable<HTMLDivElement> = writable(null)
+const grabbingReferenceElement: Writable<HTMLDivElement> = writable(null)
 const grabbingCornerOffsetX: Writable<number> = writable(0)
 const grabbingCornerOffsetY: Writable<number> = writable(0)
 export const grabbingCornerX: Writable<number> = writable(0)
@@ -46,12 +51,41 @@ export function handleGrabStartEvent(event: PointerEvent, knobElement: HTMLDivEl
     grabbingCornerY.set(toCornerY(event.clientY))
 }
 
+export function handleReferenceGrabStartEvent(event: PointerEvent, recordPath: string, record: Record, trolleyElement?: HTMLDivElement) {
+    let component = get(components).find(c => c.identifier == record.componentIdentifier)
+    grabbingVariableColorHex.set(colorHexForIndex(component.colorIndex))
+    grabbingVariableUuid.set(recordPath)
+    grabbingRecord.set(record)
+    grabbingCornerOffsetX.set(event.offsetX) //  + knobElement.offsetLeft
+    grabbingCornerOffsetY.set(event.offsetY) // + knobElement.offsetTop + 2
+    grabbingCornerX.set(toCornerX(event.clientX))
+    grabbingCornerY.set(toCornerY(event.clientY))
+    if (typeof trolleyElement == 'undefined') {
+        trolleyElement = qs.trolley
+    }
+    grabbingReferenceElement.set(trolleyElement)
+    trolleyElement.style.top = `${get(grabbingCornerY)}px`
+    trolleyElement.style.left = `${get(grabbingCornerX)}px`
+}
+
 export function onContainerPointerMove(event: PointerEvent) {
     if (get(grabbingSquareUuid) && ! preventGrabbing) {
         grabbingCornerX.set(toCornerX(event.clientX))
         grabbingCornerY.set(toCornerY(event.clientY))
         get(grabbingSquareElement).style.left = get(grabbingCornerX).toString() + 'px'
         get(grabbingSquareElement).style.top = get(grabbingCornerY).toString() + 'px'
+        scrollSurfaceWhenSquareDraggedOutOfVieport(
+            event.clientX > window.innerWidth - 100,    // toRight ?
+            event.clientY > window.innerHeight - 100,   // toBottom ?
+            event.clientX < 100,                        // toLeft ?
+            event.clientY < 100                         // toTop ?
+        )
+    }
+    if (get(grabbingVariableUuid) && ! preventGrabbing) {
+        grabbingCornerX.set(toCornerX(event.clientX))
+        grabbingCornerY.set(toCornerY(event.clientY))
+        get(grabbingReferenceElement).style.left = get(grabbingCornerX).toString()+'px'
+        get(grabbingReferenceElement).style.top = get(grabbingCornerY).toString()+'px'
         scrollSurfaceWhenSquareDraggedOutOfVieport(
             event.clientX > window.innerWidth - 100,    // toRight ?
             event.clientY > window.innerHeight - 100,   // toBottom ?
@@ -84,6 +118,17 @@ export function onContainerPointerUp(event: PointerEvent) {
             grabbingCornerY.set(0)
         }, 310)
 
+    }
+    if (get(grabbingVariableUuid)) {
+        // console.log('REFERENCE DROPPED')
+        grabbingVariableUuid.set('')
+        grabbingRecord.set(null)
+        grabbingVariableColorHex.set('')
+        grabbingReferenceElement.set(null)
+        grabbingCornerOffsetX.set(0)
+        grabbingCornerOffsetY.set(0)
+        grabbingCornerX.set(0)
+        grabbingCornerY.set(0)
     }
 }
 
@@ -120,4 +165,11 @@ const qs = {
         return this._surface
     },
     _surface: undefined,
+    get trolley(): HTMLDivElement {
+        if (! this._trolley) {
+            this._trolley = document.querySelector('#grabbing-reference-view')
+        }
+        return this._trolley
+    },
+    _trolley: undefined,
 }

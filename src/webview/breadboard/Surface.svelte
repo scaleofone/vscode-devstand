@@ -1,16 +1,18 @@
 <script>
     import { canvasWidth, canvasHeight } from './stores/canvas'
 
+    import Trolley from './Trolley.svelte'
+
     import {
         zoom,
-        grabbingSquareUuid,
+        grabbingSquareUuid, grabbingVariableUuid,
         onContainerPointerMove, onContainerPointerUp
     } from './stores/visual'
 
 </script>
 
 <div class="map-surface-container map-bg-image bg-scrollable"
-    class:cursor-grabbing-everywhere={ !! $grabbingSquareUuid }
+    class:cursor-grabbing-everywhere={ $grabbingSquareUuid || $grabbingVariableUuid }
     style={[
         `background-size: ${ 100 * $zoom }px`,
     ].join(';')}
@@ -27,6 +29,13 @@
         >
 
         <slot></slot>
+
+
+        <div id="grabbing-reference-view" style="position: absolute; z-index: 100">
+            {#if $grabbingVariableUuid }
+                <Trolley />
+            {/if}
+        </div>
 
     </div>
 </div>

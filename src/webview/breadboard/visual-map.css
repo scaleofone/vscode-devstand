@@ -29,7 +29,6 @@
 
 
 .square {
-    --square-border-color: var(--vscode-input-border);
     position: absolute;
     z-index: 2;
     min-width: 8rem;

@@ -33,7 +33,6 @@
 .record-knob {
     position: relative;
     width: 0;
-    --knob-size: 16px;
 }
 .record-knob:before {
     content: '';
@@ -66,4 +65,13 @@
 }
 .show-record-knob-on-hover:hover .record-knob {
     opacity: 1;
+}
+
+.reference-trolley {
+    border-radius: 50rem;
+    background: var(--vscode-editor-background);
+    border: 1px solid var(--square-border-color);
+    margin-left: calc(-0.5 * var(--knob-size));
+    padding-left: calc(0.5 * var(--knob-size));
+    padding-right: calc(0.5 * var(--knob-size));
 }
