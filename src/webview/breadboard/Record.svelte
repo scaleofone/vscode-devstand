@@ -53,7 +53,7 @@
 
     {:else}
 
-        <div class="flex items-center height-mono"
+        <div class="flex items-center height-mono px-small"
             style={[
                 `--referenced-component-color: ${referencedComponentColorHex || '#00F'}`
             ].join(';')}

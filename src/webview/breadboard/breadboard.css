@@ -14,6 +14,10 @@
 .margin-bottom-neg-height-mono {
     margin-bottom: calc(-1 * var(--height-mono));
 }
+.px-small {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
 
 /* Utilities */
 

@@ -56,7 +56,7 @@
 
         {:else}
 
-            <div class="flex items-center height-mono">
+            <div class="flex items-center height-mono px-small">
 
                 <div class="font-mono" style="font-weight: bold; color: var(--square-color);">{component.identifier}</div>
 
