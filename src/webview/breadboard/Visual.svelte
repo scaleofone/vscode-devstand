@@ -1,5 +1,5 @@
 <script>
-    import { onMount, tick } from 'svelte'
+    import { onMount } from 'svelte'
     import { extension, messengerReady } from './transport'
 
     import { components, records } from './stores/breadboard'
@@ -12,7 +12,7 @@
     import Component from './Component.svelte'
     import Record from './Record.svelte'
 
-    onMount(tick(() => messengerReady(true)))
+    onMount(() => setTimeout(() => messengerReady(true), 10))
 </script>
 
 
