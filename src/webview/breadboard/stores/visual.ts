@@ -30,6 +30,7 @@ let preventGrabbing = false
 export const zoom: Writable<number> = writable(1)
 
 export const grabbingSquareUuid: Writable<string> = writable('')
+export const grabbingSquareUuidDelayed: Writable<string> = writable('')
 export const grabbingVariableUuid: Writable<string> = writable('')
 export const grabbingRecord: Writable<Record> = writable(null)
 export const grabbingVariableColorHex: Writable<string> = writable('')
@@ -44,6 +45,7 @@ export const grabbingCornerY: Writable<number> = writable(0)
 export function handleGrabStartEvent(event: PointerEvent, knobElement: HTMLDivElement, squareElement: HTMLDivElement, squareUuid: string) {
     if (event.button > 0) return
     grabbingSquareUuid.set(squareUuid)
+    grabbingSquareUuidDelayed.set(squareUuid)
     grabbingSquareElement.set(squareElement)
     grabbingCornerOffsetX.set(event.offsetX + knobElement.offsetLeft + 1)
     grabbingCornerOffsetY.set(event.offsetY + knobElement.offsetTop + 1)
@@ -68,7 +70,10 @@ export function handleReferenceGrabStartEvent(event: PointerEvent, record: Recor
     trolleyElement.style.left = `${get(grabbingCornerX)}px`
 }
 
+export const pointer = writable(null)
+
 export function onContainerPointerMove(event: PointerEvent) {
+    pointer.set({ Y: Math.round(event.clientY), X: Math.round(event.clientX) })
     if (get(grabbingSquareUuid) && ! preventGrabbing) {
         grabbingCornerX.set(toCornerX(event.clientX))
         grabbingCornerY.set(toCornerY(event.clientY))
@@ -116,6 +121,7 @@ export function onContainerPointerUp(event: PointerEvent) {
         setTimeout(() => {
             grabbingCornerX.set(0)
             grabbingCornerY.set(0)
+            grabbingSquareUuidDelayed.set('')
         }, 310)
 
     }

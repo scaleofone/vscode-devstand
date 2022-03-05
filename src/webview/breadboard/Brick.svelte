@@ -8,8 +8,6 @@
 
 <div class="flex items-center show-record-knob-on-hover">
 
-    <div class="shrink" data-clamp="record-left"></div>
-
     <div class="shrink cursor-grab height-mono record-knob"
         on:pointerdown={(event) => {
             handleReferenceGrabStartEvent(event, record)
@@ -20,6 +18,13 @@
         <slot></slot>
     </div>
 
-    <div class="shrink" data-clamp="record-right"></div>
+    {#if record.referencedComponentIdentifier}
+        <div class="shrink" style="width:0px; height:0px; background:fuchsia"
+            data-clamp="brick"
+            data-record-path={record.path}
+            data-component-identifier={record.componentIdentifier}
+            data-referenced-component-identifier={record.referencedComponentIdentifier}
+        ></div>
+    {/if}
 
 </div>

@@ -6,12 +6,14 @@
 
     $: colorHex = colorHexForIndex(component.colorIndex)
 
+    /** @type HTMLDivElement */
     let squareElement;
 
 </script>
 
 <div bind:this={squareElement}
     class="square"
+    data-component-identifier={component.identifier}
     class:is-grabbing={ $grabbingSquareUuid === component.identifier }
     style={[
         `top: ${component.cornerY}px`,

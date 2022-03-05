@@ -1,6 +1,8 @@
 <script>
     import { canvasWidth, canvasHeight } from './stores/canvas'
+    import { arrows } from './stores/arrows'
 
+    import Arrow from './Arrow.svelte'
     import Trolley from './Trolley.svelte'
 
     import {
@@ -30,6 +32,13 @@
 
         <slot></slot>
 
+        <svg style="z-index: -1;" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+            {#each $arrows as arrow (arrow)}
+                <Arrow
+                    arrow={arrow}
+                />
+            {/each}
+        </svg>
 
         <div id="grabbing-reference-view" style="position: absolute; z-index: 100">
             {#if $grabbingVariableUuid }
