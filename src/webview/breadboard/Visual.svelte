@@ -27,7 +27,7 @@
                 component={component}
                 >
 
-                {#each $records.filter(r => r.componentIdentifier == component.identifier ) as record (record) }
+                {#each $records.filter(r => r.componentIdentifier == component.identifier && ! (r.type == 'object' && r.scope && r.scope.indexOf('.') == -1) ) as record (record) }
                     <Brick
                         record={record}
                         >

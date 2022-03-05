@@ -4,6 +4,7 @@
 
     --height-mono: calc(var(--editorSettings-lineHeight) * 1px);
 
+    --square-section-color: var(--vscode-button-secondaryBackground); /* --vscode-dropdown-border */
     --square-border-color: var(--vscode-input-border);
     --knob-size: 18px;
 }
@@ -17,6 +18,9 @@
 .px-small {
     padding-left: 0.5rem;
     padding-right: 0.5rem;
+}
+.square-color-foreground {
+    color: var(--square-color);
 }
 
 /* Utilities */

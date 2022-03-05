@@ -28,6 +28,7 @@ export interface Record {
     type: 'string' | 'number' | 'object' | 'reference' | 'composition' | 'concatenation' | 'null' | 'unsupported', // 'boolean' | 'array' |
     componentIdentifier: string,
     scope: string,
+    shortScope: string,
     identifier: string,
     path: string,
     value: string | number | null,

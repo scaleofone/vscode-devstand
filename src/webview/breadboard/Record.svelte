@@ -51,6 +51,13 @@
             />
         </div>
 
+
+    {:else if record.type == 'object' || record.type == 'composition' }
+
+        <div class="flex items-center height-mono px-small" style="background-color: var(--square-section-color);">
+            <span class="font-mono">{record.identifier}</span>
+        </div>
+
     {:else}
 
         <div class="flex items-center height-mono px-small"
@@ -64,7 +71,7 @@
                 <span class="font-mono">
 
                     <span class:underline-dotted={! record.inSchema}>
-                        {#if record.scope}<small>{record.scope}.</small>{/if}{record.identifier}
+                        {#if record.shortScope}{record.shortScope}.{/if}{record.identifier}
                     </span>
 
                     {#if ['number', 'string'].includes(record.type)}

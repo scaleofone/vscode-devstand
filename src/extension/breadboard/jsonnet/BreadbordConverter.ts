@@ -87,6 +87,15 @@ function convertToRecord(componentIdentifier: string, scope: string) { return (n
     const identifier = node.id.name
     const path = `$.${componentIdentifier}.${scope ? scope+'.' : ''}${identifier}`
 
+    const shortScope = ((scopeItems) => {
+        if (scopeItems.length > 1) {
+            scopeItems.shift()
+            return scopeItems.join('.')
+        } else {
+            return ''
+        }
+    })(scope.split('.'))
+
     if (ast.isLiteralNull(node.expr2)) {
         return [{
             inSchema: undefined,
@@ -96,6 +105,7 @@ function convertToRecord(componentIdentifier: string, scope: string) { return (n
             type: 'null',
             componentIdentifier,
             scope,
+            shortScope,
             vscodeRange,
         }]
     }
@@ -108,6 +118,7 @@ function convertToRecord(componentIdentifier: string, scope: string) { return (n
             type: 'string',
             componentIdentifier,
             scope,
+            shortScope,
             vscodeRange,
         }]
     }
@@ -120,6 +131,7 @@ function convertToRecord(componentIdentifier: string, scope: string) { return (n
             type: 'number',
             componentIdentifier,
             scope,
+            shortScope,
             vscodeRange,
         }]
     }
@@ -133,6 +145,7 @@ function convertToRecord(componentIdentifier: string, scope: string) { return (n
                 type: 'object',
                 componentIdentifier,
                 scope,
+                shortScope,
                 vscodeRange,
             },
             ...node.expr2.fields.toArray().map(convertToRecord(componentIdentifier, (scope ? scope+'.' : '')+node.id.name)).flat(1)
@@ -153,6 +166,7 @@ function convertToRecord(componentIdentifier: string, scope: string) { return (n
                 referencedRecordIdentifier,
                 componentIdentifier,
                 scope,
+                shortScope,
                 vscodeRange,
             }]
         }
@@ -177,6 +191,7 @@ function convertToRecord(componentIdentifier: string, scope: string) { return (n
                     referencedRecordIdentifier,
                     componentIdentifier,
                     scope,
+                    shortScope,
                     vscodeRange,
                 },
                 ...node.expr2.right.fields.toArray().map(convertToRecord(componentIdentifier, node.id.name)).flat(1) as Record[]
@@ -206,6 +221,7 @@ function convertToRecord(componentIdentifier: string, scope: string) { return (n
                 referencedRecordIdentifier,
                 componentIdentifier,
                 scope,
+                shortScope,
                 vscodeRange,
             }]
         }
@@ -218,6 +234,7 @@ function convertToRecord(componentIdentifier: string, scope: string) { return (n
         type: 'unsupported',
         componentIdentifier,
         scope,
+        shortScope,
         vscodeRange,
     }]
 }}

@@ -1,5 +1,6 @@
 <script>
     import { extension } from './transport'
+    import { records } from './stores/breadboard'
 
     import ComponentDropdown from './ComponentDropdown.svelte'
     import ComponentSchemaDropdown from './ComponentSchemaDropdown.svelte'
@@ -7,6 +8,8 @@
 
     /** @type {import('../../BreadboardTypes').Component} */
     export let component
+
+    $: componentWasReferenced = $records.some(r => r.referencedComponentIdentifier == component.identifier)
 
     let renameFormIsVisible = false
     function handleRenameComponent(updIdentifier) {
@@ -56,9 +59,9 @@
 
         {:else}
 
-            <div class="flex items-center height-mono px-small">
+            <div class="flex items-center height-mono px-small" style="background-color: var(--square-section-color);">
 
-                <div class="font-mono" style="font-weight: bold; color: var(--square-color);">{component.identifier}</div>
+                <div class="font-mono" class:square-color-foreground={componentWasReferenced} style="font-weight: bold;">{component.identifier}</div>
 
                 <div class="grow height-mono cursor-grab" style="min-width: 1rem"
                     on:pointerdown={forwardPointerEventToSquareKnob}
