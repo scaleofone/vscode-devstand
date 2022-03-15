@@ -24,6 +24,7 @@
         extension.modifyRecord({
             componentIdentifier: record.componentIdentifier,
             recordIdentifier: record.identifier,
+            recordScope: record.scope,
             renameRecordIdentifier: identifier,
             updateRecordValue: value,
         }).then(() => {

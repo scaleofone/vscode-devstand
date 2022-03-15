@@ -22,6 +22,7 @@
         extension.deleteRecord({
             componentIdentifier: record.componentIdentifier,
             recordIdentifier: record.identifier,
+            recordScope: record.scope,
         })
     }
 

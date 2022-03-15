@@ -64,9 +64,26 @@ export function getComponentObjectNode(parsed: ast.Node, identifier: string): as
     return componentFieldNode.expr2.right
 }
 
-export function getRecordFieldNode(parsed: ast.Node, componentIdentifier: string, recordIdentifier: string): ast.ObjectField {
+export function getScopeObjectNode(componentObjectNode: ast.ObjectNode, componentIdentifier: string, scopeIdentifier: string): ast.ObjectNode {
+    const scopeFieldNode = componentObjectNode.fields.find(scopeFieldNode => scopeFieldNode.id.name == scopeIdentifier)
+    if (scopeFieldNode == undefined) {
+        throw new Error(`Could not find Scope[identifier=${ scopeIdentifier }] within Component[identifier=${ componentIdentifier }]`)
+    }
+    if (ast.isObjectNode(scopeFieldNode.expr2)) {
+        return scopeFieldNode.expr2
+    }
+    if (ast.isBinary(scopeFieldNode.expr2) && ast.isObjectNode(scopeFieldNode.expr2.right)) {
+        return scopeFieldNode.expr2.right
+    }
+    console.log(scopeFieldNode.expr2)
+
+    throw new Error(`Scope[identifier=${ scopeIdentifier }] within Component[identifier=${ componentIdentifier }] is not a proper scope`)
+}
+
+export function getRecordFieldNode(parsed: ast.Node, componentIdentifier: string, recordIdentifier: string, recordScope: string): ast.ObjectField {
     const componentObjectNode = getComponentObjectNode(parsed, componentIdentifier)
-    const recordFieldNode = componentObjectNode.fields.find(recordFieldNode => recordFieldNode.id.name == recordIdentifier)
+    const scopeObjectNode = recordScope ? getScopeObjectNode(componentObjectNode, componentIdentifier, recordScope) : undefined
+    const recordFieldNode = (scopeObjectNode || componentObjectNode).fields.find(recordFieldNode => recordFieldNode.id.name == recordIdentifier)
     if (recordFieldNode == undefined) {
         throw new Error(`Could not find Record[identifier=${ recordIdentifier }] within Component[identifier=${ componentIdentifier }]`)
     }

@@ -31,11 +31,13 @@ export interface CreateRecordValue {
 export interface DeleteRecord {
     componentIdentifier: string
     recordIdentifier: string
+    recordScope: string
 }
 
 export interface RenameRecord {
     componentIdentifier: string
     recordIdentifier: string
+    recordScope: string
     renameRecordIdentifier: string
 }
 
@@ -49,6 +51,7 @@ export interface MutateComponentGeometry {
 export interface ModifyRecord {
     componentIdentifier: string
     recordIdentifier: string
+    recordScope: string
     renameRecordIdentifier: string
     updateRecordValue: string | number
 }
@@ -56,6 +59,7 @@ export interface ModifyRecord {
 export interface UpdateRecordValue {
     componentIdentifier: string
     recordIdentifier: string
+    recordScope: string
     updateRecordValue: string | number
 }
 

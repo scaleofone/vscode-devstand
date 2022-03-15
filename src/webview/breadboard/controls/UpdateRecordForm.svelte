@@ -22,6 +22,7 @@
         extension.updateRecordValue({
             componentIdentifier: record.componentIdentifier,
             recordIdentifier: record.identifier,
+            recordScope: record.scope,
             updateRecordValue: value,
         }).then(() => {
             rejectedMessage = null

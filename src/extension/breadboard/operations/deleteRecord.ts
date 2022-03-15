@@ -7,7 +7,7 @@ import * as parser from '../jsonnet/JsonnetParser'
 export default function (document: vscode.TextDocument, payload: DeleteRecord): vscode.TextEdit {
     const text = document.getText()
     const parsed = parser.parse(document.uri.path, text)
-    const recordFieldNode = parser.getRecordFieldNode(parsed, payload.componentIdentifier, payload.recordIdentifier)
+    const recordFieldNode = parser.getRecordFieldNode(parsed, payload.componentIdentifier, payload.recordIdentifier, payload.recordScope)
 
     if (! (
         ast.isLiteralStringSingle(recordFieldNode.expr2)
