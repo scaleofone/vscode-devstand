@@ -44,7 +44,7 @@
     {/each}
 </Surface>
 
-<div style="position: fixed; bottom: 0; right: 0; padding: 0.5rem 1rem 1rem 0.5rem; background-color: var(--vscode-editor-background)">
+<div style="position: fixed; --scrollbar-width: 10px; bottom: var(--scrollbar-width); right: var(--scrollbar-width); padding: var(--scrollbar-width); background-color: var(--vscode-editor-background)">
     <div class="flex" style="gap: 5px; --button-size: 40px">
         <Zoomer />
         <button
