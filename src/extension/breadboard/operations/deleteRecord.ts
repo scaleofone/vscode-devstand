@@ -15,6 +15,7 @@ export default function (document: vscode.TextDocument, payload: DeleteRecord): 
         || ast.isLiteralNumber(recordFieldNode.expr2)
         || ast.isIndex(recordFieldNode.expr2)
         || ast.isLiteralNull(recordFieldNode.expr2)
+        || ast.isBinary(recordFieldNode.expr2)
     )) {
         throw new Error(`node[type=${ recordFieldNode.expr2.type }] is not supported`)
     }
@@ -30,6 +31,13 @@ export default function (document: vscode.TextDocument, payload: DeleteRecord): 
     if (ast.isLiteralStringSingle(recordFieldNode.expr2) || ast.isLiteralStringDouble(recordFieldNode.expr2)) {
         endColumn += 1 // single quot || double quot
     }
+    if (ast.isBinary(recordFieldNode.expr2) && (
+        `'` == document.getText(new vscode.Range(endLine, endColumn, endLine, endColumn+1))
+        || `"` == document.getText(new vscode.Range(endLine, endColumn, endLine, endColumn+1))
+    )) {
+        endColumn += 1 // single quot || double quot
+    }
+
     if (',' == document.getText(new vscode.Range(endLine, endColumn, endLine, endColumn+1))) {
         endColumn += 1
     }

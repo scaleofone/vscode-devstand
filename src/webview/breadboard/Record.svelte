@@ -84,9 +84,9 @@
                     {/if}
 
                     {#if record.type == 'concatenation'}
-                        {#each record.concatenationItems as item (item)}
+                        {#each record.concatenationItems as item, i (i + (Array.isArray(item) ? item.join() : item.toString()))}
                             {#if Array.isArray(item)}
-                                <span style="color: var(--referenced-component-color); font-weight:bold">{item[1]}</span>.<span style="color: var(--referenced-component-color)">{item[2]}</span>
+                                <span style="color: var(--referenced-component-color); font-weight:bold">{item[1]}</span><span style="color: var(--referenced-component-color)">.{item[2]}</span>
                             {:else}
                                 {item}
                             {/if}

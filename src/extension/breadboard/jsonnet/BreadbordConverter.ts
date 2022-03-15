@@ -1,5 +1,7 @@
 import * as ast from '../../../../heptio-vscode-jsonnet/compiler/lexical-analysis/ast'
 
+import { convertToConcatenation, convertToReference, concatenationStringToEditableString } from './helpers'
+
 import { Breadboard, TemplateImport, Component, Record, VscodeRange } from '../../../BreadboardTypes'
 
 export function toBreadboard(localBindNodes: ast.LocalBind[], objectNode: ast.ObjectNode | undefined): Breadboard {
@@ -160,7 +162,7 @@ function convertToRecord(componentIdentifier: string, scope: string) { return (n
                 inSchema: undefined,
                 identifier,
                 path,
-                value: reference.join('.'),
+                value: `{` + reference.join('.') + `}`,
                 type: 'reference',
                 referencedComponentIdentifier,
                 referencedRecordIdentifier,
@@ -185,7 +187,7 @@ function convertToRecord(componentIdentifier: string, scope: string) { return (n
                     inSchema: undefined,
                     identifier,
                     path,
-                    value: reference.join('.'),
+                    value: `{` + reference.join('.') + `}`,
                     type: 'composition',
                     referencedComponentIdentifier,
                     referencedRecordIdentifier,
@@ -207,14 +209,14 @@ function convertToRecord(componentIdentifier: string, scope: string) { return (n
         }
         const reference = concatenation.find(ref => Array.isArray(ref) && ref.length == 3 && ref[0] == '$')
         if (reference && concatenation.length > 1) {
-            const stringifiedConcatenation = concatenation.map(item => Array.isArray(item) ? item.join('.') : item)
+            const concatenationString = concatenation.map(item => Array.isArray(item) ? item.join('.') : (`'` + item + `'`)).join(` + `)
             const referencedComponentIdentifier = reference[1]
             const referencedRecordIdentifier = reference[2]
             return [{
                 inSchema: undefined,
                 identifier,
                 path,
-                value: stringifiedConcatenation.join(' + '),
+                value: concatenationStringToEditableString(concatenationString),
                 concatenationItems: concatenation,
                 type: 'concatenation',
                 referencedComponentIdentifier,
@@ -238,37 +240,3 @@ function convertToRecord(componentIdentifier: string, scope: string) { return (n
         vscodeRange,
     }]
 }}
-
-function convertToReference(node: ast.Index): string[] {
-    let result = [node.id.name]
-    if (ast.isIndex(node.target)) {
-        result = [...result, ...convertToReference(node.target).flat(1)]
-    }
-    if (ast.isDollar(node.target)) {
-        result = [...result, '$']
-    }
-    return result
-}
-
-function convertToConcatenation(node: ast.Binary): Array<string | string[]> {
-    let result = []
-    if (ast.isIndex(node.right)) {
-        result = [...result, convertToReference(node.right).reverse()]
-    } else if (ast.isLiteralString(node.right)) {
-        result = [...result, node.right.value]
-    } else {
-        throw `Concatenation RIGHT unsupported with Node[type=${ node.right.type }]`
-    }
-
-    if (ast.isIndex(node.left)) {
-        result = [convertToReference(node.left).reverse(), ...result]
-    } else if (ast.isBinary(node.left)) {
-        result = [...convertToConcatenation(node.left), ...result]
-    } else if (ast.isLiteralString(node.left)) {
-        result = [node.left.value, ...result]
-    } else {
-        throw `Concatenation LEFT unsupported with Node[type=${ node.right.type }]`
-    }
-
-    return result
-}
