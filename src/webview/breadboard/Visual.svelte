@@ -3,7 +3,7 @@
     import { extension, messengerReady } from './transport'
 
     import { components, records } from './stores/breadboard'
-    import { squareDimensions, brickClamps, crawl, arrows } from './stores/arrows'
+    import { squareDimensions, brickClamps, crawl, arrows, brickCoordinates } from './stores/arrows'
     import { pointer } from './stores/visual'
 
     import Surface from './Surface.svelte'
@@ -64,6 +64,11 @@
     <details class="inline-block">
         <summary class="cursor-pointer hover:fg-link select-none">pointer</summary>
         <pre style="background-color: white;">{JSON.stringify($pointer, null, 2)}</pre>
+    </details>
+    <br>
+    <details class="inline-block">
+        <summary class="cursor-pointer hover:fg-link select-none">brickCoordinates</summary>
+        <pre style="background-color: white;">{JSON.stringify($brickCoordinates, null, 2)}</pre>
     </details>
     <br>
     <details class="inline-block">

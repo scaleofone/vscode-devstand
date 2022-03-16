@@ -75,3 +75,8 @@
     padding-left: calc(0.5 * var(--knob-size));
     padding-right: calc(0.5 * var(--knob-size));
 }
+
+.brick--dragover {
+    outline: 2px solid blueviolet;
+    z-index: 1;
+}

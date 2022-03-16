@@ -1,5 +1,6 @@
 import { Writable, writable, derived, get } from 'svelte/store'
 import { mutateComponentGeometry, components } from './breadboard'
+import { findBrickCoordinatesBelowPointer } from './arrows'
 import { Record } from '../../../BreadboardTypes'
 
 export const colors: Writable<string[]> = writable(['#ee5396', '#00bcd4', '#8a3ffc', '#ffc107', '#03a9f4', '#8bc34a', '#ff9800', '#009688'])
@@ -41,6 +42,9 @@ const grabbingCornerOffsetX: Writable<number> = writable(0)
 const grabbingCornerOffsetY: Writable<number> = writable(0)
 export const grabbingCornerX: Writable<number> = writable(0)
 export const grabbingCornerY: Writable<number> = writable(0)
+
+export const dragoverRecordPath: Writable<string> = writable('')
+export const dragoverComponentIdentifier: Writable<string> = writable('')
 
 export function handleGrabStartEvent(event: PointerEvent, knobElement: HTMLDivElement, squareElement: HTMLDivElement, squareUuid: string) {
     if (event.button > 0) return
@@ -97,6 +101,15 @@ export function onContainerPointerMove(event: PointerEvent) {
             event.clientX < 100,                        // toLeft ?
             event.clientY < 100                         // toTop ?
         )
+
+        let brickCoordinate = findBrickCoordinatesBelowPointer(get(pointer), get(zoom), qs.surface.scrollTop, qs.surface.scrollLeft)
+        if (brickCoordinate) {
+            dragoverRecordPath.set(brickCoordinate.recordPath)
+            dragoverComponentIdentifier.set(brickCoordinate.componentIdentifier)
+        } else {
+            dragoverRecordPath.set('')
+            dragoverComponentIdentifier.set('')
+        }
     }
 }
 

@@ -1,12 +1,17 @@
 <script>
-    import { handleReferenceGrabStartEvent } from './stores/visual'
+    import { handleReferenceGrabStartEvent, dragoverRecordPath } from './stores/visual'
 
     /** @type {import('../../BreadboardTypes').Record} */
     export let record
 
 </script>
 
-<div class="flex items-center show-record-knob-on-hover">
+<div class="flex items-center show-record-knob-on-hover"
+    class:brick--dragover={$dragoverRecordPath == record.path}
+    data-role="brick"
+    data-record-path={record.path}
+    data-component-identifier={record.componentIdentifier}
+    >
 
     <div class="shrink cursor-grab height-mono record-knob"
         on:pointerdown={(event) => {

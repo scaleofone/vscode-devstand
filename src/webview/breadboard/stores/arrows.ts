@@ -64,6 +64,40 @@ function crawlBrickClamps(): BrickClamp[] {
     return result
 }
 
+export interface BrickCoordinate {
+    componentIdentifier: string
+    recordPath: string
+    topLeftY: number
+    topLeftX: number
+    bottomRightY: number
+    bottomRightX: number
+}
+
+export const brickCoordinates: Writable<BrickCoordinate[]> = writable([])
+
+function crawlBrickCoordinates($squareDimensions: SquareDimension[]): BrickCoordinate[] {
+    let result = []
+    for (let brickElement of document.querySelectorAll('[data-role="brick"]') as NodeListOf<HTMLDivElement>) {
+        let sd = $squareDimensions.find(sd => sd.componentIdentifier == brickElement.dataset.componentIdentifier)
+        result.push({
+            componentIdentifier: brickElement.dataset.componentIdentifier,
+            recordPath: brickElement.dataset.recordPath,
+            topLeftY: brickElement.offsetTop + sd.cornerY,
+            topLeftX: brickElement.offsetLeft + sd.cornerX,
+            bottomRightY: brickElement.offsetTop + sd.cornerY + brickElement.offsetHeight,
+            bottomRightX: brickElement.offsetLeft + sd.cornerX + brickElement.offsetWidth,
+        })
+    }
+    return result
+}
+
+export function findBrickCoordinatesBelowPointer($pointer: { X: number, Y: number }, $zoom: number, surfaceScrollTop: number, surfaceScrollLeft: number): BrickCoordinate | undefined {
+    return get(brickCoordinates).find(bc => (
+        bc.topLeftY <= ($pointer.Y /$zoom + surfaceScrollTop/$zoom) && ($pointer.Y /$zoom + surfaceScrollTop/$zoom) <= bc.bottomRightY
+        && bc.topLeftX < ($pointer.X /$zoom + surfaceScrollLeft/$zoom) && ($pointer.X /$zoom + surfaceScrollLeft/$zoom) < bc.bottomRightX
+    ))
+}
+
 export function crawl() {
     console.log('crawl')
     squareDimensions.set(
@@ -78,6 +112,9 @@ export function crawl() {
             get(brickClamps),
             get(editorSettings)
         )
+    )
+    brickCoordinates.set(
+        crawlBrickCoordinates(get(squareDimensions))
     )
 }
 
