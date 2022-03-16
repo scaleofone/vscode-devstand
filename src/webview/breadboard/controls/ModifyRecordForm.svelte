@@ -72,6 +72,9 @@
 </script>
 
 
+<div class="relative">
+
+    <div class="inline-flex">
     <input type="text"
         placeholder="identifier"
         class="font-mono border-0 outline-editor px-small"
@@ -86,6 +89,12 @@
         bind:value={$_recordValue.value}
         on:keyup={captureEnterAndEscape}
     >
+    </div>
+
     {#if (showRejectedMessage && rejectedMessage) || ! $_form.valid}
-        <div style="background:red; color:white;">{(showRejectedMessage && rejectedMessage) ? rejectedMessage : $_form.errors[0]}</div>
+        <div
+            class="absolute border-invalid bg-invalid px-small py-for-small" style="z-index: 3; top: calc(var(--height-mono) - 1px); left: -1px;"
+            >{(showRejectedMessage && rejectedMessage) ? rejectedMessage : $_form.errors[0]}</div>
     {/if}
+
+</div>

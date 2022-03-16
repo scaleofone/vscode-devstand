@@ -24,6 +24,10 @@ textarea.px-small {
 .square-color-foreground {
     color: var(--square-color);
 }
+.py-for-small {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+}
 
 /* Utilities */
 
@@ -49,6 +53,9 @@ textarea.font-mono {
 .flex        { display: flex; }
 .inline-flex { display: inline-flex; }
 .flex-none   { flex: none; }
+
+.absolute { position: absolute; }
+.relative { position: relative; }
 
 .shrink	  { flex-shrink: 1; }
 .shrink-0 { flex-shrink: 0; }
@@ -91,3 +98,7 @@ textarea.font-mono {
 }
 
 .border-0 { border: 0; }
+
+.border-invalid { border: 1px solid var(--vscode-inputValidation-errorBorder); }
+.outline-invalid { outline-color: var(--vscode-inputValidation-errorBorder) !important; }
+.bg-invalid {  background-color: var(--vscode-inputValidation-errorBackground); }
