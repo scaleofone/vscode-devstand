@@ -83,12 +83,11 @@
 
 
 .outline-editor {
-    outline: 1px solid var(--square-border-color) !important;
+    outline: 1px solid var(--square-border-color);
     z-index: 1;
     outline-offset: 0px !important;
 }
 .outline-editor:focus {
-    outline: 1px solid var(--vscode-notebook-focusedEditorBorder) !important;
+    outline-color: var(--vscode-notebook-focusedEditorBorder);
     z-index: 2;
-    outline-offset: 0px !important;
 }

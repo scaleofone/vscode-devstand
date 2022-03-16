@@ -15,7 +15,9 @@
 .margin-bottom-neg-height-mono {
     margin-bottom: calc(-1 * var(--height-mono));
 }
-.px-small {
+.px-small,
+input:not([type="checkbox"]).px-small,
+textarea.px-small {
     padding-left: 0.5rem;
     padding-right: 0.5rem;
 }
@@ -26,8 +28,8 @@
 /* Utilities */
 
 .font-mono,
-input:not([type="checkbox"]).input-mono,
-textarea.input-mono {
+input:not([type="checkbox"]).font-mono,
+textarea.font-mono {
     font-size: var(--vscode-editor-font-size);
     font-family: var(--vscode-editor-font-family);
 }

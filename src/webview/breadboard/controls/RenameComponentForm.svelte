@@ -38,6 +38,7 @@
 
 <div>
     <input type="text"
+        class="font-mono px-small"
         bind:this={textInput}
         bind:value={$_componentIdentifier.value}
         on:keydown={captureEnterAndEscape}

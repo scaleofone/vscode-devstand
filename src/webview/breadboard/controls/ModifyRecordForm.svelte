@@ -74,13 +74,15 @@
 
     <input type="text"
         placeholder="identifier"
-        class="input-mono border-0 outline-editor"
+        class="font-mono border-0 outline-editor px-small"
+        class:outline-invalid={(showRejectedMessage && rejectedMessage) || ! $_form.valid}
         bind:value={$_recordIdentifier.value}
         on:keyup={captureEnterAndEscape}
     >
     <input type="text" bind:this={inputValueElement}
         placeholder="value"
-        class="input-mono border-0 outline-editor"
+        class="font-mono border-0 outline-editor px-small"
+        class:outline-invalid={(showRejectedMessage && rejectedMessage) || ! $_form.valid}
         bind:value={$_recordValue.value}
         on:keyup={captureEnterAndEscape}
     >

@@ -62,7 +62,7 @@
 </script>
 
     <input type="text" bind:this={inputValueElement}
-        class="input-mono border-0 outline-editor"
+        class="font-mono border-0 outline-editor"
         bind:value={$_recordValue.value}
         on:keyup={captureEnterAndEscape}
     >
