@@ -1,4 +1,5 @@
 <script>
+    import { onMount } from 'svelte'
     import { createEventDispatcher } from 'svelte'
     const dispatch = createEventDispatcher()
 
@@ -65,16 +66,21 @@
         }
         if (event.keyCode == 27 /* Esc */) { dispatch('cancel') }
     }
+
+    let inputValueElement
+    onMount(() => inputValueElement.focus())
 </script>
 
 
     <input type="text"
         placeholder="identifier"
+        class="input-mono border-0 outline-editor"
         bind:value={$_recordIdentifier.value}
         on:keyup={captureEnterAndEscape}
     >
-    <input type="text"
+    <input type="text" bind:this={inputValueElement}
         placeholder="value"
+        class="input-mono border-0 outline-editor"
         bind:value={$_recordValue.value}
         on:keyup={captureEnterAndEscape}
     >

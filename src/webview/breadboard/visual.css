@@ -80,3 +80,15 @@
     outline: 2px solid blueviolet;
     z-index: 1;
 }
+
+
+.outline-editor {
+    outline: 1px solid var(--square-border-color) !important;
+    z-index: 1;
+    outline-offset: 0px !important;
+}
+.outline-editor:focus {
+    outline: 1px solid var(--vscode-notebook-focusedEditorBorder) !important;
+    z-index: 2;
+    outline-offset: 0px !important;
+}

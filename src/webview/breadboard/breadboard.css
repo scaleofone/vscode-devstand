@@ -25,7 +25,9 @@
 
 /* Utilities */
 
-.font-mono {
+.font-mono,
+input:not([type="checkbox"]).input-mono,
+textarea.input-mono {
     font-size: var(--vscode-editor-font-size);
     font-family: var(--vscode-editor-font-family);
 }
@@ -85,3 +87,5 @@
     text-decoration-line: underline;
     text-underline-offset: 2px;
 }
+
+.border-0 { border: 0; }
