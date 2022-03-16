@@ -5,7 +5,6 @@
     import { get } from 'svelte/store'
 
     import RecordDropdown from './RecordDropdown.svelte'
-    import UpdateRecordForm from './controls/UpdateRecordForm.svelte'
     import ModifyRecordForm from './controls/ModifyRecordForm.svelte'
 
     /** @type {import('../../BreadboardTypes').Record} */
@@ -15,7 +14,6 @@
     $: referencedComponentColorHex = referencedComponent ? colorHexForIndex(referencedComponent.colorIndex) : undefined
 
     let modifyFormVisible = false
-    let updateFormVisible = false
 
     function handleDeleteRecord() {
         console.log('handleDeleteRecord')
@@ -30,18 +28,7 @@
 
 
 
-    {#if updateFormVisible}
-
-        <div class="flex items-center height-mono">
-            <UpdateRecordForm
-                record={record}
-                on:success={(event) => console.log('modified Record', event.detail) }
-                on:success={() => updateFormVisible = false}
-                on:cancel={() => updateFormVisible = false}
-            />
-        </div>
-
-    {:else if modifyFormVisible}
+    {#if modifyFormVisible}
 
         <div class="flex items-center height-mono">
             <ModifyRecordForm
@@ -52,7 +39,6 @@
             />
         </div>
 
-
     {:else if record.type == 'object' || record.type == 'composition' }
 
         <div class="flex items-center height-mono px-small" style="background-color: var(--square-section-color);">
@@ -62,6 +48,7 @@
     {:else}
 
         <div class="flex items-center height-mono px-small"
+            on:dblclick={()=> { modifyFormVisible = true; }}
             style={[
                 `--referenced-component-color: ${referencedComponentColorHex || '#00F'}`
             ].join(';')}
@@ -101,8 +88,7 @@
             <div class="shrink-0">
                 <RecordDropdown
                     record={record}
-                    on:modify={()=> { updateFormVisible = false; modifyFormVisible = true; }}
-                    on:update={()=> { modifyFormVisible = false; updateFormVisible = true; }}
+                    on:modify={()=> { modifyFormVisible = true; }}
                     on:delete={handleDeleteRecord}
                 />
             </div>

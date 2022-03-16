@@ -56,13 +56,6 @@ export interface ModifyRecord {
     updateRecordValue: string | number
 }
 
-export interface UpdateRecordValue {
-    componentIdentifier: string
-    recordIdentifier: string
-    recordScope: string
-    updateRecordValue: string | number
-}
-
 export interface CreateTemplateImport {
     variableName: string
     targetFile: string

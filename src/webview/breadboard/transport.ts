@@ -32,9 +32,6 @@ const extension = {
     createRecordValue(payload: payloads.CreateRecordValue): void {
         messenger.postVoidPayload('createRecordValue', payload)
     },
-    updateRecordValue(payload: payloads.UpdateRecordValue): AbortablePromise<void> {
-        return messenger.postRequestPayload('updateRecordValue', payload)
-    },
     modifyRecord(payload: payloads.ModifyRecord): AbortablePromise<void> {
         return messenger.postRequestPayload('modifyRecord', payload)
     },

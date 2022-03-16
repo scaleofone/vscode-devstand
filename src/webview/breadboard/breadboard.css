@@ -99,6 +99,8 @@ textarea.font-mono {
 
 .border-0 { border: 0; }
 
+.outline-none { outline: none !important; }
+
 .border-invalid { border: 1px solid var(--vscode-inputValidation-errorBorder); }
 .outline-invalid { outline-color: var(--vscode-inputValidation-errorBorder) !important; }
 .bg-invalid {  background-color: var(--vscode-inputValidation-errorBackground); }

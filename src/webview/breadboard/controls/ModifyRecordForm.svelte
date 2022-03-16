@@ -13,6 +13,9 @@
     /** @type {import('../../../BreadboardTypes').Record} */
     export let record
 
+    // TODO: true if the schema has patternProperties
+    $: canModifyIdentifier = record.scope.startsWith('env')
+
     let rejectedMessage
     function handleModifyRecord({ identifier, value }) {
         // TODO weird type coercion
@@ -68,7 +71,7 @@
     }
 
     let inputValueElement
-    onMount(() => inputValueElement.focus())
+    onMount(() => { inputValueElement.focus(); inputValueElement.setSelectionRange(0, inputValueElement.value.length); })
 </script>
 
 
@@ -76,9 +79,12 @@
 
     <div class="inline-flex">
     <input type="text"
+        disabled={! canModifyIdentifier}
         placeholder="identifier"
-        class="font-mono border-0 outline-editor px-small"
-        class:outline-invalid={(showRejectedMessage && rejectedMessage) || ! $_form.valid}
+        class="font-mono border-0 px-small"
+        class:outline-none={! canModifyIdentifier}
+        class:outline-editor={canModifyIdentifier}
+        class:outline-invalid={canModifyIdentifier && ((showRejectedMessage && rejectedMessage) || ! $_form.valid)}
         bind:value={$_recordIdentifier.value}
         on:keyup={captureEnterAndEscape}
     >

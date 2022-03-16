@@ -52,9 +52,10 @@ export default function (document: vscode.TextDocument, payload: UpdateRecordVal
         endColumn += 1
         insertText += ','
     }
-    if (':' != document.getText(new vscode.Range(beginLine, beginColumn-1, beginLine, beginColumn-2))) {
-        insertText = ' '+insertText
-    }
+    // BUG
+    // if (':' != document.getText(new vscode.Range(beginLine, beginColumn-1, beginLine, beginColumn-2))) {
+    //     insertText = ' '+insertText
+    // }
 
     return vscode.TextEdit.replace(
         new vscode.Range(beginLine, beginColumn, endLine, endColumn),

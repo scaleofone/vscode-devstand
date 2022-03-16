@@ -33,7 +33,7 @@
         if (event.keyCode == 27 /* Esc */) { dispatch('cancel') }
     }
 
-    onMount(() => textInput.focus())
+    onMount(() => { textInput.focus(); textInput.setSelectionRange(0, textInput.value.length); })
 </script>
 
 <div>
