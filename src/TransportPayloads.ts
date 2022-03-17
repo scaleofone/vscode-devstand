@@ -70,4 +70,6 @@ export interface EditorSettings {
     fontSize: number
     lineHeight: number,
     lineHeightFraction: number,
+    halfFontSize?: number,
+    quaterFontSize?: number,
 }

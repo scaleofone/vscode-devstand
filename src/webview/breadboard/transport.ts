@@ -51,7 +51,11 @@ const webview = {
         records.set(breadboard.records)
     },
     editorSettings(payload: payloads.EditorSettings): void {
-        editorSettings.set(payload)
+        editorSettings.set({
+            ...payload,
+            halfFontSize: payload.halfFontSize || Math.round(payload.fontSize / 2),
+            quaterFontSize: payload.quaterFontSize || Math.round(payload.fontSize / 4),
+        })
     },
 }
 

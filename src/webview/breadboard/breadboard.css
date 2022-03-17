@@ -1,4 +1,7 @@
 :root {
+    --editorSettings-halfFontSize: 6;
+    --editorSettings-quaterFontSize: 3;
+
     --editorSettings-lineHeight: 18;
     --editorSettings-lineHeightFraction: 1.5;
 
@@ -18,15 +21,21 @@
 .px-small,
 input:not([type="checkbox"]).px-small,
 textarea.px-small {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
+    padding-left: calc(1px * var(--editorSettings-halfFontSize));
+    padding-right: calc(1px * var(--editorSettings-halfFontSize));
 }
+.pr-small,
+input:not([type="checkbox"]).pr-small,
+textarea.pr-small {
+    padding-right: calc(1px * var(--editorSettings-halfFontSize));
+}
+
 .square-color-foreground {
     color: var(--square-color);
 }
 .py-for-small {
-    padding-top: 0.25rem;
-    padding-bottom: 0.25rem;
+    padding-top: calc(1px * var(--editorSettings-quaterFontSize));
+    padding-bottom: calc(1px * var(--editorSettings-quaterFontSize));
 }
 
 /* Utilities */
