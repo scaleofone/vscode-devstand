@@ -1,5 +1,5 @@
 <script>
-    import { onMount } from 'svelte'
+    import { onMount, tick } from 'svelte'
     import { createEventDispatcher } from 'svelte'
     const dispatch = createEventDispatcher()
 
@@ -70,27 +70,41 @@
         if (event.keyCode == 27 /* Esc */) { dispatch('cancel') }
     }
 
-    let inputValueElement
+    /** @type HTMLInputElement */ let inputIdentifierElement
+    /** @type HTMLInputElement */ let inputValueElement
+    /** @type HTMLSpanElement */  let contentIdentifierElement
+
+    function matchIdentifierWidth() {
+        console.log(contentIdentifierElement.offsetWidth)
+        inputIdentifierElement.style.width = `${ contentIdentifierElement.offsetWidth + 1 }px`
+    }
+    _recordIdentifier.subscribe(async () => {
+        await tick()
+        matchIdentifierWidth()
+    })
+
     onMount(() => { inputValueElement.focus(); inputValueElement.setSelectionRange(0, inputValueElement.value.length); })
 </script>
 
 
-<div class="relative">
+<div class="relative" style="width: 100%;">
 
-    <div class="inline-flex">
+    <div class="flex">
     <input type="text"
+        bind:this={inputIdentifierElement}
         disabled={! canModifyIdentifier}
         placeholder="identifier"
-        class="font-mono border-0 px-small"
+        class="font-mono border-0 px-small shrink"
         class:outline-none={! canModifyIdentifier}
         class:outline-editor={canModifyIdentifier}
         class:outline-invalid={canModifyIdentifier && ((showRejectedMessage && rejectedMessage) || ! $_form.valid)}
         bind:value={$_recordIdentifier.value}
         on:keyup={captureEnterAndEscape}
     >
-    <input type="text" bind:this={inputValueElement}
+    <input type="text"
+        bind:this={inputValueElement}
         placeholder="value"
-        class="font-mono border-0 outline-editor px-small"
+        class="font-mono border-0 outline-editor px-small grow"
         class:outline-invalid={(showRejectedMessage && rejectedMessage) || ! $_form.valid}
         bind:value={$_recordValue.value}
         on:keyup={captureEnterAndEscape}
@@ -102,5 +116,12 @@
             class="absolute border-invalid bg-invalid px-small py-for-small" style="z-index: 3; top: calc(var(--height-mono) - 1px); left: -1px;"
             >{(showRejectedMessage && rejectedMessage) ? rejectedMessage : $_form.errors[0]}</div>
     {/if}
+
+
+    <div class="absolute" style="opacity: 0; z-index: -1">
+        <div class="font-mono px-small min-max-width--contentIdentifierElement" style="float: left;"
+            bind:this={contentIdentifierElement}
+        >{$_recordIdentifier.value}</div>
+    </div>
 
 </div>

@@ -98,3 +98,12 @@
     outline-color: var(--vscode-notebook-focusedEditorBorder);
     z-index: 2;
 }
+
+
+.min-max-width--contentIdentifierElement {
+    min-width: calc(2 * var(--vscode-editor-font-size));
+    max-width: calc(10 * var(--vscode-editor-font-size));
+}
+.min-max-width--contentIdentifierElement:empty {
+    min-width: calc(7 * var(--vscode-editor-font-size));
+}

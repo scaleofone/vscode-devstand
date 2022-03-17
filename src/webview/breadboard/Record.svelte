@@ -62,14 +62,15 @@
 
             <div class="grow truncate" style="max-width: 300px;">
 
-                <span class="font-mono">
+                <span class="font-mono flex">
 
-                    <span class:underline-dotted={! record.inSchema}>
-                        {#if record.shortScope}{record.shortScope}.{/if}{record.identifier}
-                    </span>
+                    <span class:underline-dotted={! record.inSchema}
+                        >{#if record.shortScope}{record.shortScope}.{/if}{record.identifier}</span>
+
+                    <span class="pr-small">:</span>
 
                     {#if ['number', 'string'].includes(record.type)}
-                        {record.value}
+                        <span>{record.value}</span>
                     {/if}
 
                     {#if ['reference', 'composition'].includes(record.type)}
@@ -81,16 +82,15 @@
                             {#if Array.isArray(item)}
                                 <span style="color: var(--referenced-component-color); font-weight:bold">{item[1]}</span><span style="color: var(--referenced-component-color)">.{item[2]}</span>
                             {:else}
-                                {item}
+                                <span>{item}</span>
                             {/if}
                         {/each}
                     {/if}
 
-                    <small style="opacity:0.5">[{record.type}]</small>
-
                 </span>
 
             </div>
+            <!--
             <div class="shrink-0">
                 <RecordDropdown
                     record={record}
@@ -98,6 +98,7 @@
                     on:delete={handleDeleteRecord}
                 />
             </div>
+            -->
         </div>
 
     {/if}
