@@ -104,7 +104,7 @@
     <input type="text"
         bind:this={inputValueElement}
         placeholder="value"
-        class="font-mono border-0 outline-editor px-small grow"
+        class="font-mono border-0 outline-editor px-small grow element--inputValue"
         class:outline-invalid={(showRejectedMessage && rejectedMessage) || ! $_form.valid}
         bind:value={$_recordValue.value}
         on:keyup={captureEnterAndEscape}
