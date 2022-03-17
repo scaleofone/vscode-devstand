@@ -83,10 +83,35 @@
     padding-right: calc(0.5 * var(--knob-size));
 }
 
-.brick--dragover {
+/* .brick--dragover {
     outline: 2px solid blueviolet;
     z-index: 1;
+} */
+
+/* .square--dragover {
+    border-color: var(--breadboard-grabbingVariableColorHex) !important;
+} */
+
+.brick--dragover {
+    padding-bottom: calc(0.5 * var(--height-mono));
+    position: relative;
+    /* background-color: lightyellow; */
 }
+/* .brick--dragover:after {
+    content: '';
+    display: block;
+    left: calc(1px * var(--editorSettings-halfFontSize));
+    right: calc(1px * var(--editorSettings-halfFontSize));
+    border: 1px dotted var(--breadboard-grabbingVariableColorHex);
+    position: absolute;
+
+    height: calc(0.25 * var(--height-mono));
+    bottom: calc(0.25 * var(--height-mono));
+}
+.brick--section.brick--dragover:after {
+    height: calc(0.25 * var(--height-mono));
+    bottom: 0;
+} */
 
 
 .outline-editor {

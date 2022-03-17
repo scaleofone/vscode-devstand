@@ -139,7 +139,11 @@ export function onContainerPointerUp(event: PointerEvent) {
 
     }
     if (get(grabbingVariableUuid)) {
-        // console.log('REFERENCE DROPPED')
+        let $dragoverRecordPath = get(dragoverRecordPath)
+        if ($dragoverRecordPath) {
+            console.log(`REFERENCE DROPPED: ${ get(grabbingRecord).path } ==>> ${ $dragoverRecordPath }`)
+        }
+
         grabbingVariableUuid.set('')
         grabbingRecord.set(null)
         grabbingVariableColorHex.set('')
@@ -148,6 +152,9 @@ export function onContainerPointerUp(event: PointerEvent) {
         grabbingCornerOffsetY.set(0)
         grabbingCornerX.set(0)
         grabbingCornerY.set(0)
+
+        dragoverRecordPath.set('')
+        dragoverComponentIdentifier.set('')
     }
 }
 
@@ -162,6 +169,12 @@ function scrollSurfaceWhenSquareDraggedOutOfVieport(toRight: boolean, toBottom: 
         })
     }
 }
+
+grabbingVariableColorHex.subscribe((colorHex) => {
+    if (colorHex) {
+        document.documentElement.style.setProperty('--breadboard-grabbingVariableColorHex', colorHex)
+    }
+})
 
 function toCornerX(clientX: number): number {
     return Math.floor(clientX / get(zoom))

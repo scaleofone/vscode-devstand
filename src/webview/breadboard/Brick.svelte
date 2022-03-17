@@ -16,6 +16,7 @@
 
 <div class="flex items-center show-record-knob-on-hover"
     class:brick--dragover={$dragoverRecordPath == record.path}
+    class:brick--section={knobIsForSection}
     data-role="brick"
     data-record-path={record.path}
     data-component-identifier={record.componentIdentifier}

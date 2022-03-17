@@ -92,6 +92,7 @@ function crawlBrickCoordinates($squareDimensions: SquareDimension[]): BrickCoord
 }
 
 export function findBrickCoordinatesBelowPointer($pointer: { X: number, Y: number }, $zoom: number, surfaceScrollTop: number, surfaceScrollLeft: number): BrickCoordinate | undefined {
+    $pointer.Y = $pointer.Y - 0.5 * get(editorSettings).lineHeight
     return get(brickCoordinates).find(bc => (
         bc.topLeftY <= ($pointer.Y /$zoom + surfaceScrollTop/$zoom) && ($pointer.Y /$zoom + surfaceScrollTop/$zoom) <= bc.bottomRightY
         && bc.topLeftX < ($pointer.X /$zoom + surfaceScrollLeft/$zoom) && ($pointer.X /$zoom + surfaceScrollLeft/$zoom) < bc.bottomRightX
