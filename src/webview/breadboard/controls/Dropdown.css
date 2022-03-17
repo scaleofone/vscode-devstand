@@ -14,11 +14,14 @@
 }
 
 
+.dropdown--having-svg-in-summary {
+    --icon-size: 16px;
+}
 .dropdown--having-svg-in-summary > summary {
     border-radius: 5px;
-    width: 16px;
-    height: 16px;
-    padding: 2px;
+    width: var(--icon-size);
+    height: var(--icon-size);
+    padding: calc((var(--knob-size) - var(--icon-size)) / 2);
 }
 .dropdown--having-svg-in-summary > summary:focus {
     outline: 1px solid var(--vscode-notebook-focusedEditorBorder);
@@ -26,18 +29,18 @@
 }
 
 .dropdown--having-svg-in-summary > summary:hover {
-    background-color: var(--vscode-toolbar-hoverBackground);
+    background-color: var(--vscode-list-inactiveSelectionBackground);
 }
 .dropdown--having-svg-in-summary > summary:active {
     outline-width: 0;
 }
 
 .dropdown--having-svg-in-summary[open] > summary {
-    background-color: var(--vscode-toolbar-hoverBackground);
+    background-color: var(--vscode-list-inactiveSelectionBackground);
     outline-width: 0;
 }
 
 .dropdown--having-svg-in-summary > summary > svg {
-    width: 16px;
-    height: 16px;
+    width: var(--icon-size);
+    height: var(--icon-size);
 }

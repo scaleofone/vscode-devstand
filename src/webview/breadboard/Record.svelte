@@ -53,8 +53,7 @@
 
     {:else}
 
-        <div class="flex items-center height-mono px-small"
-            on:dblclick={()=> { modifyFormVisible = true; }}
+        <div class="flex items-center height-mono px-small show-record-dropdown-button-on-hover"
             style={[
                 `--referenced-component-color: ${referencedComponentColorHex || '#00F'}`
             ].join(';')}
@@ -62,7 +61,9 @@
 
             <div class="grow truncate" style="max-width: 300px;">
 
-                <span class="font-mono flex">
+                <span class="font-mono flex"
+                    on:dblclick={()=> { modifyFormVisible = true; }}
+                    >
 
                     <span class:underline-dotted={! record.inSchema}
                         >{#if record.shortScope}{record.shortScope}.{/if}{record.identifier}</span>
@@ -90,15 +91,15 @@
                 </span>
 
             </div>
-            <!--
-            <div class="shrink-0">
+
+            <div class="shrink-0 record-dropdown-button">
                 <RecordDropdown
                     record={record}
                     on:modify={()=> { modifyFormVisible = true; }}
                     on:delete={handleDeleteRecord}
                 />
             </div>
-            -->
+
         </div>
 
     {/if}

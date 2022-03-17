@@ -107,3 +107,27 @@
 .min-max-width--contentIdentifierElement:empty {
     min-width: calc(7 * var(--vscode-editor-font-size));
 }
+
+/* .record-dropdown-button {
+    width: 0;
+    position: relative;
+} */
+.show-record-dropdown-button-on-hover .record-dropdown-button .dropdown {
+    opacity: 0;
+    position: relative;
+    left: calc(1px * var(--editorSettings-quaterFontSize));
+}
+.show-record-dropdown-button-on-hover:hover .record-dropdown-button .dropdown {
+    opacity: 1;
+}
+.show-record-dropdown-button-on-hover .record-dropdown-button .dropdown[open] {
+    opacity: 1 !important;
+}
+/* .record-dropdown-button > .dropdown {
+    position: absolute;
+    left: -16px;
+    top: calc(var(--knob-size) / -2);
+}
+.record-dropdown-button .dropdown {
+    background-color: var(--vscode-editor-background);
+} */
