@@ -1,6 +1,8 @@
 <script>
     import { createEventDispatcher } from 'svelte'
     const dispatch = createEventDispatcher()
+
+    import iconDropdown from '@vscode/codicons/src/icons/ellipsis.svg'
     import DetailDropdown from './controls/DetailDropdown'
 
     import { extension } from './transport'
@@ -19,8 +21,8 @@
     }
 </script>
 
-<details use:DetailDropdown class="dropdown select-none">
-    <summary class="fg-icon hover:fg-link cursor-pointer">edit</summary>
+<details use:DetailDropdown class="dropdown select-none dropdown--having-svg-in-summary">
+    <summary class="cursor-pointer">{@html iconDropdown}</summary>
     <div class="menu menu--vertical-padding widget-shadow">
         <div class="menu__item" on:click="{()=>dispatch('modify')}"><span class="grow truncate">Modify record</span></div>
         <div class="menu__item" on:click="{()=>dispatch('delete')}"><span class="grow truncate">Delete record</span></div>

@@ -42,8 +42,8 @@
     }
 </script>
 
-<details use:DetailDropdown class="dropdown select-none">
-    <summary class="fg-icon hover:fg-link cursor-pointer">{@html iconSchema}</summary>
+<details use:DetailDropdown class="dropdown select-none dropdown--having-svg-in-summary">
+    <summary class="cursor-pointer">{@html iconSchema}</summary>
     <div class="menu menu--mono widget-shadow" style="max-width:300px">
         {#each schemaDropdownItems as item (item)}
             <div class="menu__item"

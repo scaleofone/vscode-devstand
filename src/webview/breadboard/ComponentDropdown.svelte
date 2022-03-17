@@ -20,8 +20,8 @@
     }
 </script>
 
-<details use:DetailDropdown class="dropdown select-none">
-    <summary class="fg-icon hover:fg-link cursor-pointer">{@html iconDropdown}</summary>
+<details use:DetailDropdown class="dropdown select-none dropdown--having-svg-in-summary">
+    <summary class="cursor-pointer">{@html iconDropdown}</summary>
     <div class="menu menu--vertical-padding widget-shadow" style="max-width:300px">
         <div class="menu__item" on:click="{()=>dispatch('rename')}"><span class="grow truncate">Rename component</span></div>
         <div class="menu__item" on:click="{()=>dispatch('delete')}"><span class="grow truncate">Delete component</span></div>
