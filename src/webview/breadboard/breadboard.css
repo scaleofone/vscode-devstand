@@ -9,7 +9,7 @@
 
     --square-section-color: var(--vscode-button-secondaryBackground); /* --vscode-dropdown-border */
     --square-border-color: var(--vscode-input-border);
-    --knob-size: 20px;
+    --knob-size: 18px;
 }
 
 .height-mono {
