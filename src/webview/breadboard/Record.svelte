@@ -1,4 +1,6 @@
 <script>
+    import { getContext } from 'svelte'
+
     import { extension } from './transport'
     import { colorHexForIndex } from './stores/visual'
     import { components } from './stores/breadboard'
@@ -23,6 +25,10 @@
             recordScope: record.scope,
         })
     }
+
+    let { setKnobVisible, setKnobIsForSection } = getContext('brick')
+    $: setKnobVisible(! modifyFormVisible)
+    $: setKnobIsForSection(record.type == 'object' || record.type == 'composition')
 
 </script>
 
@@ -54,7 +60,7 @@
             ].join(';')}
             >
 
-            <div class="grow">
+            <div class="grow truncate" style="max-width: 300px;">
 
                 <span class="font-mono">
 

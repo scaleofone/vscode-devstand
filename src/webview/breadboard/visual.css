@@ -60,6 +60,13 @@
     background: var(--square-color);
 }
 
+.record-knob.record-knob--section:before {
+    background-color: var(--square-section-color);
+}
+
+
+
+
 .show-record-knob-on-hover .record-knob {
     opacity: 0;
 }

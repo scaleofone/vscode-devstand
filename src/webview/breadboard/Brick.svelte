@@ -1,8 +1,16 @@
 <script>
+    import { setContext } from 'svelte'
     import { handleReferenceGrabStartEvent, dragoverRecordPath } from './stores/visual'
 
     /** @type {import('../../BreadboardTypes').Record} */
     export let record
+
+    let knobIsVisible = true
+    let knobIsForSection = false
+    setContext('brick', {
+        setKnobVisible: (isVisible) => knobIsVisible = isVisible,
+        setKnobIsForSection: (isForSection) => knobIsForSection = isForSection,
+    })
 
 </script>
 
@@ -14,6 +22,8 @@
     >
 
     <div class="shrink cursor-grab height-mono record-knob"
+        class:hidden={! knobIsVisible}
+        class:record-knob--section={knobIsForSection}
         on:pointerdown={(event) => {
             handleReferenceGrabStartEvent(event, record)
         }}
