@@ -7,6 +7,8 @@ export const templateImports: Writable<TemplateImport[]> = writable([])
 export const components: Writable<Component[]> = writable([])
 export const records: Writable<Record[]> = writable([])
 
+export const recordPathsBeingEdited: Writable<string[]> = writable([])
+
 export function mutateComponentGeometry(componentIdentifier: string, cornerY: number, cornerX: number): Component | undefined {
     const component = mutateCollectionItem(components, 'identifier', componentIdentifier, { cornerY, cornerX }) as Component
     if (! component) { return }

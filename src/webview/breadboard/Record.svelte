@@ -3,7 +3,7 @@
 
     import { extension } from './transport'
     import { colorHexForIndex, dragoverResultSourceRecord, dragoverResultTargetRecordPath } from './stores/visual'
-    import { components } from './stores/breadboard'
+    import { components, recordPathsBeingEdited } from './stores/breadboard'
     import { get } from 'svelte/store'
 
     import RecordDropdown from './RecordDropdown.svelte'
@@ -15,7 +15,12 @@
     $: referencedComponent = record.referencedComponentIdentifier ? get(components).find(c => c.identifier == record.referencedComponentIdentifier) : undefined
     $: referencedComponentColorHex = referencedComponent ? colorHexForIndex(referencedComponent.colorIndex) : undefined
 
-    let modifyFormVisible = false
+    $: modifyFormVisible = $recordPathsBeingEdited.includes(record.path)
+    function setModifyFormVisible(isVisible) {
+        recordPathsBeingEdited.update((paths) => (
+            isVisible ? [...paths, record.path] : paths.filter(p => p != record.path)
+        ))
+    }
 
     function handleDeleteRecord() {
         console.log('handleDeleteRecord')
@@ -55,8 +60,8 @@
                 bind:this={modifyFormComponent}
                 record={record}
                 on:success={(event) => console.log('modified Record', event.detail) }
-                on:success={() => { modifyFormVisible = false; }}
-                on:cancel={() => { modifyFormVisible = false; }}
+                on:success={() => setModifyFormVisible(false)}
+                on:cancel={() => setModifyFormVisible(false)}
             />
         </div>
 
@@ -86,7 +91,7 @@
             <div class="grow truncate" style="max-width: 300px;">
 
                 <span class="font-mono flex"
-                    on:dblclick={()=> { modifyFormVisible = true; }}
+                    on:dblclick={()=> { setModifyFormVisible(true) }}
                     >
 
                     <span class:underline-dotted={! record.inSchema}
@@ -123,7 +128,7 @@
             <div class="shrink-0 record-dropdown-button">
                 <RecordDropdown
                     record={record}
-                    on:modify={()=> { modifyFormVisible = true; }}
+                    on:modify={()=> setModifyFormVisible(true)}
                     on:delete={handleDeleteRecord}
                 />
             </div>
