@@ -83,35 +83,24 @@
     padding-right: calc(0.5 * var(--knob-size));
 }
 
-/* .brick--dragover {
-    outline: 2px solid blueviolet;
-    z-index: 1;
-} */
-
 /* .square--dragover {
     border-color: var(--breadboard-grabbingVariableColorHex) !important;
 } */
 
 .brick--dragover:not(.brick--having-editor) {
-    padding-bottom: calc(0.5 * var(--height-mono));
+    padding-bottom: var(--height-mono);
     position: relative;
-    /* background-color: lightyellow; */
 }
-/* .brick--dragover:not(.brick--having-editor):after {
+.brick--dragover:not(.brick--having-editor):after {
     content: '';
     display: block;
-    left: calc(1px * var(--editorSettings-halfFontSize));
-    right: calc(1px * var(--editorSettings-halfFontSize));
-    border: 1px dotted var(--breadboard-grabbingVariableColorHex);
+    left: 0;
+    right: 0;
+    outline: 2px solid var(--breadboard-grabbingVariableColorHex);
     position: absolute;
-
-    height: calc(0.25 * var(--height-mono));
-    bottom: calc(0.25 * var(--height-mono));
+    height: calc(var(--height-mono) - 4px);
+    bottom: 2px;
 }
-.brick--section.brick--dragover:not(.brick--having-editor):after {
-    height: calc(0.25 * var(--height-mono));
-    bottom: 0;
-} */
 
 .brick--dragover.brick--having-editor .element--inputValue {
     outline: 2px solid var(--breadboard-grabbingVariableColorHex);
