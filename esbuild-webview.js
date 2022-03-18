@@ -10,7 +10,6 @@ esbuild
     .build({
         outdir: 'dist/webview/',
         entryPoints: [
-            'src/webview/breadboard/breadboard.js',
             'src/webview/breadboard/visual.js',
             'src/webview/editor/editor.js',
             'src/webview/wizard/wizard.js',
