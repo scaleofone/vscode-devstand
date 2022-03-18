@@ -33,16 +33,11 @@
             renameRecordIdentifier: identifier,
             updateRecordValue: value,
         }).then(() => {
-            rejectedMessage = null
+            rejectedMessage = undefined
             dispatch('success', {...record, identifier, value })
         }).catch(err => {
             rejectedMessage = (err instanceof Error) ? (err.message || err.toString()) : err.toString()
         })
-    }
-
-    $: showRejectedMessage = !! rejectedMessage
-    function hideRejectedMessage() {
-        showRejectedMessage = false
     }
 
     const _recordIdentifier = field('recordIdentifier', record.identifier, [
@@ -57,7 +52,8 @@
         required(),
     ])
     const _form = form(_recordIdentifier, _recordValue)
-    $: hideRejectedMessage($_form) // called each time when form is changed
+
+    _form.subscribe(() => rejectedMessage = undefined) // called each time when form is changed
 
     export function setValue(val) {
         inputValueElement.value = $_recordValue.value = val
@@ -113,7 +109,7 @@
         class="font-mono border-0 px-small shrink"
         class:outline-none={! canModifyIdentifier}
         class:outline-editor={canModifyIdentifier}
-        class:outline-invalid={canModifyIdentifier && ((showRejectedMessage && rejectedMessage) || ! $_form.valid)}
+        class:outline-color-invalid={canModifyIdentifier && (rejectedMessage || ! $_form.valid)}
         bind:value={$_recordIdentifier.value}
         on:keyup={captureEnterAndEscape}
     >
@@ -121,16 +117,16 @@
         bind:this={inputValueElement}
         placeholder="value"
         class="font-mono border-0 outline-editor px-small grow element--inputValue"
-        class:outline-invalid={(showRejectedMessage && rejectedMessage) || ! $_form.valid}
+        class:outline-color-invalid={rejectedMessage || ! $_form.valid}
         bind:value={$_recordValue.value}
         on:keyup={captureEnterAndEscape}
     >
     </div>
 
-    {#if (showRejectedMessage && rejectedMessage) || ! $_form.valid}
+    {#if rejectedMessage || ! $_form.valid}
         <div
-            class="absolute border-invalid bg-invalid px-small py-for-small" style="z-index: 3; top: calc(var(--height-mono) - 1px); left: -1px;"
-            >{(showRejectedMessage && rejectedMessage) ? rejectedMessage : $_form.errors[0]}</div>
+            class="absolute outline-invalid bg-invalid px-small py-for-small" style="z-index: 3; top: calc(var(--height-mono) - 1px);"
+            >{rejectedMessage || $_form.errors[0]}</div>
     {/if}
 
 
