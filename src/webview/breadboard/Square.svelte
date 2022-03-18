@@ -23,6 +23,7 @@
     ].join(';')}
     >
         <div class="height-mono select-none cursor-grab margin-bottom-neg-height-mono"
+            data-purpose="squareKnob"
             on:pointerdown={(event) => {
                 handleGrabStartEvent(event, event.target, squareElement, component.identifier)
             }}

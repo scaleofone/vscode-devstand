@@ -63,6 +63,11 @@ textarea.font-mono {
 .inline-flex { display: inline-flex; }
 .flex-none   { flex: none; }
 
+.flex-row { flex-direction: row; }
+.flex-row-reverse { flex-direction: row-reverse; }
+.flex-col { flex-direction: column; }
+.flex-col-reverse { flex-direction: column-reverse; }
+
 .absolute { position: absolute; }
 .relative { position: relative; }
 
@@ -92,19 +97,15 @@ textarea.font-mono {
 .cursor-default { cursor: default; }
 .cursor-pointer { cursor: pointer; }
 .cursor-grab { cursor: grab; }
+.cursor-grabbing { cursor: grabbing; }
+
+.cursor-grabbing-everywhere { user-select: none !important; }
+.cursor-grabbing-everywhere * { cursor: grabbing !important; }
 
 .select-none { user-select: none; }
 .select-text { user-select: text; }
 .select-all { user-select: all; }
 .select-auto { user-select: auto; }
-
-.underline-dotted {
-    text-decoration-style: dotted;
-    text-decoration-thickness: 2px;
-    text-decoration-color: red;
-    text-decoration-line: underline;
-    text-underline-offset: 2px;
-}
 
 .border-0 { border: 0; }
 
