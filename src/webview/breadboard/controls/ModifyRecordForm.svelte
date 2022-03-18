@@ -94,7 +94,7 @@
         }
     }
 
-    onMount(() => { focusOnInputValueElement(0) })
+    // onMount(() => { focusOnInputValueElement(0) })
 </script>
 
 

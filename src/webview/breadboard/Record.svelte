@@ -1,5 +1,5 @@
 <script>
-    import { getContext } from 'svelte'
+    import { getContext, tick } from 'svelte'
 
     import { extension } from './transport'
     import { colorHexForIndex, dragoverResultSourceRecord, dragoverResultTargetRecordPath } from './stores/visual'
@@ -36,6 +36,11 @@
     $: setKnobIsForSection(record.type == 'object' || record.type == 'composition' || (record.type == 'reference' && record.referencedRecordIdentifier == 'env'))
 
     let modifyFormComponent
+
+    async function focusModifyFormComponent() {
+        await tick()
+        modifyFormComponent?.focusOnInputValueElement(0)
+    }
 
     $: if ($dragoverResultTargetRecordPath == record.path) {
         let referenceString = '{' + $dragoverResultSourceRecord.path + '}'
@@ -91,7 +96,7 @@
             <div class="grow truncate" style="max-width: 300px;">
 
                 <span class="font-mono flex"
-                    on:dblclick={()=> { setModifyFormVisible(true) }}
+                    on:dblclick={()=> { setModifyFormVisible(true); focusModifyFormComponent(); }}
                     >
 
                     <span class:underline-dotted={! record.inSchema}
@@ -128,7 +133,7 @@
             <div class="shrink-0 record-dropdown-button">
                 <RecordDropdown
                     record={record}
-                    on:modify={()=> setModifyFormVisible(true)}
+                    on:modify={()=> { setModifyFormVisible(true); focusModifyFormComponent(); }}
                     on:delete={handleDeleteRecord}
                 />
             </div>
