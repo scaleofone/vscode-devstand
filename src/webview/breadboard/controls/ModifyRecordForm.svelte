@@ -58,6 +58,10 @@
     const _form = form(_recordIdentifier, _recordValue)
     $: hideRejectedMessage($_form) // called each time when form is changed
 
+    export function setValue(val) {
+        inputValueElement.value = $_recordValue.value = val
+    }
+
     function captureEnterAndEscape(event) {
         if (event.keyCode == 13 /* Enter */) {
             if (! $_form.valid) { return }
@@ -75,7 +79,6 @@
     /** @type HTMLSpanElement */  let contentIdentifierElement
 
     function matchIdentifierWidth() {
-        console.log(contentIdentifierElement.offsetWidth)
         inputIdentifierElement.style.width = `${ contentIdentifierElement.offsetWidth + 1 }px`
     }
     _recordIdentifier.subscribe(async () => {
@@ -83,7 +86,15 @@
         matchIdentifierWidth()
     })
 
-    onMount(() => { inputValueElement.focus(); inputValueElement.setSelectionRange(0, inputValueElement.value.length); })
+    export async function focusOnInputValueElement(selectionStart, selectionEnd) {
+        await tick()
+        inputValueElement.focus()
+        if (typeof selectionStart == 'number') {
+            inputValueElement.setSelectionRange(selectionStart, (typeof selectionEnd == 'number' ? selectionEnd : inputValueElement.value.length))
+        }
+    }
+
+    onMount(() => { focusOnInputValueElement(0) })
 </script>
 
 

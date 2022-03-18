@@ -2,7 +2,7 @@
     import { getContext } from 'svelte'
 
     import { extension } from './transport'
-    import { colorHexForIndex } from './stores/visual'
+    import { colorHexForIndex, dragoverResultSourceRecord, dragoverResultTargetRecordPath } from './stores/visual'
     import { components } from './stores/breadboard'
     import { get } from 'svelte/store'
 
@@ -30,6 +30,20 @@
     $: setKnobVisible(! modifyFormVisible)
     $: setKnobIsForSection(record.type == 'object' || record.type == 'composition' || (record.type == 'reference' && record.referencedRecordIdentifier == 'env'))
 
+    let modifyFormComponent
+
+    $: if ($dragoverResultTargetRecordPath == record.path) {
+        let referenceString = '{' + $dragoverResultSourceRecord.path + '}'
+        if (modifyFormVisible) {
+            modifyFormComponent.setValue(record.value.toString() + referenceString)
+            modifyFormComponent.focusOnInputValueElement(record.value.toString().length)
+        } else {
+            console.log('Create NEW Record[type=reference][value="' + referenceString + '"] below Record[path="' + record.path + '"]')
+        }
+        dragoverResultTargetRecordPath.set('')
+        dragoverResultSourceRecord.set(null)
+    }
+
 </script>
 
 
@@ -38,10 +52,11 @@
 
         <div class="flex items-center height-mono">
             <ModifyRecordForm
+                bind:this={modifyFormComponent}
                 record={record}
                 on:success={(event) => console.log('modified Record', event.detail) }
-                on:success={() => modifyFormVisible = false}
-                on:cancel={() => modifyFormVisible = false}
+                on:success={() => { modifyFormVisible = false; }}
+                on:cancel={() => { modifyFormVisible = false; }}
             />
         </div>
 

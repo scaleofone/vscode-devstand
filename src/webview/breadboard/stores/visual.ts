@@ -43,6 +43,8 @@ const grabbingCornerOffsetY: Writable<number> = writable(0)
 export const grabbingCornerX: Writable<number> = writable(0)
 export const grabbingCornerY: Writable<number> = writable(0)
 
+export const dragoverResultSourceRecord: Writable<Record> = writable(null)
+export const dragoverResultTargetRecordPath: Writable<string> = writable('')
 export const dragoverRecordPath: Writable<string> = writable('')
 export const dragoverComponentIdentifier: Writable<string> = writable('')
 
@@ -141,7 +143,8 @@ export function onContainerPointerUp(event: PointerEvent) {
     if (get(grabbingVariableUuid)) {
         let $dragoverRecordPath = get(dragoverRecordPath)
         if ($dragoverRecordPath) {
-            console.log(`REFERENCE DROPPED: ${ get(grabbingRecord).path } ==>> ${ $dragoverRecordPath }`)
+            dragoverResultSourceRecord.set(get(grabbingRecord))
+            dragoverResultTargetRecordPath.set($dragoverRecordPath)
         }
 
         grabbingVariableUuid.set('')
