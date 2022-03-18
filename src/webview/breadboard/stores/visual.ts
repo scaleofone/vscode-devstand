@@ -48,6 +48,8 @@ export const dragoverResultTargetRecordPath: Writable<string> = writable('')
 export const dragoverRecordPath: Writable<string> = writable('')
 export const dragoverComponentIdentifier: Writable<string> = writable('')
 
+export const focusedEditorRecordPath: Writable<string> = writable('')
+
 export function handleGrabStartEvent(event: PointerEvent, knobElement: HTMLDivElement, squareElement: HTMLDivElement, squareUuid: string) {
     if (event.button > 0) return
     grabbingSquareUuid.set(squareUuid)

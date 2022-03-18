@@ -5,6 +5,7 @@
 
     import { extension } from '../transport'
     import { records } from '../stores/breadboard'
+    import { focusedEditorRecordPath } from '../stores/visual'
     import { get } from 'svelte/store'
 
     import { form, field } from 'svelte-forms'
@@ -94,7 +95,11 @@
         }
     }
 
-    // onMount(() => { focusOnInputValueElement(0) })
+    onMount(() => {
+        if (get(focusedEditorRecordPath) == record.path) {
+            focusOnInputValueElement(0)
+        }
+    })
 </script>
 
 

@@ -1,8 +1,8 @@
 <script>
-    import { getContext, tick } from 'svelte'
+    import { getContext } from 'svelte'
 
     import { extension } from './transport'
-    import { colorHexForIndex, dragoverResultSourceRecord, dragoverResultTargetRecordPath } from './stores/visual'
+    import { colorHexForIndex, dragoverResultSourceRecord, dragoverResultTargetRecordPath, focusedEditorRecordPath } from './stores/visual'
     import { components, recordPathsBeingEdited } from './stores/breadboard'
     import { get } from 'svelte/store'
 
@@ -37,9 +37,8 @@
 
     let modifyFormComponent
 
-    async function focusModifyFormComponent() {
-        await tick()
-        modifyFormComponent?.focusOnInputValueElement(0)
+    function autofocusOnModifyForm() {
+        focusedEditorRecordPath.set(record.path)
     }
 
     $: if ($dragoverResultTargetRecordPath == record.path) {
@@ -96,7 +95,7 @@
             <div class="grow truncate" style="max-width: 300px;">
 
                 <span class="font-mono flex"
-                    on:dblclick={()=> { setModifyFormVisible(true); focusModifyFormComponent(); }}
+                    on:dblclick={()=> { autofocusOnModifyForm(); setModifyFormVisible(true); }}
                     >
 
                     <span class:underline-dotted={! record.inSchema}
@@ -133,7 +132,7 @@
             <div class="shrink-0 record-dropdown-button">
                 <RecordDropdown
                     record={record}
-                    on:modify={()=> { setModifyFormVisible(true); focusModifyFormComponent(); }}
+                    on:modify={()=> { autofocusOnModifyForm(); setModifyFormVisible(true); }}
                     on:delete={handleDeleteRecord}
                 />
             </div>
