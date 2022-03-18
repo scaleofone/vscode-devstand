@@ -31,8 +31,14 @@
         }}
     ></div>
 
-    <div class="grow" style="background-color: var(--vscode-editor-background);">
+    <div class="grow"
+        style={[
+            `background-color: ${ knobIsForSection ? 'var(--square-section-color)' : 'var(--vscode-editor-background)' }`,
+        ].join(';')}
+        >
+
         <slot></slot>
+
     </div>
 
     {#if record.referencedComponentIdentifier}

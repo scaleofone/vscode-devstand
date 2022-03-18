@@ -28,7 +28,7 @@
 
     let { setKnobVisible, setKnobIsForSection } = getContext('brick')
     $: setKnobVisible(! modifyFormVisible)
-    $: setKnobIsForSection(record.type == 'object' || record.type == 'composition')
+    $: setKnobIsForSection(record.type == 'object' || record.type == 'composition' || (record.type == 'reference' && record.referencedRecordIdentifier == 'env'))
 
 </script>
 
@@ -45,12 +45,6 @@
             />
         </div>
 
-    {:else if record.type == 'object' || record.type == 'composition' }
-
-        <div class="flex items-center height-mono px-small" style="background-color: var(--square-section-color);">
-            <span class="font-mono">{record.identifier}</span>
-        </div>
-
     {:else}
 
         <div class="flex items-center height-mono px-small show-record-dropdown-button-on-hover"
@@ -58,6 +52,21 @@
                 `--referenced-component-color: ${referencedComponentColorHex || '#00F'}`
             ].join(';')}
             >
+
+            {#if record.type == 'object' || record.type == 'composition' || (record.type == 'reference' && record.referencedRecordIdentifier == 'env')}
+
+                <div class="grow truncate" style="max-width: 300px;">
+                    <span class="font-mono flex">
+                        <span>{record.identifier}</span>
+                        {#if ['composition', 'reference'].includes(record.type)}
+                            <span class="px-small">+</span>
+                            <span style="color: var(--referenced-component-color); font-weight:bold">{record.referencedComponentIdentifier}.</span>
+                            <span style="color: var(--referenced-component-color)">{record.referencedRecordIdentifier}</span>
+                        {/if}
+                    </span>
+                </div>
+
+            {:else}
 
             <div class="grow truncate" style="max-width: 300px;">
 
@@ -74,14 +83,16 @@
                         <span>{record.value}</span>
                     {/if}
 
-                    {#if ['reference', 'composition'].includes(record.type)}
-                        <span style="color: var(--referenced-component-color); font-weight:bold">{record.referencedComponentIdentifier}.</span><span style="color: var(--referenced-component-color)">{record.referencedRecordIdentifier}</span>
+                    {#if record.type == 'reference'}
+                        <span style="color: var(--referenced-component-color); font-weight:bold">{record.referencedComponentIdentifier}.</span>
+                        <span style="color: var(--referenced-component-color)">{record.referencedRecordIdentifier}</span>
                     {/if}
 
                     {#if record.type == 'concatenation'}
                         {#each record.concatenationItems as item, i (i + (Array.isArray(item) ? item.join() : item.toString()))}
                             {#if Array.isArray(item)}
-                                <span style="color: var(--referenced-component-color); font-weight:bold">{item[1]}</span><span style="color: var(--referenced-component-color)">.{item[2]}</span>
+                                <span style="color: var(--referenced-component-color); font-weight:bold">{item[1]}</span>
+                                <span style="color: var(--referenced-component-color)">.{item[2]}</span>
                             {:else}
                                 <span>{item}</span>
                             {/if}
@@ -91,6 +102,8 @@
                 </span>
 
             </div>
+
+            {/if}
 
             <div class="shrink-0 record-dropdown-button">
                 <RecordDropdown
