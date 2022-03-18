@@ -36,7 +36,7 @@
     }
     // REFACTOR call function from getContext()
     function forwardPointerEventToSquareKnob(event) {
-        const squareKnob = event.target.closest('.square')?.find('[data-purpose="squareKnob"]')
+        const squareKnob = event.target.closest('.square')?.querySelector('[data-purpose="squareKnob"]')
         if (squareKnob) {
             let fwdEvent = new PointerEvent(event.type, event)
             squareKnob.dispatchEvent(fwdEvent)
