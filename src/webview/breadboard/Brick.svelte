@@ -21,6 +21,9 @@
     data-role="brick"
     data-record-path={record.path}
     data-component-identifier={record.componentIdentifier}
+    style={[
+        knobIsForSection ? '--knob-color: var(--square-section-color)' : null,
+    ].filter(n=>n).join(';')}
     >
 
     {#if ! record.persisted }
@@ -30,18 +33,15 @@
     {/if}
 
 
-    <div class="shrink cursor-grab height-mono record-knob"
+    <div class="shrink cursor-grab height-mono record-knob record-knob--alt"
         class:hidden={! knobIsVisible || ! record.persisted}
-        class:record-knob--section={knobIsForSection}
         on:pointerdown={(event) => {
             handleReferenceGrabStartEvent(event, record)
         }}
     ></div>
 
     <div class="grow"
-        style={[
-            `background-color: ${ knobIsForSection ? 'var(--square-section-color)' : 'var(--vscode-editor-background)' }`,
-        ].join(';')}
+        style="background-color: var(--knob-color);"
         >
 
         <slot></slot>

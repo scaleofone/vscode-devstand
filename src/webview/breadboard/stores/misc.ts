@@ -14,5 +14,5 @@ editorSettings.subscribe((editorSettings) => {
         .filter(key => ['number', 'string'].includes(typeof editorSettings[key]))
         .forEach(key => document.documentElement.style.setProperty('--editorSettings-'+key, editorSettings[key]))
 
-    document.documentElement.style.setProperty('--knob-size', `${ editorSettings.lineHeightFraction > 2 ? 20 : 18 }px`)
+    document.documentElement.style.setProperty('--knob-size', `${ editorSettings.lineHeightFraction > 2 ? 18 : 16 }px`)
 })

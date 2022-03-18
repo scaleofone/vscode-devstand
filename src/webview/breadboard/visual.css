@@ -38,7 +38,7 @@
 
     border-radius: 50%;
     border: 1px solid var(--square-border-color);
-    background: var(--vscode-editor-background);
+    background: var(--knob-color);
 }
 .record-knob:after {
     content: '';
@@ -51,12 +51,13 @@
     border-radius: 50%;
     background: var(--square-color);
 }
-
-.record-knob.record-knob--section:before {
-    background-color: var(--square-section-color);
+.record-knob.record-knob--alt:after {
+    left: calc((var(--knob-size) - 2px)/-2);
+    margin-top: calc((var(--knob-size) - 2px)/-2);
+    height: calc(var(--knob-size) - 2px);
+    width: calc(var(--knob-size) - 2px);
+    border: calc((var(--knob-size) - 2px)/2 - 3px) solid var(--knob-color);
 }
-
-
 
 
 .show-record-knob-on-hover .record-knob {
