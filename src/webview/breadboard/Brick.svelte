@@ -23,8 +23,15 @@
     data-component-identifier={record.componentIdentifier}
     >
 
+    {#if ! record.persisted }
+        <div class="shrink relative height-mono" style="width: 0;">
+            <div class="absolute height-mono" style="right: 1rem; color: red; line-height: var(--height-mono);">!persisted</div>
+        </div>
+    {/if}
+
+
     <div class="shrink cursor-grab height-mono record-knob"
-        class:hidden={! knobIsVisible}
+        class:hidden={! knobIsVisible || ! record.persisted}
         class:record-knob--section={knobIsForSection}
         on:pointerdown={(event) => {
             handleReferenceGrabStartEvent(event, record)

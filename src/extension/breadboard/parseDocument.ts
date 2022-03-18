@@ -61,6 +61,8 @@ export default async function(document: vscode.TextDocument): Promise<Breadboard
             }
         }
 
+        breadboard.records.forEach(record => record.persisted = true)
+
         // Omit records missing in schema
         // breadboard.records = breadboard.records.filter(record => record.inSchema)
 
