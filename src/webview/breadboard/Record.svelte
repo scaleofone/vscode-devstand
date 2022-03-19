@@ -4,6 +4,7 @@
     import { extension } from './transport'
     import { colorHexForIndex, dragoverResultSourceRecord, dragoverResultTargetRecordPath, focusedEditorRecordPath } from './stores/visual'
     import { components, recordPathsBeingEdited } from './stores/breadboard'
+    import { removeRecordIfNotPersisted } from './stores/persist'
     import { get } from 'svelte/store'
 
     import RecordDropdown from './RecordDropdown.svelte'
@@ -65,7 +66,7 @@
                 record={record}
                 on:success={(event) => console.log('modified Record', event.detail) }
                 on:success={() => setModifyFormVisible(false)}
-                on:cancel={() => setModifyFormVisible(false)}
+                on:cancel={() => { setModifyFormVisible(false); removeRecordIfNotPersisted(record); }}
             />
         </div>
 

@@ -129,6 +129,9 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
             async createRecordValue(payload: payloads.CreateRecordValue): Promise<void> {
                 await applyWorkspaceEdit([ createRecordValue(document, payload) ])
             },
+            async createScopeWithRecords(payload: payloads.CreateScopeWithRecords): Promise<void> {
+                console.log('createScopeWithRecords', payload)
+            },
             async modifyRecord(payload: payloads.ModifyRecord): Promise<void> {
                 // TODO perform validation inside operations, not here
                 if (payload.updateRecordValue == 'ololo') {

@@ -26,14 +26,6 @@
             identifier: component.identifier,
         })
     }
-    function handleAddRecord(record) {
-        extension.createRecordValue({
-            componentIdentifier: record.componentIdentifier,
-            recordIdentifier: record.identifier,
-            recordValue: record.value,
-            recordType: record.type,
-        })
-    }
     // REFACTOR call function from getContext()
     function forwardPointerEventToSquareKnob(event) {
         const squareKnob = event.target.closest('.square')?.querySelector('[data-purpose="squareKnob"]')
@@ -80,7 +72,6 @@
                 <div class="shrink-0">
                     <ComponentSchemaDropdown
                         component={component}
-                        on:addRecord={(event) => handleAddRecord(event.detail)}
                     />
                 </div>
             </div>

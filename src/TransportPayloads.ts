@@ -23,9 +23,20 @@ export interface OpenDocument {
 
 export interface CreateRecordValue {
     componentIdentifier: string
+    recordScope: string
     recordIdentifier: string
     recordValue: string | number | null
     recordType: 'string' | 'number' | 'null' | 'object'
+}
+
+export interface CreateScopeWithRecords {
+    componentIdentifier: string
+    scopeIdentifier: string
+    records: Array<{
+        identifier: string
+        value: string | number
+        type: 'string' | 'number' | 'reference' | 'concatenation'
+    }>
 }
 
 export interface DeleteRecord {

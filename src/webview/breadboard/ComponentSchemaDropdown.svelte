@@ -1,8 +1,8 @@
 <script>
-    import { createEventDispatcher } from 'svelte'
-    const dispatch = createEventDispatcher()
     import { get } from 'svelte/store'
-    import { records, templateImports, schemaDictionary } from './stores/breadboard'
+    import { records, templateImports, schemaDictionary, recordPathsBeingEdited } from './stores/breadboard'
+    import { makeUnPersistedRecords } from './stores/persist'
+    import { focusedEditorRecordPath } from './stores/visual'
     import DetailDropdown from './controls/DetailDropdown'
     import iconSchema from '@vscode/codicons/src/icons/code.svg'
 
@@ -25,20 +25,11 @@
     })
 
     function addRecord({ recordIdentifier, alreadyAdded, recordSchema }) {
-        if (alreadyAdded) return
-
-        let type = (typeof recordSchema == 'object' && typeof recordSchema.type == 'string' && ['object', 'string', 'number'].includes(recordSchema.type.toLowerCase())) ? recordSchema.type.toLowerCase() : 'null'
-        let value = (typeof recordSchema == 'object' && ['object', 'string', 'number'].includes(typeof recordSchema.default)) ? recordSchema.default : null
-
-        let record = {
-            componentIdentifier: component.identifier,
-            scope: undefined, // TODO define scope while adding Records
-            identifier: recordIdentifier,
-            type,
-            value,
-            inSchema: true,
-        }
-        dispatch('addRecord', record)
+        let multipleRecords = makeUnPersistedRecords(component, recordIdentifier, alreadyAdded, recordSchema)
+        let trailingRecord = multipleRecords[multipleRecords.length-1]
+        recordPathsBeingEdited.update((paths) => [...paths, trailingRecord.path])
+        focusedEditorRecordPath.set(trailingRecord.path)
+        records.update((recs) => [...recs, ...multipleRecords])
     }
 </script>
 

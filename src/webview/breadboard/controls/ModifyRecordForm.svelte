@@ -5,6 +5,7 @@
 
     import { extension } from '../transport'
     import { records } from '../stores/breadboard'
+    import { persistRecord } from '../stores/persist'
     import { focusedEditorRecordPath } from '../stores/visual'
     import { get } from 'svelte/store'
 
@@ -26,6 +27,18 @@
         if (typeof value == 'string' && value.match(/^[0-9]*\.[0-9]*$/)) {
             value = parseFloat(value)
         }
+
+        if (! record.persisted) {
+            persistRecord({...record, identifier, value })
+                .then(() => {
+                    rejectedMessage = undefined
+                    dispatch('success', {...record, identifier, value })
+                }).catch(err => {
+                    rejectedMessage = (err instanceof Error) ? (err.message || err.toString()) : err.toString()
+                })
+            return
+        }
+
         extension.modifyRecord({
             componentIdentifier: record.componentIdentifier,
             recordIdentifier: record.identifier,
