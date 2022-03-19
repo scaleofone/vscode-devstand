@@ -1,5 +1,5 @@
 <script>
-    import { onMount, tick } from 'svelte'
+    import { onMount, onDestroy, tick } from 'svelte'
     import { createEventDispatcher } from 'svelte'
     const dispatch = createEventDispatcher()
 
@@ -124,6 +124,9 @@
         if (get(focusedEditorRecordPath) == record.path) {
             focus()
         }
+    })
+    onDestroy(() => {
+        // TODO keep values of opened editors
     })
 </script>
 

@@ -1,7 +1,9 @@
 import vscodeApi from '../vscode.js'
 import { Messenger } from '../Messenger'
 
+import { get } from 'svelte/store'
 import { schemaDictionary, templateImports, components, records } from './stores/breadboard'
+import { unPersistedRecords, rememberUnPersistedRecordsBeforeHydrate } from './stores/persist'
 import { editorSettings } from './stores/misc'
 import * as payloads from '../../TransportPayloads'
 import { Breadboard } from '../../BreadboardTypes'
@@ -48,10 +50,12 @@ const extension = {
 
 const webview = {
     hydrate(breadboard: Breadboard): void {
+        rememberUnPersistedRecordsBeforeHydrate()
         schemaDictionary.set(breadboard.schemaDictionary)
         templateImports.set(breadboard.templateImports)
         components.set(breadboard.components)
-        records.set(breadboard.records)
+        records.set([...breadboard.records, ...get(unPersistedRecords)])
+        unPersistedRecords.set([])
     },
     editorSettings(payload: payloads.EditorSettings): void {
         editorSettings.set({
