@@ -1,12 +1,12 @@
 import vscode from 'vscode'
 import * as ast from '../../../../heptio-vscode-jsonnet/compiler/lexical-analysis/ast'
 
-import { UpdateRecordValue } from '../../../TransportPayloads'
+import { ModifyRecord } from '../../../TransportPayloads'
 import { editableStringToConcatenationString, isEditableString } from '../jsonnet/helpers'
 
 import * as parser from '../jsonnet/JsonnetParser'
 
-export default function (document: vscode.TextDocument, payload: UpdateRecordValue): vscode.TextEdit {
+export default function (document: vscode.TextDocument, payload: ModifyRecord): vscode.TextEdit {
     const text = document.getText()
     const parsed = parser.parse(document.uri.path, text)
     const recordFieldNode = parser.getRecordFieldNode(parsed, payload.componentIdentifier, payload.recordIdentifier, payload.recordScope)

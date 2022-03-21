@@ -108,7 +108,7 @@
         await tick()
         inputIdentifierElement.focus()
         if (typeof selectionStart == 'number') {
-            inputIdentifierElement.setSelectionRange(selectionStart, (typeof selectionEnd == 'number' ? selectionEnd : inputValueElement.value.length))
+            inputIdentifierElement.setSelectionRange(selectionStart, (typeof selectionEnd == 'number' ? selectionEnd : inputIdentifierElement.value.length))
         }
     }
 
