@@ -3,7 +3,7 @@ import { Messenger } from '../Messenger'
 
 import { get } from 'svelte/store'
 import { schemaDictionary, templateImports, components, records } from './stores/breadboard'
-import { unPersistedRecords, rememberUnPersistedRecordsBeforeHydrate } from './stores/persist'
+import { unPersistedRecords, rememberUnPersistedRecordsBeforeHydrate, getUnPersistedRecordsBeforeHydrate } from './stores/persist'
 import { editorSettings } from './stores/misc'
 import * as payloads from '../../TransportPayloads'
 import { Breadboard } from '../../BreadboardTypes'
@@ -54,7 +54,7 @@ const webview = {
         schemaDictionary.set(breadboard.schemaDictionary)
         templateImports.set(breadboard.templateImports)
         components.set(breadboard.components)
-        records.set([...breadboard.records, ...get(unPersistedRecords)])
+        records.set([...breadboard.records, ...getUnPersistedRecordsBeforeHydrate(breadboard.records)])
         unPersistedRecords.set([])
     },
     editorSettings(payload: payloads.EditorSettings): void {

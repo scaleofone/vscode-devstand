@@ -14,6 +14,20 @@ export function rememberUnPersistedRecordsBeforeHydrate() {
     }
 }
 
+export function getUnPersistedRecordsBeforeHydrate(persistedRecords: Record[]) {
+    return get(unPersistedRecords).filter(record => {
+        let persistedPaths = persistedRecords.map(r => r.path)
+        let recordPath = (record.path.match(/temporaryIdentifier_\d*$/))
+            ? record.path.replace(/temporaryIdentifier_\d*$/, record.identifier)
+            : record.path
+        if (persistedPaths.includes(recordPath)) {
+            console.log('WAS PERSISTED', record)
+            return false
+        }
+        return true
+    })
+}
+
 function rememberUnPersistedRecordsExcept(exceptPaths: string[]) {
     unPersistedRecords.set(
         JSON.parse(JSON.stringify(
@@ -35,6 +49,11 @@ export function removeRecordIfNotPersisted(record: Record) {
 }
 
 export function persistRecord(record: Record): AbortablePromise<void> {
+    let foundRecord = get(records).find(r => r.path == record.path)
+    if (foundRecord) {
+        foundRecord.identifier = record.identifier
+        foundRecord.value = record.value
+    }
     let scopeRecord = get(records).find(r => record.scope && r.componentIdentifier == record.componentIdentifier && r.identifier == record.scope && ! r.persisted)
     if (scopeRecord) {
 

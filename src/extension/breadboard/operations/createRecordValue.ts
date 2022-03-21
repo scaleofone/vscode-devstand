@@ -1,4 +1,5 @@
 import vscode from 'vscode'
+import * as ast from '../../../../heptio-vscode-jsonnet/compiler/lexical-analysis/ast'
 
 import { CreateRecordValue } from '../../../TransportPayloads'
 
@@ -12,16 +13,48 @@ export default function (document: vscode.TextDocument, payload: CreateRecordVal
     const text = document.getText()
     const parsed = parser.parse(document.uri.path, text)
     const componentObjectNode = parser.getComponentObjectNode(parsed, payload.componentIdentifier)
-    const siblingRecordFieldNode = componentObjectNode.fields.last()
 
-    let insertLine = siblingRecordFieldNode.loc.end.line -1
-    let insertColumn = siblingRecordFieldNode.loc.end.column -1
-    if (['"', '\''].includes(document.getText(new vscode.Range(insertLine, insertColumn, insertLine, insertColumn+1)))) {
-        insertColumn += 1
+    function getInsertPosition() {
+        let insertLine: number
+        let insertColumn: number
+        let tabsOffsetSize = 2
+
+        let scopeObjectNode = componentObjectNode
+
+        if (payload.recordScope) {
+            let scopeFieldNode = componentObjectNode.fields.find(f => f.id.name == payload.recordScope)
+            if (scopeFieldNode && scopeFieldNode.expr2 && ast.isObjectNode(scopeFieldNode.expr2)) {
+                scopeObjectNode = scopeFieldNode.expr2
+                tabsOffsetSize = 3
+            } else if (scopeFieldNode && scopeFieldNode.expr2 && (
+                (ast.isApplyBrace(scopeFieldNode.expr2) || (ast.isBinary(scopeFieldNode.expr2) && scopeFieldNode.expr2.op == 'BopPlus'))
+                && ast.isObjectNode(scopeFieldNode.expr2.right)
+            )) {
+                scopeObjectNode = scopeFieldNode.expr2.right
+                tabsOffsetSize = 3
+            }
+        }
+
+        const siblingRecordFieldNode = (payload.belowRecordIdentifier ? scopeObjectNode.fields.find(f => f.id.name == payload.belowRecordIdentifier) : undefined) || scopeObjectNode.fields.last()
+
+        if (siblingRecordFieldNode) {
+            insertLine = siblingRecordFieldNode.loc.end.line -1
+            insertColumn = siblingRecordFieldNode.loc.end.column -1
+            if (['"', '\''].includes(document.getText(new vscode.Range(insertLine, insertColumn, insertLine, insertColumn+1)))) {
+                insertColumn += 1
+            }
+            if (',' == document.getText(new vscode.Range(insertLine, insertColumn, insertLine, insertColumn+1))) {
+                insertColumn += 1
+            }
+        } else {
+            insertLine = scopeObjectNode.loc.begin.line -1
+            insertColumn = scopeObjectNode.loc.begin.column -1
+            insertColumn += document.getText(new vscode.Range(insertLine, insertColumn, insertLine, insertColumn+100)).length
+        }
+        return { insertLine, insertColumn, tabsOffsetSize }
     }
-    if (',' == document.getText(new vscode.Range(insertLine, insertColumn, insertLine, insertColumn+1))) {
-        insertColumn += 1
-    }
+
+    let { insertLine, insertColumn, tabsOffsetSize } = getInsertPosition()
 
     let tab = '  ' // two spaces
     let quot = '\'' // single quot
@@ -32,7 +65,7 @@ export default function (document: vscode.TextDocument, payload: CreateRecordVal
         } else if (payload.recordType == 'object') {
             try {
                 if (typeof payload.recordValue == 'object' && payload.recordValue !== null) {
-                    return addOffsetAndStripQuotes(JSON.stringify(payload.recordValue, null, tab), tab.repeat(2))
+                    return addOffsetAndStripQuotes(JSON.stringify(payload.recordValue, null, tab), tab.repeat(tabsOffsetSize))
                 } else {
                     return '{}'
                 }
@@ -47,7 +80,7 @@ export default function (document: vscode.TextDocument, payload: CreateRecordVal
         return 'null'
     }
 
-    let insertText = '\n' + tab.repeat(2) + `${ payload.recordIdentifier }: ${ stringifiedValue(payload) }` + ','
+    let insertText = '\n' + tab.repeat(tabsOffsetSize) + `${ payload.recordIdentifier }: ${ stringifiedValue(payload) }` + ','
 
     return vscode.TextEdit.insert(
         new vscode.Position(insertLine, insertColumn),

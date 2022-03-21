@@ -27,6 +27,7 @@ export interface CreateRecordValue {
     recordIdentifier: string
     recordValue: string | number | null
     recordType: 'string' | 'number' | 'null' | 'object'
+    belowRecordIdentifier?: string
 }
 
 export interface CreateScopeWithRecords {
