@@ -12,6 +12,7 @@ import deleteTemplateImport from './operations/deleteTemplateImport'
 import deleteComponent from './operations/deleteComponent'
 import deleteRecord from './operations/deleteRecord'
 import createRecordValue from './operations/createRecordValue'
+import createScopeWithRecords from './operations/createScopeWithRecords'
 import renameRecord from './operations/renameRecord'
 import updateRecordValue from './operations/updateRecordValue'
 import createComponent from './operations/createComponent'
@@ -130,7 +131,7 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
                 await applyWorkspaceEdit([ createRecordValue(document, payload) ])
             },
             async createScopeWithRecords(payload: payloads.CreateScopeWithRecords): Promise<void> {
-                console.log('createScopeWithRecords', payload)
+                await applyWorkspaceEdit([ createScopeWithRecords(document, payload) ])
             },
             async modifyRecord(payload: payloads.ModifyRecord): Promise<void> {
                 // TODO perform validation inside operations, not here
