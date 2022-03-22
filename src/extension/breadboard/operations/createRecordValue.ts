@@ -2,6 +2,7 @@ import vscode from 'vscode'
 import * as ast from '../../../../heptio-vscode-jsonnet/compiler/lexical-analysis/ast'
 
 import { CreateRecordValue } from '../../../TransportPayloads'
+import { editableStringToConcatenationString, isEditableString } from '../jsonnet/helpers'
 
 import * as parser from '../jsonnet/JsonnetParser'
 
@@ -75,6 +76,13 @@ export default function (document: vscode.TextDocument, payload: CreateRecordVal
         } else if (payload.recordType == 'number' && typeof payload.recordValue == 'number') {
             return payload.recordValue.toString()
         } else if (payload.recordType == 'string' && ['number', 'string'].includes(typeof payload.recordValue)) {
+
+            if (typeof payload.recordValue == 'string' && isEditableString(payload.recordValue)) {
+                let stringifiedValue = editableStringToConcatenationString(payload.recordValue)
+                console.log('isConcatenationString', stringifiedValue)
+                return stringifiedValue
+            }
+
             return quot + payload.recordValue.toString() + quot
         }
         return 'null'
