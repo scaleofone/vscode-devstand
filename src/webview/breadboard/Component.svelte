@@ -52,18 +52,18 @@
                     on:pointerdown={forwardPointerEventToSquareKnob}
                 ></div>
 
-                <div class="font-mono" style="opacity: 0.5;">{component.templateImportVariableName}</div>
+                <div class="font-mono pr-small" style="opacity: 0.5;">{component.templateImportVariableName}</div>
 
+                <div class="shrink-0">
+                    <ComponentSchemaDropdown
+                        component={component}
+                    />
+                </div>
                 <div class="shrink-0">
                     <ComponentDropdown
                         component={component}
                         on:delete={handleDeleteComponent}
                         on:rename={()=> renameFormIsVisible = true}
-                    />
-                </div>
-                <div class="shrink-0">
-                    <ComponentSchemaDropdown
-                        component={component}
                     />
                 </div>
             </div>

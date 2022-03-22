@@ -4,7 +4,7 @@
     import { makeUnPersistedRecordsForSchema } from './stores/persist'
     import { focusedEditorRecordPath } from './stores/visual'
     import DetailDropdown from './controls/DetailDropdown'
-    import iconSchema from '@vscode/codicons/src/icons/code.svg'
+    import iconSchema from '@vscode/codicons/src/icons/add.svg'
 
     /** @type {import('../../BreadboardTypes').Component} */
     export let component
@@ -36,7 +36,7 @@
 
 <details use:DetailDropdown class="dropdown select-none dropdown--having-svg-in-summary">
     <summary class="cursor-pointer">{@html iconSchema}</summary>
-    <div class="menu menu--mono widget-shadow" style="max-width:300px">
+    <div class="menu menu--vertical-padding widget-shadow" style="max-width:300px">
         {#each schemaDropdownItems as item (item)}
             <div class="menu__item"
                 class:alreadyAdded="{item.alreadyAdded}"
