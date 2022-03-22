@@ -9,9 +9,11 @@ export const unPersistedRecords: Writable<Record[]> = writable([])
 export const inputValues: Writable<any> = writable([])
 
 export function rememberUnPersistedRecordsBeforeHydrate() {
-    if (get(unPersistedRecords).length == 0) {
-        rememberUnPersistedRecordsExcept([])
-    }
+    unPersistedRecords.set(
+        JSON.parse(JSON.stringify(
+            get(records).filter(r => ! r.persisted)
+        ))
+    )
 }
 
 export function getUnPersistedRecordsBeforeHydrate(persistedRecords: Record[]) {
@@ -26,14 +28,6 @@ export function getUnPersistedRecordsBeforeHydrate(persistedRecords: Record[]) {
         }
         return true
     })
-}
-
-function rememberUnPersistedRecordsExcept(exceptPaths: string[]) {
-    unPersistedRecords.set(
-        JSON.parse(JSON.stringify(
-            get(records).filter(r => ! r.persisted && ! exceptPaths.includes(r.path))
-        ))
-    )
 }
 
 export function removeRecordIfNotPersisted(record: Record) {
@@ -58,7 +52,6 @@ export function persistRecord(record: Record): AbortablePromise<void> {
     if (scopeRecord) {
 
         if (record.type == 'string' || record.type == 'number' || record.type == 'reference' || record.type == 'concatenation') {
-            rememberUnPersistedRecordsExcept([scopeRecord.path, record.path])
             return extension.createScopeWithRecords({
                 componentIdentifier: record.componentIdentifier,
                 scopeIdentifier: scopeRecord.identifier,
@@ -74,7 +67,6 @@ export function persistRecord(record: Record): AbortablePromise<void> {
 
     } else {
         if (record.type == 'string' || record.type == 'number' || record.type == 'null' || record.type == 'object') {
-            rememberUnPersistedRecordsExcept([record.path])
             return extension.createRecordValue({
                 componentIdentifier: record.componentIdentifier,
                 recordScope: record.scope,
