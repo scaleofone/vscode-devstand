@@ -2,7 +2,7 @@ import { tick } from 'svelte'
 import { Writable, writable, get } from 'svelte/store'
 import { Component } from '../../../BreadboardTypes'
 import { EditorSettings } from '../../../TransportPayloads'
-import { components } from './breadboard'
+import { components, records } from './breadboard'
 import { colorHexForIndex } from './visual'
 import { editorSettings } from './misc'
 
@@ -118,6 +118,15 @@ export function crawl() {
         crawlBrickCoordinates(get(squareDimensions))
     )
 }
+
+records.subscribe(async ($records) => {
+    await tick()
+    if ($records.filter(r => ! r.persisted).length > 0) {
+        brickCoordinates.set(
+            crawlBrickCoordinates(get(squareDimensions))
+        )
+    }
+})
 
 components.subscribe(async () => {
     await tick()

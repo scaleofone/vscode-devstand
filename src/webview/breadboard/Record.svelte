@@ -45,8 +45,9 @@
     $: if ($dragoverResultTargetRecordPath == record.path) {
         let referenceString = '{' + $dragoverResultSourceRecord.path + '}'
         if (modifyFormVisible) {
-            modifyFormComponent.setValue(record.value.toString() + referenceString)
-            modifyFormComponent.focusOnInputValueElement(record.value.toString().length)
+            let valueAsString = record.value === null ? '' : record.value.toString()
+            modifyFormComponent.setValue(valueAsString + referenceString)
+            modifyFormComponent.focusOnInputValueElement(valueAsString.length)
         } else {
             console.log('Create NEW Record[type=reference][value="' + referenceString + '"] below Record[path="' + record.path + '"]')
         }
