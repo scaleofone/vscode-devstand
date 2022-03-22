@@ -7,9 +7,11 @@ import parseDocument from './parseDocument'
 import createNewComponent from './createNewComponent'
 
 import renameComponent from './operations/renameComponent'
+import renameComponentGeometry from './operations/renameComponentGeometry'
 import createTemplateImport from './operations/createTemplateImport'
 import deleteTemplateImport from './operations/deleteTemplateImport'
 import deleteComponent from './operations/deleteComponent'
+import deleteComponentGeometry from './operations/deleteComponentGeometry'
 import deleteRecord from './operations/deleteRecord'
 import createRecordValue from './operations/createRecordValue'
 import createScopeWithRecords from './operations/createScopeWithRecords'
@@ -105,11 +107,15 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
                 if (payload.after == 'fail') {
                     throw new ValidationError('Value not allowed '+Math.random().toString().substr(2, 3), 'after')
                 }
-                await applyWorkspaceEdit([ renameComponent(document, payload) ])
+                await applyWorkspaceEdit([
+                    renameComponentGeometry(document, payload),
+                    renameComponent(document, payload),
+                ])
             },
             async deleteComponent(payload: payloads.DeleteComponent): Promise<void> {
                 let textEdits = [
-                    deleteComponent(document, payload)
+                    deleteComponentGeometry(document, payload),
+                    deleteComponent(document, payload),
                 ]
 
                 let breadboard = await parseDocument(document)
