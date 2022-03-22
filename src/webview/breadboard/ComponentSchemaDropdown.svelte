@@ -1,7 +1,7 @@
 <script>
     import { get } from 'svelte/store'
     import { records, templateImports, schemaDictionary, recordPathsBeingEdited } from './stores/breadboard'
-    import { makeUnPersistedRecords } from './stores/persist'
+    import { makeUnPersistedRecordsForSchema } from './stores/persist'
     import { focusedEditorRecordPath } from './stores/visual'
     import DetailDropdown from './controls/DetailDropdown'
     import iconSchema from '@vscode/codicons/src/icons/code.svg'
@@ -25,7 +25,8 @@
     })
 
     function addRecord({ recordIdentifier, alreadyAdded, recordSchema }) {
-        let multipleRecords = makeUnPersistedRecords(component, recordIdentifier, alreadyAdded, recordSchema)
+        let multipleRecords = makeUnPersistedRecordsForSchema(component.identifier, recordIdentifier, alreadyAdded, recordSchema)
+        if (multipleRecords.length == 0) { return }
         let trailingRecord = multipleRecords[multipleRecords.length-1]
         recordPathsBeingEdited.update((paths) => [...paths, trailingRecord.path])
         focusedEditorRecordPath.set(trailingRecord.path)

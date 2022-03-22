@@ -80,13 +80,17 @@ export function persistRecord(record: Record): AbortablePromise<void> {
     }
 }
 
-export function makeUnPersistedRecords(component: Component, recordIdentifier: string, alreadyAdded: boolean, recordSchema: object): Record[] {
+export function makeUnPersistedRecordsForSchema(componentIdentifier: string, recordIdentifier: string, alreadyAdded: boolean, recordSchema: object): Record[] {
     let type = ((typeof recordSchema == 'object' && typeof recordSchema['type'] == 'string' && ['object', 'string', 'number'].includes(recordSchema['type'].toLowerCase())) ? recordSchema['type'].toLowerCase() : 'null') as 'object' | 'string' | 'number' | 'null'
     let value = (typeof recordSchema == 'object' && ['object', 'string', 'number'].includes(typeof recordSchema['default'])) ? recordSchema['default'] : null
-
-    if (alreadyAdded && type != 'object') return
-
     let scope = '' // TODO define scope while adding Records
+    return makeUnPersistedRecordsWithTypeAndValue(componentIdentifier, recordIdentifier, type, value, scope, alreadyAdded)
+}
+
+export function makeUnPersistedRecordsWithTypeAndValue(componentIdentifier: string, recordIdentifier: string, type: "string" | "number" | "object" | "reference" | "composition" | "concatenation" | "null", value: string, scope: string, alreadyAdded: boolean): Record[] {
+
+    if (alreadyAdded && type != 'object') return []
+
     function makeShortScope(scope: string): string {
         return ''
     }
@@ -97,11 +101,11 @@ export function makeUnPersistedRecords(component: Component, recordIdentifier: s
         if (! alreadyAdded) {
             records.push({
                 persisted: false,
-                componentIdentifier: component.identifier,
+                componentIdentifier,
                 scope,
                 shortScope: makeShortScope(scope),
                 identifier: recordIdentifier,
-                path: ['$', component.identifier, scope, recordIdentifier].filter(n=>n).join('.'),
+                path: ['$', componentIdentifier, scope, recordIdentifier].filter(n=>n).join('.'),
                 type,
                 value,
                 inSchema: true,
@@ -110,11 +114,11 @@ export function makeUnPersistedRecords(component: Component, recordIdentifier: s
         let innerRecordIdentifier = 'temporaryIdentifier_' + Math.random().toString().substring(2)
         records.push({
             persisted: false,
-            componentIdentifier: component.identifier,
+            componentIdentifier,
             scope: 'env',
             shortScope: makeShortScope(scope),
             identifier: '',
-            path: ['$', component.identifier, scope, recordIdentifier, innerRecordIdentifier].filter(n=>n).join('.'),
+            path: ['$', componentIdentifier, scope, recordIdentifier, innerRecordIdentifier].filter(n=>n).join('.'),
             type: 'string',
             value: '',
             inSchema: true,
@@ -124,11 +128,11 @@ export function makeUnPersistedRecords(component: Component, recordIdentifier: s
 
     let record: Record = {
         persisted: false,
-        componentIdentifier: component.identifier,
+        componentIdentifier,
         scope,
         shortScope: makeShortScope(scope),
         identifier: recordIdentifier,
-        path: ['$', component.identifier, scope, recordIdentifier].filter(n=>n).join('.'),
+        path: ['$', componentIdentifier, scope, recordIdentifier].filter(n=>n).join('.'),
         type,
         value,
         inSchema: true,

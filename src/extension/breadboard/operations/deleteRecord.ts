@@ -16,6 +16,7 @@ export default function (document: vscode.TextDocument, payload: DeleteRecord): 
         || ast.isIndex(recordFieldNode.expr2)
         || ast.isLiteralNull(recordFieldNode.expr2)
         || ast.isBinary(recordFieldNode.expr2)
+        || ast.isObjectNode(recordFieldNode.expr2)
     )) {
         throw new Error(`node[type=${ recordFieldNode.expr2.type }] is not supported`)
     }

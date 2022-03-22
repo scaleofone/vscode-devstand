@@ -3,8 +3,8 @@
 
     import { extension } from './transport'
     import { colorHexForIndex, dragoverResultSourceRecord, dragoverResultTargetRecordPath, focusedEditorRecordPath } from './stores/visual'
-    import { components, recordPathsBeingEdited } from './stores/breadboard'
-    import { removeRecordIfNotPersisted } from './stores/persist'
+    import { components, records, recordPathsBeingEdited } from './stores/breadboard'
+    import { removeRecordIfNotPersisted, makeUnPersistedRecordsWithTypeAndValue } from './stores/persist'
     import { get } from 'svelte/store'
 
     import RecordDropdown from './RecordDropdown.svelte'
@@ -53,6 +53,15 @@
         }
         dragoverResultTargetRecordPath.set('')
         dragoverResultSourceRecord.set(null)
+    }
+
+    function addInsideScope() {
+        let multipleRecords = makeUnPersistedRecordsWithTypeAndValue(record.componentIdentifier, 'env', 'object', '', '', true)
+        if (multipleRecords.length == 0) { return }
+        let trailingRecord = multipleRecords[multipleRecords.length-1]
+        recordPathsBeingEdited.update((paths) => [...paths, trailingRecord.path])
+        focusedEditorRecordPath.set(trailingRecord.path)
+        records.update((recs) => [...recs, ...multipleRecords])
     }
 
 </script>
@@ -134,6 +143,7 @@
             <div class="shrink-0 record-dropdown-button">
                 <RecordDropdown
                     record={record}
+                    on:addInsideScope={() => addInsideScope()}
                     on:modify={()=> { autofocusOnModifyForm(); setModifyFormVisible(true); }}
                     on:delete={handleDeleteRecord}
                 />

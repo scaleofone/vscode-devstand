@@ -19,15 +19,29 @@
             viewColumn: 'Beside',
         })
     }
+
+    $: kindaObject = (record.type == 'object' || record.type == 'composition' || (record.type == 'reference' && record.referencedRecordIdentifier == 'env'))
+    $: canAddRecordInsideScope = kindaObject
+    $: canModify = ! kindaObject
+
+    let canDelete = true
+
 </script>
 
 <details use:DetailDropdown class="dropdown select-none dropdown--having-svg-in-summary">
     <summary class="cursor-pointer">{@html iconDropdown}</summary>
     <div class="menu menu--vertical-padding widget-shadow">
-        <div class="menu__item" on:click="{()=>dispatch('modify')}"><span class="grow truncate">Modify record</span></div>
-        <div class="menu__item" on:click="{()=>dispatch('delete')}"><span class="grow truncate">Delete record</span></div>
+        {#if canAddRecordInsideScope}
+            <div class="menu__item" on:click="{()=>dispatch('addInsideScope')}"><span class="grow truncate">Add env variable</span></div>
+        {/if}
+        {#if canModify}
+            <div class="menu__item" on:click="{()=>dispatch('modify')}"><span class="grow truncate">Update value</span></div>
+        {/if}
         {#if canReveal}
-            <div class="menu__item" on:click="{()=>reveal()}"><span class="grow truncate">Reveal record</span></div>
+            <div class="menu__item" on:click="{()=>reveal()}"><span class="grow truncate">Reveal code</span></div>
+        {/if}
+        {#if canDelete}
+            <div class="menu__item" on:click="{()=>dispatch('delete')}"><span class="grow truncate">Delete record</span></div>
         {/if}
     </div>
 </details>
