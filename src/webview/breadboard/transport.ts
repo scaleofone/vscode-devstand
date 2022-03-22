@@ -22,8 +22,8 @@ const extension = {
     showMessage(text: string): AbortablePromise<void> {
         return messenger.postRequestPayload('showMessage', text)
     },
-    renameComponent(payload: payloads.RenameComponent): void {
-        messenger.postVoidPayload('renameComponent', payload)
+    renameComponent(payload: payloads.RenameComponent): AbortablePromise<void> {
+        return messenger.postRequestPayload('renameComponent', payload)
     },
     deleteComponent(payload: payloads.DeleteComponent): void {
         messenger.postVoidPayload('deleteComponent', payload)

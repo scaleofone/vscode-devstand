@@ -12,14 +12,6 @@
     $: componentWasReferenced = $records.some(r => r.referencedComponentIdentifier == component.identifier)
 
     let renameFormIsVisible = false
-    function handleRenameComponent(updIdentifier) {
-        console.log('handleRenameComponent')
-        extension.renameComponent({
-            before: component.identifier,
-            after: updIdentifier,
-        })
-        renameFormIsVisible = false
-    }
     function handleDeleteComponent() {
         console.log('handleDeleteComponent')
         extension.deleteComponent({
@@ -42,10 +34,10 @@
     <div class="role-brick role-component-header">
         {#if renameFormIsVisible}
 
-            <div class="flex items-center height-mono">
+            <div class="flex items-center height-mono" style="background-color: var(--square-section-color);">
                 <RenameComponentForm
                     component={component}
-                    on:success={(event) => handleRenameComponent(event.detail.identifier)}
+                    on:success={() => renameFormIsVisible = false}
                     on:cancel={() => renameFormIsVisible = false}
                 />
             </div>

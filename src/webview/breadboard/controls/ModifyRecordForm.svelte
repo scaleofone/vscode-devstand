@@ -86,7 +86,7 @@
 
     /** @type HTMLInputElement */ let inputIdentifierElement
     /** @type HTMLInputElement */ let inputValueElement
-    /** @type HTMLSpanElement */  let contentIdentifierElement
+    /** @type HTMLDivElement */   let contentIdentifierElement
 
     function matchIdentifierWidth() {
         inputIdentifierElement.style.width = `${ contentIdentifierElement.offsetWidth + 1 }px`

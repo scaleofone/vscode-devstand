@@ -102,6 +102,9 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
                 await applyWorkspaceEdit([ mutateComponentGeometry(document, payload) ])
             },
             async renameComponent(payload: payloads.RenameComponent): Promise<void> {
+                if (payload.after == 'fail') {
+                    throw new ValidationError('Value not allowed '+Math.random().toString().substr(2, 3), 'after')
+                }
                 await applyWorkspaceEdit([ renameComponent(document, payload) ])
             },
             async deleteComponent(payload: payloads.DeleteComponent): Promise<void> {
