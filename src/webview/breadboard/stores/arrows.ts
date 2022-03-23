@@ -186,7 +186,7 @@ function recalculateArrows($squareDimensions: SquareDimension[], $brickClamps: B
 
 export function guessGeometryForNewComponent(): NewComponentGeometry {
     let colorIndex = get(availableColorIndexes)[0]
-    let cornerY = 50
-    let cornerX = 200
+    let cornerY = 15
+    let cornerX = 15
     return { colorIndex, cornerY, cornerX }
 }

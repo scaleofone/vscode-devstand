@@ -138,7 +138,7 @@
         bind:this={inputIdentifierElement}
         disabled={! canModifyIdentifier}
         placeholder="identifier"
-        class="font-mono border-0 px-small shrink"
+        class="font-mono border-0 px-half shrink"
         class:outline-none={! canModifyIdentifier}
         class:outline-editor={canModifyIdentifier}
         class:outline-color-invalid={canModifyIdentifier && (rejectedMessage || ! $_form.valid)}
@@ -148,7 +148,7 @@
     <input type="text"
         bind:this={inputValueElement}
         placeholder="value"
-        class="font-mono border-0 outline-editor px-small grow element--inputValue"
+        class="font-mono border-0 outline-editor px-half grow element--inputValue"
         class:outline-color-invalid={rejectedMessage || ! $_form.valid}
         bind:value={$_recordValue.value}
         on:keyup={captureEnterAndEscape}
@@ -157,13 +157,13 @@
 
     {#if rejectedMessage || ! $_form.valid}
         <div
-            class="absolute outline-invalid bg-invalid px-small py-for-small" style="z-index: 3; top: calc(var(--height-mono) - 1px);"
+            class="absolute outline-invalid bg-invalid px-half py-quater" style="z-index: 3; top: calc(var(--height-mono) - 1px);"
             >{rejectedMessage || $_form.errors[0]}</div>
     {/if}
 
 
     <div class="absolute" style="opacity: 0; z-index: -1">
-        <div class="font-mono px-small min-max-width--contentIdentifierElement" style="float: left;"
+        <div class="font-mono px-half min-max-width--contentIdentifierElement" style="float: left;"
             bind:this={contentIdentifierElement}
         >{$_recordIdentifier.value}</div>
     </div>

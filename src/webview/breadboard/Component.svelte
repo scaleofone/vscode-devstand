@@ -44,7 +44,7 @@
 
         {:else}
 
-            <div class="flex items-center height-mono px-small" style="background-color: var(--square-section-color);">
+            <div class="flex items-center height-mono pl-half pr-quater" style="background-color: var(--square-section-color);">
 
                 <div class="font-mono" class:square-color-foreground={componentWasReferenced} style="font-weight: bold;">{component.identifier}</div>
 
@@ -52,7 +52,9 @@
                     on:pointerdown={forwardPointerEventToSquareKnob}
                 ></div>
 
-                <div class="font-mono pr-small" style="opacity: 0.5;">{component.templateImportVariableName}</div>
+                <div class="font-mono pr-quater cursor-grab" style="opacity: 0.5;"
+                    on:pointerdown={forwardPointerEventToSquareKnob}
+                >{component.templateImportVariableName}</div>
 
                 <div class="shrink-0">
                     <ComponentSchemaDropdown

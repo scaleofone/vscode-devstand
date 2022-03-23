@@ -14,7 +14,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    outline: 1px dotted lime;
+    /* outline: 1px dotted lime; */
 }
 
 .map-bg-image {

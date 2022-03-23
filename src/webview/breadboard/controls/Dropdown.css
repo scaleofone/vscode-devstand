@@ -44,3 +44,7 @@
     width: var(--icon-size);
     height: var(--icon-size);
 }
+
+.svg-rotate-90 > svg {
+    transform: rotate(90deg);
+}

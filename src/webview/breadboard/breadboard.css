@@ -19,24 +19,9 @@
 .margin-bottom-neg-height-mono {
     margin-bottom: calc(-1 * var(--height-mono));
 }
-.px-small,
-input:not([type="checkbox"]).px-small,
-textarea.px-small {
-    padding-left: calc(1px * var(--editorSettings-halfFontSize));
-    padding-right: calc(1px * var(--editorSettings-halfFontSize));
-}
-.pr-small,
-input:not([type="checkbox"]).pr-small,
-textarea.pr-small {
-    padding-right: calc(1px * var(--editorSettings-halfFontSize));
-}
 
 .square-color-foreground {
     color: var(--square-color);
-}
-.py-for-small {
-    padding-top: calc(1px * var(--editorSettings-quaterFontSize));
-    padding-bottom: calc(1px * var(--editorSettings-quaterFontSize));
 }
 
 /* Utilities */
@@ -51,6 +36,32 @@ textarea.font-mono {
     font-size: var(--vscode-font-size);
     font-family: var(--vscode-font-family);
 }
+
+.px-half, input:not([type="checkbox"]).px-half, textarea.px-half {
+    padding-left: calc(1px * var(--editorSettings-halfFontSize));
+    padding-right: calc(1px * var(--editorSettings-halfFontSize));
+}
+.pr-half, input:not([type="checkbox"]).pr-half, textarea.pr-half {
+    padding-right: calc(1px * var(--editorSettings-halfFontSize));
+}
+.pl-half, input:not([type="checkbox"]).pl-half, textarea.pl-half {
+    padding-left: calc(1px * var(--editorSettings-halfFontSize));
+}
+.py-quater {
+    padding-top: calc(1px * var(--editorSettings-quaterFontSize));
+    padding-bottom: calc(1px * var(--editorSettings-quaterFontSize));
+}
+.px-quater {
+    padding-left: calc(1px * var(--editorSettings-quaterFontSize));
+    padding-right: calc(1px * var(--editorSettings-quaterFontSize));
+}
+.pr-quater {
+    padding-right: calc(1px * var(--editorSettings-quaterFontSize));
+}
+.pl-quater {
+    padding-right: calc(1px * var(--editorSettings-quaterFontSize));
+}
+
 
 .widget-shadow { box-shadow: 0 0 8px 2px var(--vscode-widget-shadow); }
 

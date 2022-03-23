@@ -124,8 +124,6 @@
 } */
 .show-record-dropdown-button-on-hover .record-dropdown-button .dropdown {
     opacity: 0;
-    position: relative;
-    left: calc(1px * var(--editorSettings-quaterFontSize));
 }
 .show-record-dropdown-button-on-hover:hover .record-dropdown-button .dropdown {
     opacity: 1;

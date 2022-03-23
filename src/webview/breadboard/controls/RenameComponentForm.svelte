@@ -71,7 +71,7 @@
 <div class="relative" style="width: 100%;">
     <div class="flex">
         <input type="text"
-            class="font-mono border-0 px-small"
+            class="font-mono border-0 px-half"
             class:outline-color-invalid={(rejectedMessage || ! $_form.valid)}
             style="font-weight: bold; background-color: var(--square-section-color);"
             bind:this={inputIdentifierElement}
@@ -82,12 +82,12 @@
 
     {#if rejectedMessage || ! $_form.valid}
         <div
-            class="absolute outline-invalid bg-invalid px-small py-for-small" style="z-index: 3; top: calc(var(--height-mono) - 1px);"
+            class="absolute outline-invalid bg-invalid px-half py-quater" style="z-index: 3; top: calc(var(--height-mono) - 1px);"
             >{rejectedMessage || $_form.errors[0]}</div>
     {/if}
 
     <div class="absolute" style="opacity: 0; z-index: -1">
-        <div class="font-mono px-small min-max-width--contentIdentifierElement" style="font-weight: bold; float: left;"
+        <div class="font-mono px-half min-max-width--contentIdentifierElement" style="font-weight: bold; float: left;"
             bind:this={contentIdentifierElement}
         >{$_componentIdentifier.value}</div>
     </div>

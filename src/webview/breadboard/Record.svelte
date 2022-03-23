@@ -82,7 +82,7 @@
 
     {:else}
 
-        <div class="flex items-center height-mono px-small show-record-dropdown-button-on-hover"
+        <div class="flex items-center height-mono pl-half pr-quater show-record-dropdown-button-on-hover"
             style={[
                 `--referenced-component-color: ${referencedComponentColorHex || '#00F'}`
             ].join(';')}
@@ -94,7 +94,7 @@
                     <span class="font-mono flex">
                         <span>{record.identifier}</span>
                         {#if ['composition', 'reference'].includes(record.type)}
-                            <span class="px-small">+</span>
+                            <span class="px-half">+</span>
                             <span style="color: var(--referenced-component-color); font-weight:bold">{record.referencedComponentIdentifier}.</span>
                             <span style="color: var(--referenced-component-color)">{record.referencedRecordIdentifier}</span>
                         {/if}
@@ -112,7 +112,7 @@
                     <span class:underline-dotted={! record.inSchema}
                         >{#if record.shortScope}{record.shortScope}.{/if}{record.identifier}</span>
 
-                    <span class="pr-small">:</span>
+                    <span class="pr-half">:</span>
 
                     {#if ['number', 'string'].includes(record.type)}
                         <span>{record.value}</span>
