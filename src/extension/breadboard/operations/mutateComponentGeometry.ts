@@ -6,8 +6,7 @@ import { MutateComponentGeometry } from '../../../TransportPayloads'
 import * as parser from '../jsonnet/JsonnetParser'
 
 export default function (document: vscode.TextDocument, payload: MutateComponentGeometry): vscode.TextEdit {
-    const text = document.getText()
-    const parsed = parser.parse(document.uri.path, text)
+    const parsed = parser.parse(document.uri.path, document.getText())
     const objectFieldNode = parser.getComponentFieldNode(parsed, 'meta')
     const targetNode = objectFieldNode.expr2
 

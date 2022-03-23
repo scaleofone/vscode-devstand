@@ -4,6 +4,9 @@ import * as lexical from '../../../../heptio-vscode-jsonnet/compiler/lexical-ana
 import * as parser from '../../../../heptio-vscode-jsonnet/compiler/lexical-analysis/parser'
 
 export function parse(filePath: string, fileText: string): ast.Node {
+    if (fileText.trim().length == 0) {
+        fileText = '{\n}\n'
+    }
     const lexResult = lexer.Lex(filePath, fileText)
     if (lexical.isStaticError(lexResult)) {
         throw new Error('LEX ERROR')

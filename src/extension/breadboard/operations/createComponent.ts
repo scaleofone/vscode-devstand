@@ -5,8 +5,7 @@ import { CreateComponent, NewComponentGeometry } from '../../../TransportPayload
 import * as parser from '../jsonnet/JsonnetParser'
 
 export default function (document: vscode.TextDocument, payload: CreateComponent, geometry?: NewComponentGeometry): vscode.TextEdit {
-    const text = document.getText()
-    const parsed = parser.parse(document.uri.path, text)
+    const parsed = parser.parse(document.uri.path, document.getText())
     const objectNode = parser.getObjectNode(parsed)
     if (! objectNode) throw new Error(`ObjectNode not found`)
     const siblingComponentFieldNode = objectNode.fields.findLast(field => field.id.name != 'meta')

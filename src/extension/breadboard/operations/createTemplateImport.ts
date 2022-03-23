@@ -4,8 +4,7 @@ import { CreateTemplateImport } from '../../../TransportPayloads'
 import * as parser from '../jsonnet/JsonnetParser'
 
 export default function (document: vscode.TextDocument, payload: CreateTemplateImport): vscode.TextEdit {
-    const text = document.getText()
-    const parsed = parser.parse(document.uri.path, text)
+    const parsed = parser.parse(document.uri.path, document.getText())
     const localBindNodes = parser.getLocalBindNodes(parsed)
     const lastLocalBindNode = localBindNodes.length > 0 ? localBindNodes[localBindNodes.length-1] : undefined
 

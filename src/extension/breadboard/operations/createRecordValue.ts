@@ -11,8 +11,7 @@ function addOffsetAndStripQuotes(str: string, tabsOffset: string): string {
 }
 
 export default function (document: vscode.TextDocument, payload: CreateRecordValue): vscode.TextEdit {
-    const text = document.getText()
-    const parsed = parser.parse(document.uri.path, text)
+    const parsed = parser.parse(document.uri.path, document.getText())
     const componentObjectNode = parser.getComponentObjectNode(parsed, payload.componentIdentifier)
 
     function getInsertPosition() {

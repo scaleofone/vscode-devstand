@@ -4,8 +4,7 @@ import { DeleteComponent } from '../../../TransportPayloads'
 import * as parser from '../jsonnet/JsonnetParser'
 
 export default function (document: vscode.TextDocument, payload: DeleteComponent): vscode.TextEdit {
-    const text = document.getText()
-    const parsed = parser.parse(document.uri.path, text)
+    const parsed = parser.parse(document.uri.path, document.getText())
     const objectFieldNode = parser.getComponentFieldNode(parsed, payload.identifier)
 
     let beginLine = objectFieldNode.loc.begin.line - 1

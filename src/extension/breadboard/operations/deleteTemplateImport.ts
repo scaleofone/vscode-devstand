@@ -5,8 +5,7 @@ import { DeleteTemplateImport } from '../../../TransportPayloads'
 import * as parser from '../jsonnet/JsonnetParser'
 
 export default function (document: vscode.TextDocument, payload: DeleteTemplateImport): vscode.TextEdit {
-    const text = document.getText()
-    const parsed = parser.parse(document.uri.path, text)
+    const parsed = parser.parse(document.uri.path, document.getText())
     const localBindNodes = parser.getLocalBindNodes(parsed)
     const nodeToRemove = localBindNodes.find(node => ast.isIndex(node.body) && ast.isImport(node.body.target) && node.variable.name == payload.variableName)
     if (nodeToRemove == undefined) {
