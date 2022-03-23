@@ -51,7 +51,7 @@
         <button
             style="height: var(--button-size); padding-left: 1.5rem; padding-right: 1.5rem"
             on:click={() => { extension.actionCreateComponent(guessGeometryForNewComponent()) }}
-        >Create component</button>
+        >Add component</button>
     </div>
 
 </div>

@@ -35,7 +35,7 @@
             <div class="menu__item" on:click="{()=>dispatch('addInsideScope')}"><span class="grow truncate">Add env variable</span></div>
         {/if}
         {#if canModify}
-            <div class="menu__item" on:click="{()=>dispatch('modify')}"><span class="grow truncate">Update</span></div>
+            <div class="menu__item" on:click="{()=>dispatch('modify')}"><span class="grow truncate">Update  <span style="opacity: 0.5">[dblclick]</span></span></div>
         {/if}
         {#if canReveal}
             <div class="menu__item" on:click="{()=>reveal()}"><span class="grow truncate">Reveal code</span></div>
