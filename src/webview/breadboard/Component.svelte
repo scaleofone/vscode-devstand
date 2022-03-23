@@ -57,11 +57,6 @@
                 <div class="shrink-0">
                     <ComponentSchemaDropdown
                         component={component}
-                    />
-                </div>
-                <div class="shrink-0">
-                    <ComponentDropdown
-                        component={component}
                         on:delete={handleDeleteComponent}
                         on:rename={()=> renameFormIsVisible = true}
                     />

@@ -39,3 +39,13 @@
 .menu--vertical-padding .menu__item:last-child {
     margin-bottom: var(--menu__item-gap);
 }
+
+.menu__item--dimmed {
+    color: #ccc;
+}
+
+.menu__separator {
+    border-bottom: 1px solid var(--square-border-color);
+    margin-bottom: calc(1px * var(--editorSettings-quaterFontSize));
+    padding-bottom: calc(1px * var(--editorSettings-quaterFontSize));
+}
