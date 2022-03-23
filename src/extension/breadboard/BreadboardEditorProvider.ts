@@ -162,16 +162,31 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
                     && ti.targetIdentifier == result.templateImport.targetIdentifier
                 ))
 
+                const createComponentTextEdit = createComponent(document, {
+                    componentIdentifier: result.component.identifier,
+                    templateImportVariableName: (
+                        alreadyPresentTemplateImport
+                            ? alreadyPresentTemplateImport.variableName
+                            : result.component.templateImportVariableName
+                    ),
+                }, payload)
                 let textEdits = [
-                    createComponent(document, {
-                        componentIdentifier: result.component.identifier,
-                        templateImportVariableName: (
-                            alreadyPresentTemplateImport
-                                ? alreadyPresentTemplateImport.variableName
-                                : result.component.templateImportVariableName
-                        ),
-                    })
+                    createComponentTextEdit,
                 ]
+
+                // if createComponent() returned 'replace' textEdit (creating the whole object with inner component) then createComponentTextEdit.range.isEmpty == false
+                // if createComponent() returned 'insert' textEdit (inserting inner component into already existing object) then createComponentTextEdit.range.isEmpty == true
+                if (createComponentTextEdit.range.isEmpty) {
+                    textEdits.push(
+                        mutateComponentGeometry(document, {
+                            componentIdentifier: result.component.identifier,
+                            colorIndex: payload.colorIndex,
+                            cornerX: payload.cornerX,
+                            cornerY: payload.cornerY,
+                        })
+                    )
+                }
+
                 if (! alreadyPresentTemplateImport) {
                     textEdits.push(
                         createTemplateImport(document, {
