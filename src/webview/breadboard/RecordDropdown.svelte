@@ -13,8 +13,8 @@
     $: canReveal = 'vscodeRange' in record
     function reveal() {
         extension.openDocument({
-            preserveFocus: true,
-            preview: true,
+            preserveFocus: false,
+            preview: false,
             selection: record.vscodeRange,
             viewColumn: 'Beside',
         })
