@@ -7,6 +7,8 @@
     import { removeRecordIfNotPersisted, makeUnPersistedRecordsWithTypeAndValue } from './stores/persist'
     import { get } from 'svelte/store'
 
+    import iconAdd from '@vscode/codicons/src/icons/add.svg'
+
     import RecordDropdown from './RecordDropdown.svelte'
     import ModifyRecordForm from './controls/ModifyRecordForm.svelte'
 
@@ -64,6 +66,7 @@
         records.update((recs) => [...recs, ...multipleRecords])
     }
 
+    $: canAddInsideScope = record.identifier == 'env'
 </script>
 
 
@@ -138,6 +141,16 @@
 
             </div>
 
+            {/if}
+
+            {#if canAddInsideScope}
+                <div class="shrink-0 record-addInsideScope-button">
+                    <a href="#void"
+                        class="button-with-icon block cursor-pointer"
+                        style="color: inherit !important"
+                        on:click|preventDefault={() => addInsideScope()}
+                        >{@html iconAdd}</a>
+                </div>
             {/if}
 
             <div class="shrink-0 record-dropdown-button">
