@@ -12,8 +12,8 @@
     $: canReveal = 'vscodeRange' in component
     function reveal() {
         extension.openDocument({
-            preserveFocus: true,
-            preview: true,
+            preserveFocus: false,
+            preview: false,
             selection: component.vscodeRange,
             viewColumn: 'Beside',
         })

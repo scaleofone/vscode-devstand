@@ -67,7 +67,7 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
         // Handle commands received from webview
         const extension = {
             openDocument(payload: payloads.OpenDocument): void {
-                vscode.commands.executeCommand('vscode.open', document.uri, {
+                vscode.window.showTextDocument(document.uri, {
                     preserveFocus: ('preserveFocus' in payload ? payload.preserveFocus : undefined),
                     preview: ('preview' in payload ? payload.preview : undefined),
                     selection: ('selection' in payload ? (new vscode.Range(payload.selection.startLine, payload.selection.startCharacter, payload.selection.endLine, payload.selection.endCharacter)) : undefined),
