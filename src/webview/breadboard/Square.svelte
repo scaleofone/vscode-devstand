@@ -1,5 +1,6 @@
 <script>
     import { grabbingSquareUuid, handleGrabStartEvent, colorHexForIndex, dragoverComponentIdentifier } from './stores/visual'
+    import { justCreatedComponentIdentifiers } from './stores/breadboard'
 
     /** @type {import('../../BreadboardTypes').Component} */
     export let component
@@ -14,7 +15,7 @@
 <div bind:this={squareElement}
     class="square"
     data-component-identifier={component.identifier}
-    class:is-grabbing={ $grabbingSquareUuid === component.identifier }
+    class:is-grabbing={ $grabbingSquareUuid === component.identifier || $justCreatedComponentIdentifiers.includes(component.identifier) }
     class:square--dragover={ $dragoverComponentIdentifier === component.identifier }
     style={[
         `top: ${component.cornerY}px`,

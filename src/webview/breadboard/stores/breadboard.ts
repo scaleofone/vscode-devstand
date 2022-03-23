@@ -33,3 +33,5 @@ function mutateCollectionItem(store: Writable<object[]>, idAttr: string, idValue
     store.set(collection)
     return item
 }
+
+export const justCreatedComponentIdentifiers: Writable<string[]> = writable([])

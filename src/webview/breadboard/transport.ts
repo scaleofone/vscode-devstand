@@ -2,7 +2,7 @@ import vscodeApi from '../vscode.js'
 import { Messenger } from '../Messenger'
 
 import { get } from 'svelte/store'
-import { schemaDictionary, templateImports, components, records } from './stores/breadboard'
+import { schemaDictionary, templateImports, components, records, justCreatedComponentIdentifiers } from './stores/breadboard'
 import { unPersistedRecords, rememberUnPersistedRecordsBeforeHydrate, getUnPersistedRecordsBeforeHydrate } from './stores/persist'
 import { editorSettings } from './stores/misc'
 import * as payloads from '../../TransportPayloads'
@@ -48,14 +48,27 @@ const extension = {
     }
 }
 
+let initialHydrationHappened = false
+
 const webview = {
     hydrate(breadboard: Breadboard): void {
         rememberUnPersistedRecordsBeforeHydrate()
         schemaDictionary.set(breadboard.schemaDictionary)
         templateImports.set(breadboard.templateImports)
+
+        if (initialHydrationHappened) {
+            let currentComponentsIdentifiers = get(components).map(c => c.identifier)
+            justCreatedComponentIdentifiers.set(
+                breadboard.components.map(c => c.identifier).filter(id => ! currentComponentsIdentifiers.includes(id))
+            )
+            setTimeout(() => justCreatedComponentIdentifiers.set([]), 50)
+        }
         components.set(breadboard.components)
+
         records.set([...breadboard.records, ...getUnPersistedRecordsBeforeHydrate(breadboard.records)])
         unPersistedRecords.set([])
+
+        initialHydrationHappened = true
     },
     editorSettings(payload: payloads.EditorSettings): void {
         editorSettings.set({
