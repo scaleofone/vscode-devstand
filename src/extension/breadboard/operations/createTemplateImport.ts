@@ -17,7 +17,13 @@ export default function (document: vscode.TextDocument, payload: CreateTemplateI
             insertColumn += 1
         }
     }
-    const insertText = `\nlocal ${ payload.variableName } = (import '${ payload.targetFile }').${ payload.targetIdentifier };`
+
+    let insertText = `local ${ payload.variableName } = (import '${ payload.targetFile }').${ payload.targetIdentifier };`
+    if (lastLocalBindNode) {
+        insertText = '\n' + insertText
+    } else {
+        insertText = insertText + '\n' + '\n'
+    }
 
     return vscode.TextEdit.insert(
         new vscode.Position(insertLine, insertColumn),
