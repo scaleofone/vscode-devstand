@@ -103,10 +103,25 @@
             inputValueElement.setSelectionRange(selectionStart, (typeof selectionEnd == 'number' ? selectionEnd : inputValueElement.value.length))
         }
     }
+    export async function focusOnInputIdentifierElement(selectionStart, selectionEnd) {
+        await tick()
+        inputIdentifierElement.focus()
+        if (typeof selectionStart == 'number') {
+            inputIdentifierElement.setSelectionRange(selectionStart, (typeof selectionEnd == 'number' ? selectionEnd : inputIdentifierElement.value.length))
+        }
+    }
+
+    export function focus() {
+        if (canModifyIdentifier && inputIdentifierElement.value.trim().length == 0) {
+            focusOnInputIdentifierElement(0)
+        } else {
+            focusOnInputValueElement(0)
+        }
+    }
 
     onMount(() => {
         if (get(focusedEditorRecordPath) == record.path) {
-            focusOnInputValueElement(0)
+            focus(0)
         }
     })
     onDestroy(() => {
