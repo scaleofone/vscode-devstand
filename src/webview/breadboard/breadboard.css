@@ -127,3 +127,34 @@ textarea.font-mono {
 .outline-invalid { outline: 1px solid var(--vscode-inputValidation-errorBorder); }
 .outline-color-invalid { outline-color: var(--vscode-inputValidation-errorBorder) !important; }
 .bg-invalid {  background-color: var(--vscode-inputValidation-errorBackground); }
+
+
+
+.button-with-icon {
+    box-sizing: border-box;
+    --icon-size: 16px;
+    border-radius: 5px;
+    width: calc(2px + var(--icon-size));
+    height: calc(2px + var(--icon-size));
+    padding: 2px;
+}
+.button-with-icon > svg {
+    width: var(--icon-size);
+    max-width: var(--icon-size);
+    height: var(--icon-size);
+    max-height: var(--icon-size);
+}
+.button-with-icon:focus {
+    outline: 1px solid var(--vscode-notebook-focusedEditorBorder);
+    outline-offset: -1px;
+}
+.button-with-icon:hover {
+    background-color: var(--vscode-list-inactiveSelectionBackground);
+}
+.button-with-icon:active {
+    outline-width: 0;
+}
+
+.svg-rotate-90 > svg {
+    transform: rotate(90deg);
+}

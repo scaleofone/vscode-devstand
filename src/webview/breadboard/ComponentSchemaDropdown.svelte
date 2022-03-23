@@ -65,8 +65,8 @@
 
 </script>
 
-<details use:DetailDropdown class="dropdown select-none dropdown--having-svg-in-summary">
-    <summary class="cursor-pointer svg-rotate-90">{@html iconSchema}</summary>
+<details use:DetailDropdown class="dropdown select-none">
+    <summary class="button-with-icon cursor-pointer svg-rotate-90">{@html iconSchema}</summary>
     <div class="menu menu--vertical-padding widget-shadow" style="max-width:300px">
 
         {#if (helpTitle || helpDescription)}
