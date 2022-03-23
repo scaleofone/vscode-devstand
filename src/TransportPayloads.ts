@@ -85,3 +85,9 @@ export interface EditorSettings {
     halfFontSize?: number,
     quaterFontSize?: number,
 }
+
+export interface NewComponentGeometry {
+    colorIndex: number
+    cornerY: number
+    cornerX: number
+}

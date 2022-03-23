@@ -1,9 +1,9 @@
 import { tick } from 'svelte'
 import { Writable, writable, get } from 'svelte/store'
 import { Component } from '../../../BreadboardTypes'
-import { EditorSettings } from '../../../TransportPayloads'
+import { EditorSettings, NewComponentGeometry } from '../../../TransportPayloads'
 import { components, records } from './breadboard'
-import { colorHexForIndex } from './visual'
+import { colorHexForIndex, availableColorIndexes } from './visual'
 import { editorSettings } from './misc'
 
 export interface SquareDimension {
@@ -181,4 +181,12 @@ function recalculateArrows($squareDimensions: SquareDimension[], $brickClamps: B
         result.push(arrow)
     }
     return result
+}
+
+
+export function guessGeometryForNewComponent(): NewComponentGeometry {
+    let colorIndex = get(availableColorIndexes)[0]
+    let cornerY = 50
+    let cornerX = 200
+    return { colorIndex, cornerY, cornerX }
 }

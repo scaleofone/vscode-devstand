@@ -40,8 +40,8 @@ const extension = {
     modifyRecord(payload: payloads.ModifyRecord): AbortablePromise<void> {
         return messenger.postRequestPayload('modifyRecord', payload)
     },
-    actionCreateComponent(): void {
-        messenger.postVoidPayload('actionCreateComponent', null)
+    actionCreateComponent(payload: payloads.NewComponentGeometry): void {
+        messenger.postVoidPayload('actionCreateComponent', payload)
     },
     mutateComponentGeometry(payload: payloads.MutateComponentGeometry): void {
         messenger.postVoidPayload('mutateComponentGeometry', payload)

@@ -3,6 +3,7 @@
     import { extension, messengerReady } from './transport'
 
     import { components, records } from './stores/breadboard'
+    import { guessGeometryForNewComponent } from './stores/arrows'
 
     import Surface from './Surface.svelte'
     import Square from './Square.svelte'
@@ -49,7 +50,7 @@
         <Zoomer />
         <button
             style="height: var(--button-size); padding-left: 1.5rem; padding-right: 1.5rem"
-            on:click={() => extension.actionCreateComponent()}
+            on:click={() => { extension.actionCreateComponent(guessGeometryForNewComponent()) }}
         >Create component</button>
     </div>
 
