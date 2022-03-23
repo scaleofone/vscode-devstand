@@ -49,15 +49,41 @@
         })
     }
 
+    let helpTitle
+    let helpDescription
+    let helpOffsetTop = 0
+    function onSchemaItemMouseEnter(event, item) {
+        helpOffsetTop = event.target.offsetTop
+        helpTitle = item.recordSchema.title
+        helpDescription = item.recordSchema.description
+    }
+    function onSchemaItemMouseLeave() {
+        helpTitle = undefined
+        helpDescription = undefined
+        helpOffsetTop = 0
+    }
+
 </script>
 
 <details use:DetailDropdown class="dropdown select-none dropdown--having-svg-in-summary">
     <summary class="cursor-pointer">{@html iconSchema}</summary>
     <div class="menu menu--vertical-padding widget-shadow" style="max-width:300px">
+
+        {#if (helpTitle || helpDescription)}
+            <div class="menu__help" style={'top: '+ helpOffsetTop +'px'}>
+                <div class="menu__help-inner">
+                    {#if helpTitle}<div class="menu__help-title">{ helpTitle }</div>{/if}
+                    {#if helpDescription}<div class="menu__help-description">{ helpDescription }</div>{/if}
+                </div>
+            </div>
+        {/if}
+
         {#each schemaDropdownItems as item (item)}
             <div class="menu__item"
                 class:menu__item--dimmed="{item.alreadyAdded}"
                 on:click="{()=>addRecord(item)}"
+                on:mouseenter={(event) => onSchemaItemMouseEnter(event, item)}
+                on:mouseleave={() => onSchemaItemMouseLeave() }
             >
                 <span class="grow truncate">{item.recordIdentifier}</span>
             </div>
