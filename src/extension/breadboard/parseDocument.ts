@@ -4,9 +4,21 @@ import * as parser from './jsonnet/JsonnetParser'
 import * as converter from './jsonnet/BreadbordConverter'
 import findAvailableTemplates from './findAvailableTemplates'
 
+async function createEmptyFile(document: vscode.TextDocument): Promise<void> {
+    const edit = new vscode.WorkspaceEdit()
+    edit.set(document.uri, [
+        vscode.TextEdit.insert(
+            new vscode.Position(0, 0),
+            '{}'
+        )
+    ])
+    await vscode.workspace.applyEdit(edit)
+}
+
 export default async function(document: vscode.TextDocument): Promise<Breadboard> {
     const text = document.getText()
     if (text.trim().length === 0) {
+        await createEmptyFile(document)
         return Promise.resolve({
             schemaDictionary: [],
             templateImports: [],
@@ -90,7 +102,8 @@ export default async function(document: vscode.TextDocument): Promise<Breadboard
         const msecEnd = (new Date()).getTime()
         console.log('function parseDocument took '+((msecEnd - msecStart) / 1000)+' seconds')
         return Promise.resolve(breadboard)
-    } catch {
+    } catch (err) {
+        console.log(err)
         vscode.window.showInformationMessage('Could not parse jsonnet file')
         return Promise.reject(new Error('Could not parse jsonnet file'))
     }
