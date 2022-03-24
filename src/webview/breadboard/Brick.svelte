@@ -14,7 +14,7 @@
 
 </script>
 
-<div class="flex items-center show-record-knob-on-hover"
+<div class="flex items-center show-record-knob-on-hover show-record-addInsideScope-button-on-hover"
     class:brick--dragover={$dragoverRecordPath == record.path}
     class:brick--section={knobIsForSection}
     class:brick--having-editor={! knobIsVisible}

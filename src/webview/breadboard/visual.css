@@ -139,3 +139,11 @@
 .record-dropdown-button .dropdown {
     background-color: var(--vscode-editor-background);
 } */
+
+
+.show-record-addInsideScope-button-on-hover .record-addInsideScope-button {
+    opacity: 0;
+}
+.show-record-addInsideScope-button-on-hover:hover .record-addInsideScope-button {
+    opacity: 1;
+}
