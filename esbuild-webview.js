@@ -10,10 +10,10 @@ esbuild
     .build({
         outdir: 'dist/webview/',
         entryPoints: [
-            'src/webview/breadboard/visual.js',
-            'src/webview/editor/editor.js',
-            'src/webview/wizard/wizard.js',
-            'src/webview/kicker/kicker.js',
+            'src/breadboard/webview/visual.js',
+            'src/editor/webview/editor.js',
+            'src/wizard/webview/wizard.js',
+            'src/kicker/webview/kicker.js',
         ],
         metafile: true,
         platform: 'browser',

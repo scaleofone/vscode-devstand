@@ -11,7 +11,7 @@ esbuild
     .build({
         outdir: 'dist/extension/',
         entryPoints: [
-            'src/extension/extension.ts'
+            'src/extension.ts'
         ],
         ...(
             options.web ? {
