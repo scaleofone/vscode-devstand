@@ -1,4 +1,4 @@
-import * as ast from '../../../../heptio-vscode-jsonnet/compiler/lexical-analysis/ast'
+import * as ast from 'heptio-vscode-jsonnet/compiler/lexical-analysis/ast'
 
 export function convertToReference(node: ast.Index): string[] {
     let result = [node.id.name]

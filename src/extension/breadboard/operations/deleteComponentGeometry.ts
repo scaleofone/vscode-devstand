@@ -1,5 +1,5 @@
 import vscode from 'vscode'
-import * as ast from '../../../../heptio-vscode-jsonnet/compiler/lexical-analysis/ast'
+import * as ast from 'heptio-vscode-jsonnet/compiler/lexical-analysis/ast'
 
 import { DeleteComponent } from '../../../TransportPayloads'
 

@@ -1,7 +1,7 @@
-import * as ast from '../../../../heptio-vscode-jsonnet/compiler/lexical-analysis/ast'
-import * as lexer from '../../../../heptio-vscode-jsonnet/compiler/lexical-analysis/lexer'
-import * as lexical from '../../../../heptio-vscode-jsonnet/compiler/lexical-analysis/lexical'
-import * as parser from '../../../../heptio-vscode-jsonnet/compiler/lexical-analysis/parser'
+import * as ast from 'heptio-vscode-jsonnet/compiler/lexical-analysis/ast'
+import * as lexer from 'heptio-vscode-jsonnet/compiler/lexical-analysis/lexer'
+import * as lexical from 'heptio-vscode-jsonnet/compiler/lexical-analysis/lexical'
+import * as parser from 'heptio-vscode-jsonnet/compiler/lexical-analysis/parser'
 
 export function parse(filePath: string, fileText: string): ast.Node {
     if (fileText.trim().length == 0) {

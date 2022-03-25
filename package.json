@@ -103,7 +103,7 @@
     "@types/vscode": "^1.60.0",
     "@vscode/codicons": "^0.0.27",
     "esbuild": "^0.12.25",
-    "immutable": "^3.8.1",
+    "heptio-vscode-jsonnet": "https://codeload.github.com/scaleofone/vscode-jsonnet/legacy.tar.gz/master",
     "jsonschema": "^1.4.0",
     "svelte": "^3.42.4",
     "svelte-forms": "^2.2.1",

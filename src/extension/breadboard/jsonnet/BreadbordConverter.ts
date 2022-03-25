@@ -1,4 +1,4 @@
-import * as ast from '../../../../heptio-vscode-jsonnet/compiler/lexical-analysis/ast'
+import * as ast from 'heptio-vscode-jsonnet/compiler/lexical-analysis/ast'
 
 import { convertToConcatenation, convertToReference, concatenationStringToEditableString } from './helpers'
 
