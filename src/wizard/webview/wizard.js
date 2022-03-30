@@ -1,10 +1,11 @@
 import '../../lib/vscode.css';
+import '../../lib/input-check.css';
 import './wizard.css';
 
 import './transport'
-import Wizard from './Wizard.svelte'
+import Distro from './Distro.svelte'
 
-const app = new Wizard({
+const app = new Distro({
     target: document.body,
     // props: { }
 })

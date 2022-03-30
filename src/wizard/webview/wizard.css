@@ -1,3 +1,7 @@
+.comma-list > *:not(:last-child):after {
+    content: ', ';
+}
+
 .d-inline-block {
     display: inline-block;
 }
