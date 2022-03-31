@@ -4,6 +4,7 @@ import { debounce } from 'throttle-debounce'
 import { Messenger, MessengerMessage } from '../../lib/ExtensionMessenger'
 import { Breadboard } from '../BreadboardTypes'
 import { EditorSettings } from '../../lib/editorSettings'
+import { getEditorSettings } from '../../lib/getEditorSettings'
 import parseDocument from './parseDocument'
 import createNewComponent from './createNewComponent'
 
@@ -276,21 +277,6 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
             '</head><body></body></html>',
         ].join('')
     }
-}
-
-function getEditorSettings(): EditorSettings {
-    const editorConfig = vscode.workspace.getConfiguration('editor')
-    const fontSize = parseFloat(editorConfig.get('fontSize').toString())
-    const lineHeightSetting = parseFloat(editorConfig.get('lineHeight').toString())
-    let lineHeight: number, lineHeightFraction: number
-    if (lineHeightSetting < 8) {
-        lineHeightFraction = (lineHeightSetting == 0) ? 1.5 : lineHeightSetting
-        lineHeight = Math.round(fontSize * lineHeightFraction)
-    } else {
-        lineHeight = Math.round(lineHeightSetting)
-        lineHeightFraction = parseFloat((lineHeight / fontSize).toFixed(1))
-    }
-    return { fontSize, lineHeight, lineHeightFraction }
 }
 
 export default BreadboardEditorProvider

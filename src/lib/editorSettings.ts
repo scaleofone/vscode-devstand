@@ -4,8 +4,8 @@ export interface EditorSettings {
     fontSize: number
     lineHeight: number,
     lineHeightFraction: number,
-    halfFontSize?: number,
-    quaterFontSize?: number,
+    halfFontSize: number,
+    quaterFontSize: number,
 }
 
 export const editorSettings: Writable<EditorSettings> = writable({

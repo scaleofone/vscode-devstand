@@ -71,11 +71,7 @@ const webview = {
         initialHydrationHappened = true
     },
     editorSettings(payload: EditorSettings): void {
-        editorSettings.set({
-            ...payload,
-            halfFontSize: payload.halfFontSize || Math.round(payload.fontSize / 2),
-            quaterFontSize: payload.quaterFontSize || Math.round(payload.fontSize / 4),
-        })
+        editorSettings.set(payload)
     },
 }
 
