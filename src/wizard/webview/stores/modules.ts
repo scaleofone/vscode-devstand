@@ -1,6 +1,6 @@
 import { derived, Readable, readable, Writable, writable, get } from 'svelte/store'
 
-import { selectedBase } from './distro'
+import { selectedBase } from './base'
 import { allModules } from './dictionaries'
 
 export const builtinModules: Readable<string[]> = derived(selectedBase, ($selectedBase) => $selectedBase.builtinModules)

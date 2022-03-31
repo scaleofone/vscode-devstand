@@ -1,21 +1,21 @@
 <script>
-    import { selectedBase } from './stores/distro'
+    import { selectedBase } from './stores/base'
 
-    import DistroBaseSelector from './DistroBaseSelector.svelte'
-    import DistroModulesSelector from './DistroModulesSelector.svelte'
-    import DistroServerSelector from './DistroServerSelector.svelte'
+    import DistroBase from './DistroBase.svelte'
+    import DistroModules from './DistroModules.svelte'
+    import DistroServer from './DistroServer.svelte'
 
 </script>
 
 <div>
 
-    <DistroBaseSelector />
+    <DistroBase />
 
     {#if $selectedBase}
 
-        <DistroModulesSelector />
+        <DistroModules />
 
-        <DistroServerSelector />
+        <DistroServer />
 
     {/if}
 

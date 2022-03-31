@@ -1,6 +1,6 @@
 <script>
 
-    import { selectedBase } from './stores/distro'
+    import { selectedBase } from './stores/base'
 
     import {
         builtinModules, detectedComposerModules, manualModules,

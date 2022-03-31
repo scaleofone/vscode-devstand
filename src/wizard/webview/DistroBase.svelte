@@ -3,7 +3,7 @@
     import {
         availablePhpVersions, availableBaseCaptions, availableBaseTags,
         selectedPhpVersion, selectedBaseCaption, selectedBaseTag,
-    } from './stores/distro'
+    } from './stores/base'
 
     import iconRadio from '@vscode/codicons/src/icons/circle-filled.svg'
 
