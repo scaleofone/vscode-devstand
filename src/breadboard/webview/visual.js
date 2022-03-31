@@ -1,8 +1,8 @@
 import '../../lib/vscode.css'
+import '../../lib/webview.css'
 
 import './../../lib/Menu.css'
 import './../../lib/Dropdown.css'
-import './../../lib/webview.css'
 
 import './visual.css'
 

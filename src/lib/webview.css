@@ -165,3 +165,7 @@ textarea.font-mono {
     background-repeat: repeat;
     background-size: 100px;
 }
+
+.comma-list > *:not(:last-child):after {
+    content: ', ';
+}

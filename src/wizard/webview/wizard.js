@@ -1,6 +1,9 @@
 import '../../lib/vscode.css';
+import '../../lib/webview.css'
+
 import '../../lib/input-check.css';
-import './wizard.css';
+
+import './distro.css';
 
 import './transport'
 import Distro from './Distro.svelte'
