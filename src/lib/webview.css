@@ -32,6 +32,9 @@ textarea.font-mono {
     font-size: var(--vscode-editor-font-size);
     font-family: var(--vscode-editor-font-family);
 }
+.font-family-mono {
+    font-family: var(--vscode-editor-font-family);
+}
 .font-sans {
     font-size: var(--vscode-font-size);
     font-family: var(--vscode-font-family);
@@ -108,6 +111,7 @@ textarea.font-mono {
 
 .cursor-default { cursor: default; }
 .cursor-pointer { cursor: pointer; }
+.cursor-not-allowed { cursor: not-allowed; }
 .cursor-grab { cursor: grab; }
 .cursor-grabbing { cursor: grabbing; }
 

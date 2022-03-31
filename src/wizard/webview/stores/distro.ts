@@ -20,3 +20,8 @@ export const availableBaseTags: Readable<string[]> = derived([selectedPhpVersion
 export const selectedBase: Readable<Base> = derived([selectedPhpVersion, selectedBaseCaption, selectedBaseTag], ([$selectedPhpVersion, $selectedBaseCaption, $selectedBaseTag]) => {
     return bases.find(b => b.phpVersion == $selectedPhpVersion && b.caption == $selectedBaseCaption && b.tag == $selectedBaseTag)
 })
+
+export const detectedComposerModules: Writable<string[]> = writable(['dom','fileinfo','json','libxml','mbstring','openssl','pcre','simplexml','tokenizer'])
+
+export const manualComposerModules: Readable<string[]> = readable(['iconv', 'pcntl'])
+
