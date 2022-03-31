@@ -1,9 +1,10 @@
 <script>
-    import { selectedBase } from './stores/distro'
+    import { selectedBase, selectedServer } from './stores/distro'
 
     import DistroBaseSelector from './DistroBaseSelector.svelte'
     import DistroModulesSelector from './DistroModulesSelector.svelte'
     import DistroServerSelector from './DistroServerSelector.svelte'
+    import DistroServerConfig from './DistroServerConfig.svelte'
 
 </script>
 
@@ -16,6 +17,13 @@
         <DistroModulesSelector />
 
         <DistroServerSelector />
+
+        {#if selectedServer}
+
+            <DistroServerConfig />
+
+        {/if}
+
 
     {/if}
 
