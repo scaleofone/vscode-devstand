@@ -158,3 +158,10 @@ textarea.font-mono {
 .svg-rotate-90 > svg {
     transform: rotate(90deg);
 }
+
+.bg-dots {
+    background-image: url("static/dots.png");
+    background-position: top left;
+    background-repeat: repeat;
+    background-size: 100px;
+}

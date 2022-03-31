@@ -13,7 +13,7 @@
 
 </script>
 
-<div class="map-surface-container map-bg-image bg-scrollable"
+<div class="map-surface-container bg-dots bg-scrollable"
     class:cursor-grabbing-everywhere={ $grabbingSquareUuid || $grabbingVariableUuid }
     style={[
         `background-size: ${ 100 * $zoom }px`,

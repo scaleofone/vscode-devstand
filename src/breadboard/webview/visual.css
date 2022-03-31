@@ -17,12 +17,6 @@
     /* outline: 1px dotted lime; */
 }
 
-.map-bg-image {
-    background-image: url("static/dots.png");
-    background-position: top left;
-    background-repeat: repeat;
-    background-size: 100px;
-}
 .bg-scrollable {
     background-attachment: local;
 }
