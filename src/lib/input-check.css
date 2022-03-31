@@ -5,7 +5,6 @@ label.input-radio {
     color: var(--vscode-checkbox-foreground);
     background-color: var(--vscode-checkbox-background);
     user-select: none;
-    cursor: inherit;
 }
 
 label.input-checkbox {
@@ -41,4 +40,8 @@ label.input-radio svg {
 label.input-checkbox input:checked + svg,
 label.input-radio input:checked + svg {
     opacity: 1;
+}
+
+label.input-checkbox input:disabled + svg {
+    color: var(--vscode-checkbox-border);
 }
