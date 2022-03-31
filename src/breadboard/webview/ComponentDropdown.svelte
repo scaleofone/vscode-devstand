@@ -1,7 +1,7 @@
 <script>
     import { createEventDispatcher } from 'svelte'
     const dispatch = createEventDispatcher()
-    import DetailDropdown from './controls/DetailDropdown'
+    import DetailDropdown from './../../lib/DetailDropdown'
     import iconDropdown from '@vscode/codicons/src/icons/ellipsis.svg'
 
     import { extension } from './transport'

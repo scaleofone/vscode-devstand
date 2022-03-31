@@ -1,7 +1,7 @@
 import '../../lib/vscode.css'
 
-import './controls/Menu.css'
-import './controls/Dropdown.css'
+import './../../lib/Menu.css'
+import './../../lib/Dropdown.css'
 import './breadboard.css'
 
 import './visual.css'

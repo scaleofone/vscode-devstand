@@ -6,7 +6,7 @@
     import { records, templateImports, schemaDictionary, recordPathsBeingEdited } from './stores/breadboard'
     import { makeUnPersistedRecordsForSchema } from './stores/persist'
     import { focusedEditorRecordPath } from './stores/visual'
-    import DetailDropdown from './controls/DetailDropdown'
+    import DetailDropdown from './../../lib/DetailDropdown'
     import iconSchema from '@vscode/codicons/src/icons/ellipsis.svg'
 
     import { extension } from './transport'

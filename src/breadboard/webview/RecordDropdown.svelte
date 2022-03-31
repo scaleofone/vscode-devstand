@@ -3,7 +3,7 @@
     const dispatch = createEventDispatcher()
 
     import iconDropdown from '@vscode/codicons/src/icons/ellipsis.svg'
-    import DetailDropdown from './controls/DetailDropdown'
+    import DetailDropdown from './../../lib/DetailDropdown'
 
     import { extension } from './transport'
 
