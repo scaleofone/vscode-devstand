@@ -1,8 +1,14 @@
 <script>
 
-    import { availableServers, selectedServerPackage } from './stores/distro'
+    import {
+        availableServers, selectedServerPackage,
+        availableDocumentRoots, availableFrontControllers,
+        selectedDocumentRoot, selectedFrontController,
+    } from './stores/server'
 
     import iconRadio from '@vscode/codicons/src/icons/circle-filled.svg'
+
+    $: askDocumentRootAndFrontController = $selectedServerPackage && ['apache', 'unit'].includes($selectedServerPackage)
 
     let serverDescriptionsVisible = false
 
@@ -44,5 +50,23 @@
             <div>{@html server.description}</div>
         {/each}
 
+    </div>
+{/if}
+
+{#if askDocumentRootAndFrontController}
+    <br>
+    <div>
+        Document root and Front controller
+        <br>
+        <select bind:value={$selectedDocumentRoot}>
+            {#each $availableDocumentRoots as dirname (dirname)}
+                <option value={dirname}>{dirname}</option>
+            {/each}
+        </select>
+        <select bind:value={$selectedFrontController}>
+            {#each $availableFrontControllers as basename (basename)}
+                <option value={basename}>{basename}</option>
+            {/each}
+        </select>
     </div>
 {/if}

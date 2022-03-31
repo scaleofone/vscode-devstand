@@ -1,6 +1,16 @@
 import { derived, Readable, readable, Writable, writable, get } from 'svelte/store'
+import { Server, servers } from './dictionaries'
 
 const unique = (item: any, pos: number, self: any[]) => self.indexOf(item) == pos
+
+export const availableServers: Readable<Server[]> = readable(servers)
+
+export const selectedServerPackage: Writable<string> = writable('unit')
+
+export const selectedServer: Readable<Server> = derived([availableServers, selectedServerPackage], ([$availableServers, $selectedServerPackage]) => {
+    return $availableServers.find(s => s.package == $selectedServerPackage)
+})
+
 
 export const detectedFrontControllersPaths: Writable<string[]> = writable([
     './public/index.php',
