@@ -13,7 +13,7 @@ class WizardPanel {
         this.panel = panel
         this.extensionUri = extensionUri
 
-        this.setWebviewHtml()
+        this.panel.webview.html = this.getHtmlForWebview(this.panel.webview)
         setupTransport(this.panel.webview)
         this.panel.onDidDispose(this.onDidDispose, this, this.disposables)
     }
@@ -42,14 +42,18 @@ class WizardPanel {
         return this
     }
 
-    setWebviewHtml() {
-        const webviewUri = (uri: string) => this.panel.webview.asWebviewUri(vscode.Uri.joinPath(this.extensionUri, uri))
-        this.panel.webview.html = [
+    private getHtmlForWebview(webview: vscode.Webview): string {
+        const cspHeader = `default-src 'self' ${webview.cspSource}; `
+                        + `style-src 'self' 'unsafe-inline' ${webview.cspSource}; `
+                        + `img-src 'self' data: ${webview.cspSource}; `
+        const styleHref = webview.asWebviewUri(vscode.Uri.joinPath(this.extensionUri, 'dist/webview/wizard/webview/wizard.css'))
+        const scriptHref = webview.asWebviewUri(vscode.Uri.joinPath(this.extensionUri, 'dist/webview/wizard/webview/wizard.js'))
+        return [
             '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">',
-                '<meta name="viewport" content="width=device-width, initial-scale=1.0">',
-                '<meta content="default-src ', this.panel.webview.cspSource, ';" http-equiv="Content-Security-Policy">',
-                '<link rel="stylesheet" href="', webviewUri('dist/webview/wizard/webview/wizard.css'), '">',
-                '<script defer src="', webviewUri('dist/webview/wizard/webview/wizard.js'), '"></script>',
+            '<meta name="viewport" content="width=device-width, initial-scale=1.0">',
+                `<meta content="${cspHeader}" http-equiv="Content-Security-Policy">`,
+                `<link href="${styleHref}" rel="stylesheet">`,
+                `<script defer src="${scriptHref}"></script>`,
             '</head><body></body></html>',
         ].join('')
     }
