@@ -1,9 +1,10 @@
 <script>
 
+    import { selectedBase } from './stores/distro'
+
     import {
-        selectedBase,
-        detectedComposerModules, manualComposerModules,
-    } from './stores/distro'
+        builtinModules, detectedComposerModules, manualModules,
+    } from './stores/modules'
 
     import iconCheckbox from '@vscode/codicons/src/icons/check.svg'
     import iconChevronDown from '@vscode/codicons/src/icons/chevron-down.svg'
@@ -24,7 +25,7 @@
     </label>
 
     <div class="comma-list font-family-mono">
-        {#each $selectedBase.builtinModules as m } <span>{m}</span> {/each}
+        {#each $builtinModules as m } <span>{m}</span> {/each}
     </div>
 
 </div>
@@ -56,7 +57,7 @@
     </label>
 
     <div class="comma-list font-family-mono">
-        {#each $manualComposerModules as m } <span>{m}</span> {/each}
+        {#each $manualModules as m } <span>{m}</span> {/each}
     </div>
 
 </div>
