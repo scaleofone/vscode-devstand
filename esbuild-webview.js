@@ -12,7 +12,6 @@ esbuild
         entryPoints: [
             'src/breadboard/webview/visual.js',
             'src/wizard/webview/wizard.js',
-            'src/kicker/webview/kicker.js',
         ],
         metafile: true,
         platform: 'browser',

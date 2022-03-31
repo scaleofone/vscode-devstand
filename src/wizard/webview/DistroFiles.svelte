@@ -1,5 +1,15 @@
 <script>
-    import { writablesAsText, ignoredAsText, copyGitignore } from './stores/files'
+    import { onMount } from 'svelte'
+
+    import {
+        writablesAsText, requestWritables,
+        ignoredAsText, copyGitignore, requestGitignores,
+    } from './stores/files'
+
+    onMount(() => {
+        requestWritables()
+        requestGitignores()
+    })
 
 </script>
 

@@ -1,8 +1,11 @@
 import vscodeApi from '../../lib/vscodeApi.js'
 
 import { Messenger } from '../../lib/WebviewMessenger'
+import * as payloads from '../TransportPayloads'
+
 import { getFileContent, filesToSave } from './stores/snippets.js'
 import { get_store_value } from 'svelte/internal'
+import { AbortablePromise } from '../../lib/AbortablePromise.js'
 
 const messenger = new Messenger()
 
@@ -12,6 +15,12 @@ const extension = {
     },
     saveSnippets(): void {
         messenger.postVoidPayload('saveSnippets', null)
+    },
+    requestListing(payload: payloads.RequestListing): AbortablePromise<string[]> {
+        return messenger.postRequestPayload('requestListing', payload)
+    },
+    requestFindFiles(payload: payloads.RequestFindFiles): AbortablePromise<string[]> {
+        return messenger.postRequestPayload('requestFindFiles', payload)
     },
 }
 

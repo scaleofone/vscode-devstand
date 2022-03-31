@@ -1,4 +1,5 @@
 import { derived, Readable, readable, Writable, writable, get } from 'svelte/store'
+import { extension } from '../transport'
 
 export const writablesAsText: Writable<string> = writable('')
 
@@ -58,4 +59,14 @@ export function copyGitignore() {
             + bannerLines.join('\n') + '\n\n'
             + linesPrefixedWithDirname.flat(1).join('\n')
     })
+}
+
+export function requestWritables() {
+    extension.requestListing({ directory: '/' })
+        .then(paths => writablesAsText.set(paths.join('\n')))
+}
+
+export function requestGitignores() {
+    extension.requestFindFiles({ pattern: '**/.gitignore', exclude: '{**​/node_modules/**,vendor/**}' })
+        .then(paths => ignoredAsText.set(paths.join('\n')))
 }

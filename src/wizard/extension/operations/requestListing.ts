@@ -1,10 +1,11 @@
 import vscode from 'vscode'
+import { RequestListing } from '../../TransportPayloads'
 
-export default async function(directory: string): Promise<string[]> {
+export default async function(payload: RequestListing): Promise<string[]> {
     if (! Array.isArray(vscode.workspace.workspaceFolders)) {
         return Promise.resolve([])
     }
-    let directoryUri = vscode.Uri.joinPath(vscode.workspace.workspaceFolders[0].uri, directory.replace(/^\//, ''))
+    let directoryUri = vscode.Uri.joinPath(vscode.workspace.workspaceFolders[0].uri, payload.directory.replace(/^\//, ''))
     return Array.from(await vscode.workspace.fs.readDirectory(directoryUri))
         .map(([name, type]) => {
             if (type === vscode.FileType.Directory || type === vscode.FileType.File) {

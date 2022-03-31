@@ -1,6 +1,8 @@
 import vscode from 'vscode'
 import { Messenger } from '../../lib/ExtensionMessenger'
 import saveSnippets from './saveSnippets'
+import requestListing from './operations/requestListing'
+import requestFindFiles from './operations/requestFindFiles'
 
 let messenger: Messenger
 
@@ -18,6 +20,8 @@ const extension = {
         vscode.window.showInformationMessage(payload)
     },
     saveSnippets,
+    requestListing,
+    requestFindFiles,
 }
 
 let invokedBefore = -1

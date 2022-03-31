@@ -28,37 +28,12 @@
           }
         ],
         "priority": "default"
-      },
-      {
-        "viewType": "KitchenSink.EditorProvider",
-        "displayName": "KitchenSink editor",
-        "selector": [
-          {
-            "filenamePattern": "*.point.json"
-          }
-        ],
-        "priority": "option"
       }
     ],
     "commands": [
       {
         "command": "KitchenSink.openWithBreadboardEditor",
         "title": "Open with Breadboard editor",
-        "category": "Kitchen Sink"
-      },
-      {
-        "command": "KitchenSink.truncateListing",
-        "title": "truncateListing",
-        "category": "Kitchen Sink"
-      },
-      {
-        "command": "KitchenSink.resetListing",
-        "title": "resetListing",
-        "category": "Kitchen Sink"
-      },
-      {
-        "command": "KitchenSink.kickerOpen",
-        "title": "Open kicker",
         "category": "Kitchen Sink"
       },
       {
@@ -69,13 +44,8 @@
     ]
   },
   "activationEvents": [
-    "onCustomEditor:KitchenSink.EditorProvider",
     "onCustomEditor:KitchenSink.BreadboardEditorProvider",
     "onCommand:KitchenSink.openWithBreadboardEditor",
-    "onCommand:KitchenSink.recenter",
-    "onCommand:KitchenSink.truncateListing",
-    "onCommand:KitchenSink.resetListing",
-    "onCommand:KitchenSink.kickerOpen",
     "onCommand:KitchenSink.wizardOpen"
   ],
   "scripts": {
