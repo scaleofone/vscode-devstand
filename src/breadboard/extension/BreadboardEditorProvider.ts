@@ -3,6 +3,7 @@ import { debounce } from 'throttle-debounce'
 
 import { Messenger, MessengerMessage } from '../../lib/ExtensionMessenger'
 import { Breadboard } from '../BreadboardTypes'
+import { EditorSettings } from '../../lib/editorSettings'
 import parseDocument from './parseDocument'
 import createNewComponent from './createNewComponent'
 
@@ -53,7 +54,7 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
             hydrate(breadboard: Breadboard): void {
                 messenger.postVoidPayload('hydrate', breadboard)
             },
-            editorSettings(payload: payloads.EditorSettings): void {
+            editorSettings(payload: EditorSettings): void {
                 messenger.postVoidPayload('editorSettings', payload)
             },
         }
@@ -277,7 +278,7 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
     }
 }
 
-function getEditorSettings(): payloads.EditorSettings {
+function getEditorSettings(): EditorSettings {
     const editorConfig = vscode.workspace.getConfiguration('editor')
     const fontSize = parseFloat(editorConfig.get('fontSize').toString())
     const lineHeightSetting = parseFloat(editorConfig.get('lineHeight').toString())

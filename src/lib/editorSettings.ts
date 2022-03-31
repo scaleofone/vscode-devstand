@@ -1,5 +1,12 @@
 import { Writable, writable } from 'svelte/store'
-import { EditorSettings } from '../../TransportPayloads'
+
+export interface EditorSettings {
+    fontSize: number
+    lineHeight: number,
+    lineHeightFraction: number,
+    halfFontSize?: number,
+    quaterFontSize?: number,
+}
 
 export const editorSettings: Writable<EditorSettings> = writable({
     fontSize: 12,

@@ -4,7 +4,7 @@ import { Messenger } from '../../lib/WebviewMessenger'
 import { get } from 'svelte/store'
 import { schemaDictionary, templateImports, components, records, justCreatedComponentIdentifiers } from './stores/breadboard'
 import { unPersistedRecords, rememberUnPersistedRecordsBeforeHydrate, getUnPersistedRecordsBeforeHydrate } from './stores/persist'
-import { editorSettings } from './stores/misc'
+import { editorSettings, EditorSettings } from '../../lib/editorSettings'
 import * as payloads from '../TransportPayloads'
 import { Breadboard } from '../BreadboardTypes'
 import { AbortablePromise } from '../../lib/AbortablePromise.js'
@@ -70,7 +70,7 @@ const webview = {
 
         initialHydrationHappened = true
     },
-    editorSettings(payload: payloads.EditorSettings): void {
+    editorSettings(payload: EditorSettings): void {
         editorSettings.set({
             ...payload,
             halfFontSize: payload.halfFontSize || Math.round(payload.fontSize / 2),

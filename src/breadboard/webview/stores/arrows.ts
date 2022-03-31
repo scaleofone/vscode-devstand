@@ -1,10 +1,10 @@
 import { tick } from 'svelte'
 import { Writable, writable, get } from 'svelte/store'
 import { Component } from '../../BreadboardTypes'
-import { EditorSettings, NewComponentGeometry } from '../../TransportPayloads'
+import { NewComponentGeometry } from '../../TransportPayloads'
 import { components, records } from './breadboard'
 import { colorHexForIndex, availableColorIndexes } from './visual'
-import { editorSettings } from './misc'
+import { editorSettings, EditorSettings } from '../../../lib/editorSettings'
 
 export interface SquareDimension {
     componentIdentifier: string
