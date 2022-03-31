@@ -3,6 +3,7 @@
 
     import DistroBaseSelector from './DistroBaseSelector.svelte'
     import DistroModulesSelector from './DistroModulesSelector.svelte'
+    import DistroServerSelector from './DistroServerSelector.svelte'
 
 </script>
 
@@ -13,6 +14,8 @@
     {#if $selectedBase}
 
         <DistroModulesSelector />
+
+        <DistroServerSelector />
 
     {/if}
 

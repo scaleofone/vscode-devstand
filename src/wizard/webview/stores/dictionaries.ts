@@ -96,3 +96,42 @@ export const bases: Base[] = [
         builtinModules: ['curl','bz2','calendar','ctype','date','filter','exif','fileinfo','ftp','gettext','hash','iconv','libxml','openssl','pcntl','pcre','phar','readline','reflection','session','spl','sockets','tokenizer','zlib'],
     },
 ]
+
+export interface Server {
+    package: string
+    caption: string
+    description: string
+    recommended: boolean
+}
+
+export const servers = [
+    {
+        package: 'unit',
+        caption: 'Nginx Unit',
+        description: [
+            'Bundle <a href="http://unit.nginx.org">Nginx Unit</a> application server and the code of your application into <b>one single container</b>.',
+            'Nginx Unit utilizes its own process manager to invoke your application.',
+            'Running container will expose port 8080 to access your application via HTTP protocol.'
+        ].join('<br>'),
+        recommended: true,
+    },
+    {
+        package: 'apache',
+        caption: 'Apache',
+        description: [
+            'Bundle Apache web server and the code of your application into <b>one single container</b>. Apache utilizes mod_php to invoke your application.',
+            'Running container will expose port 8080 to access your application via HTTP protocol.',
+        ].join('<br>'),
+        recommended: false,
+    },
+    {
+        package: 'fpm',
+        caption: 'PHP-FPM',
+        description: [
+            'Bundle PHP-FPM (Fast Process Manager) and the code of your application into one single container.',
+            'Running container will expose port 9000 to access your application <b>via FastCGI protocol</b>.',
+            'To access your application via HTTP protocol you <b>must put yet another container to proxy HTTP calls</b> to the FastCGI server.',
+        ].join('<br>'),
+        recommended: false,
+    },
+]
