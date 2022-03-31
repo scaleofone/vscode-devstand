@@ -4,6 +4,7 @@
     import DistroBase from './DistroBase.svelte'
     import DistroModules from './DistroModules.svelte'
     import DistroServer from './DistroServer.svelte'
+    import DistroFiles from './DistroFiles.svelte'
 
 </script>
 
@@ -16,6 +17,8 @@
         <DistroModules />
 
         <DistroServer />
+
+        <DistroFiles />
 
     {/if}
 
