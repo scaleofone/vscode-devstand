@@ -15,11 +15,6 @@
           "command": "KitchenSink.openWithBreadboardEditor",
           "group": "navigation",
           "when": "resourceFilename =~ /breadboard\\.jsonnet$/"
-        },
-        {
-          "command": "KitchenSink.openWithEditor",
-          "group": "navigation",
-          "when": "resourceFilename =~ /\\.point\\.json$/"
         }
       ]
     },
@@ -52,11 +47,6 @@
         "category": "Kitchen Sink"
       },
       {
-        "command": "KitchenSink.openWithEditor",
-        "title": "Open with KitchenSink editor",
-        "category": "Kitchen Sink"
-      },
-      {
         "command": "KitchenSink.truncateListing",
         "title": "truncateListing",
         "category": "Kitchen Sink"
@@ -80,7 +70,6 @@
   },
   "activationEvents": [
     "onCustomEditor:KitchenSink.EditorProvider",
-    "onCommand:KitchenSink.openWithEditor",
     "onCustomEditor:KitchenSink.BreadboardEditorProvider",
     "onCommand:KitchenSink.openWithBreadboardEditor",
     "onCommand:KitchenSink.recenter",

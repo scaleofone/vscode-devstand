@@ -1,7 +1,6 @@
 import vscode from 'vscode'
 import KickerPanel from './kicker/extension/KickerPanel'
 import WizardPanel from './wizard/extension/WizardPanel'
-import EditorProvider from './editor/extension/EditorProvider'
 import BreadboardEditorProvider from './breadboard/extension/BreadboardEditorProvider'
 
 export function activate(context: vscode.ExtensionContext) {
@@ -24,15 +23,6 @@ export function activate(context: vscode.ExtensionContext) {
         vscode.commands.registerCommand('KitchenSink.resetListing', () => {
             KickerPanel.instance(context.extensionUri).reveal().commandResetListing()
         })
-    )
-
-    context.subscriptions.push(
-        vscode.commands.registerCommand('KitchenSink.openWithEditor', (fileFromContextMenu: vscode.Uri) => {
-            vscode.commands.executeCommand('vscode.openWith', fileFromContextMenu, EditorProvider.viewType)
-        })
-    )
-    context.subscriptions.push(
-        vscode.window.registerCustomEditorProvider(EditorProvider.viewType, EditorProvider.instance(context.extensionUri))
     )
 
     context.subscriptions.push(

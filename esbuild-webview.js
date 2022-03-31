@@ -11,7 +11,6 @@ esbuild
         outdir: 'dist/webview/',
         entryPoints: [
             'src/breadboard/webview/visual.js',
-            'src/editor/webview/editor.js',
             'src/wizard/webview/wizard.js',
             'src/kicker/webview/kicker.js',
         ],
