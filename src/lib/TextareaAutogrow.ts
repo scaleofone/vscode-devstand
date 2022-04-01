@@ -1,5 +1,15 @@
 import { tick } from 'svelte'
 
+export async function fitHeight(textareaElement: HTMLTextAreaElement) {
+    if (textareaElement) {
+        await tick()
+        textareaElement.style.height = 'auto'
+        if (textareaElement.value.length > 0) {
+            textareaElement.style.height = `${ textareaElement.scrollHeight }px`
+        }
+    }
+}
+
 export default function(textareaElement: HTMLTextAreaElement) {
 
     const fitHeightAfterTick = async () => {

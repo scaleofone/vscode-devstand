@@ -1,11 +1,16 @@
 <script>
     import { onMount } from 'svelte'
-    import TextareaAutogrow from '../../lib/TextareaAutogrow'
+    import { fitHeight } from '../../lib/TextareaAutogrow'
 
     import {
         writablesAsText, requestWritables,
         ignoredAsText, copyGitignore, requestGitignores,
     } from './stores/files'
+
+    let writablesTextareaElement
+    let ignoredTextareaElement
+    $: fitHeight(writablesTextareaElement, $writablesAsText)
+    $: fitHeight(ignoredTextareaElement, $ignoredAsText)
 
     onMount(() => {
         requestWritables()
@@ -28,7 +33,7 @@
         class="font-mono px-half py-quater"
         rows="5"
         bind:value={$writablesAsText}
-        use:TextareaAutogrow
+        bind:this={writablesTextareaElement}
     ></textarea>
 </div>
 
@@ -49,7 +54,7 @@
         class="font-mono px-half py-quater"
         rows="5"
         bind:value={$ignoredAsText}
-        use:TextareaAutogrow
+        bind:this={ignoredTextareaElement}
     ></textarea>
 
 </div>
