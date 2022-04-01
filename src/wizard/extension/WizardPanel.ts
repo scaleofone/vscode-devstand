@@ -23,7 +23,7 @@ class WizardPanel {
             WizardPanel.singleton = new WizardPanel(
                 vscode.window.createWebviewPanel(
                     WizardPanel.viewType,
-                    'KitchenSink.WizardPanel title',
+                    'Dockerfile wizard',
                     (vscode.window.activeTextEditor ? vscode.window.activeTextEditor.viewColumn : vscode.ViewColumn.One),
                     {
                         retainContextWhenHidden: true,

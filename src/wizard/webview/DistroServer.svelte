@@ -12,6 +12,8 @@
 
     let serverDescriptionsVisible = false
 
+    let docrootCollapsed = false
+
 </script>
 
 <div class="settings-row-padding settings-row-bg" tabindex="0">
@@ -68,9 +70,12 @@
 {#if askDocumentRootAndFrontController}
     <div class="settings-row-padding settings-row-bg" tabindex="0">
 
-        <div class="bold fg-headerForeground">Document root and Front controller</div>
+        <div class="bold fg-headerForeground"
+            class:settings-row-header--collapsed={docrootCollapsed}
+            on:click={() => docrootCollapsed = false}
+            >Document root and Front controller</div>
 
-        <div class="mt-quaterAndHalf">
+        <div class="mt-one" hidden={docrootCollapsed} >
             <div class="inline-flex">
                 <select
                     class="style-input-text font-mono"

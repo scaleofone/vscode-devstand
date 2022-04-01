@@ -73,6 +73,8 @@ textarea.font-mono {
 .mb-quater { margin-bottom: calc(1px * var(--editorSettings-quaterFontSize)); }
 .mt-quaterAndHalf { margin-top: calc(1px * (var(--editorSettings-quaterFontSize) + var(--editorSettings-halfFontSize))); }
 .mb-quaterAndHalf { margin-bottom: calc(1px * (var(--editorSettings-quaterFontSize) + var(--editorSettings-halfFontSize))); }
+.mt-one { margin-top: var(--vscode-editor-font-size); }
+.mb-one { margin-bottom: var(--vscode-editor-font-size); }
 .py-6 { padding-top: calc(1.5 * var(--vscode-font-size)); padding-bottom: calc(1.5 * var(--vscode-font-size)); }
 .px-6 { padding-left: calc(1.5 * var(--vscode-font-size)); padding-right: calc(1.5 * var(--vscode-font-size)); }
 

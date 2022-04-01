@@ -7,10 +7,13 @@
         ignoredAsText, copyGitignore, requestGitignores,
     } from './stores/files'
 
+    let writablesCollapsed = true
+    let ignoredCollapsed = true
+
     let writablesTextareaElement
     let ignoredTextareaElement
-    $: fitHeight(writablesTextareaElement, $writablesAsText)
-    $: fitHeight(ignoredTextareaElement, $ignoredAsText)
+    $: fitHeight(writablesTextareaElement, [$writablesAsText, writablesCollapsed])
+    $: fitHeight(ignoredTextareaElement, [$ignoredAsText, ignoredCollapsed])
 
     onMount(() => {
         requestWritables()
@@ -21,9 +24,14 @@
 
 <div class="settings-row-padding settings-row-bg" tabindex="0">
 
-    <div class="bold fg-headerForeground mb-half">Writable directories</div>
+    <div class="bold fg-headerForeground"
+        class:settings-row-header--collapsed={writablesCollapsed}
+        on:click={() => writablesCollapsed = false }
+        >Writable directories</div>
 
-    <div class="mb-quaterAndHalf">
+    <div hidden={writablesCollapsed}>
+
+    <div class="mt-half mb-quaterAndHalf">
     Store parsed view templates, caches, logs and http uploads in local filesystem. <br>
     Type one directory per each line. Paths relative to the root of your repo.
     </div>
@@ -35,11 +43,18 @@
         bind:this={writablesTextareaElement}
     ></textarea>
 
+    </div>
+
 </div>
 
 <div class="settings-row-padding settings-row-bg" tabindex="0">
 
-    <div class="bold fg-headerForeground">Dockerignore</div>
+    <div class="bold fg-headerForeground"
+        class:settings-row-header--collapsed={ignoredCollapsed}
+        on:click={() => ignoredCollapsed = false }
+        >Dockerignore</div>
+
+    <div hidden={ignoredCollapsed}>
 
     <div class="mt-half mb-quaterAndHalf">
     Files to exclude from the sources during build process to keep container image size lightweight and prevent undesired info leaks. <br>
@@ -56,5 +71,7 @@
         bind:value={$ignoredAsText}
         bind:this={ignoredTextareaElement}
     ></textarea>
+
+    </div>
 
 </div>

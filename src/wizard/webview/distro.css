@@ -1,6 +1,11 @@
 .settings-row-padding {
-    padding: calc(3 * var(--input-padding-vertical));
+    padding: 12px 14px 18px; /* this is actually from VsCode sources */
 }
+.settings-row-header--collapsed {
+    cursor: pointer;
+    margin-bottom: -4px; /* to mitigate 12px vs 18px difference in padding (see above) */
+}
+
 .settings-row-bg:hover {
     background-color: var(--vscode-settings-rowHoverBackground);
 }

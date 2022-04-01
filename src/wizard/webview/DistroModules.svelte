@@ -12,11 +12,18 @@
 
     let modulesManualSelectionVisible = false
 
+    let sectionCollapsed = false
+
 </script>
 
 <div class="settings-row-padding settings-row-bg" tabindex="0">
 
-    <div class="bold fg-headerForeground">PHP modules</div>
+    <div class="bold fg-headerForeground"
+        class:settings-row-header--collapsed={sectionCollapsed}
+        on:click={() => sectionCollapsed = false }
+        >PHP modules</div>
+
+<div hidden={sectionCollapsed}>
 
 <div class="mt-quaterAndHalf">
 
@@ -30,7 +37,7 @@
         <input type="checkbox" checked disabled id="cbx_builtinModules">
         {@html iconCheckbox}
     </label>
-    <label class="pl-half cursor-pointer" for="cbx_builtinModules">
+    <label class="pl-half cursor-default" for="cbx_builtinModules">
         Builtin modules preinstalled with PHP {$selectedBase.phpVersion} in {$selectedBase.caption} {$selectedBase.tag}
     </label>
     </div>
@@ -99,4 +106,6 @@
     {/if}
 </div>
 
+
+</div>
 </div>

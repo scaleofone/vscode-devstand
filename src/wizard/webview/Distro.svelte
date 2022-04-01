@@ -22,8 +22,5 @@
 
     {/if}
 
-    <br><br>
-    <pre>{ JSON.stringify({
-
-    }, null, 2) }</pre>
+    <div style="height:20vh;"></div>
 </div>
