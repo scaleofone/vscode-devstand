@@ -28,6 +28,7 @@ export default function(textareaElement: HTMLTextAreaElement) {
     return {
         destroy() {
             textareaElement.removeEventListener('input', fitHeightAfterTick)
+            clearInterval(pollInitialValueInterval)
         }
     };
 }
