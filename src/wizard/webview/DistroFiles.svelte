@@ -1,5 +1,6 @@
 <script>
     import { onMount } from 'svelte'
+    import TextareaAutogrow from '../../lib/TextareaAutogrow'
 
     import {
         writablesAsText, requestWritables,
@@ -21,9 +22,10 @@
     Type one directory per each line. Paths relative to the root of your repo.
     <br>
     <textarea
-        class="font-mono"
-        rows="10"
+        class="font-mono px-half py-quater"
+        rows="5"
         bind:value={$writablesAsText}
+        use:TextareaAutogrow
     ></textarea>
 </div>
 
@@ -39,8 +41,9 @@
     As an alternative to "ignore"-ing you can switch to "allow"-ing. The former is recommended for beginners, the latter requires certain familiarity with the tool.
     <br>
     <textarea
-        class="font-mono"
-        rows="20"
+        class="font-mono px-half py-quater"
+        rows="5"
         bind:value={$ignoredAsText}
+        use:TextareaAutogrow
     ></textarea>
 </div>
