@@ -10,6 +10,8 @@ export interface Base {
     builtinModules: string[]
 }
 
+export const basesOrder = ['Ubuntu', 'CentOS', 'Alpine']
+
 export const bases: Base[] = [
     {
         caption: 'Alpine',
