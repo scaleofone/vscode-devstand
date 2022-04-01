@@ -62,6 +62,7 @@
 
 </div>
 
+{#if $manualModules.length}
 <br>
 <div>
     <div class="flex items-center">
@@ -79,6 +80,7 @@
     </div>
 
 </div>
+{/if}
 
 <br>
 <div style="margin-left: 2px;">
