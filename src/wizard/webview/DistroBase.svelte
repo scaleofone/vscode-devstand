@@ -9,6 +9,7 @@
 
 </script>
 
+<div class="settings-row-padding settings-row-bg">
 <div>
     PHP version
     <br>
@@ -50,3 +51,5 @@
         {/each}
     </div>
 {/if}
+
+</div>

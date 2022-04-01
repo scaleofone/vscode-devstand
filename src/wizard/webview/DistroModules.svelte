@@ -14,7 +14,9 @@
 
 </script>
 
-<br>
+<div class="settings-row-padding settings-row-bg">
+    <div class="bold fg-headerForeground mb-quaterAndHalf">PHP modules</div>
+
 <div>
     <label class="input-checkbox cursor-not-allowed">
         <input type="checkbox" checked disabled id="cbx_builtinModules">
@@ -75,4 +77,6 @@
             {@html iconChevronDown} Manually select PHP modules
         </span>
     {/if}
+</div>
+
 </div>

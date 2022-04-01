@@ -96,6 +96,7 @@ button.secondary:hover {
 }
 
 input:not([type='checkbox']),
+select.style-input-text,
 textarea {
 	display: block;
 	width: 100%;

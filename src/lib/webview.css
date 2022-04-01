@@ -28,6 +28,7 @@
 
 .font-mono,
 input:not([type="checkbox"]).font-mono,
+select.style-input-text.font-mono,
 textarea.font-mono {
     font-size: var(--vscode-editor-font-size);
     font-family: var(--vscode-editor-font-family);

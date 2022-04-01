@@ -14,10 +14,12 @@
 
 </script>
 
-<br>
-<div>
-    Application server
+<div class="settings-row-padding settings-row-bg">
+
+    <div class="bold fg-headerForeground">Application server</div>
+
     <br>
+    <div>
     {#each $availableServers as server (server)}
         <label class="input-radio cursor-pointer">
             <input type="radio" bind:group={$selectedServerPackage} value={server.package} id={`serverPackage_${server.package}`}>
@@ -30,7 +32,9 @@
         on:click={() => serverDescriptionsVisible = ! serverDescriptionsVisible}
     >What's the difference?</span>
 
-</div>
+    </div>
+
+
 
 {#if serverDescriptionsVisible}
     <br>
@@ -53,20 +57,29 @@
     </div>
 {/if}
 
+</div>
+
 {#if askDocumentRootAndFrontController}
-    <br>
-    <div>
-        Document root and Front controller
+    <div class="settings-row-padding settings-row-bg">
+        <div class="bold fg-headerForeground">Document root and Front controller</div>
         <br>
-        <select bind:value={$selectedDocumentRoot}>
-            {#each $availableDocumentRoots as dirname (dirname)}
-                <option value={dirname}>{dirname}</option>
-            {/each}
-        </select>
-        <select bind:value={$selectedFrontController}>
-            {#each $availableFrontControllers as basename (basename)}
-                <option value={basename}>{basename}</option>
-            {/each}
-        </select>
+        <div>
+            <div class="inline-flex">
+                <select
+                    class="style-input-text font-mono"
+                    bind:value={$selectedDocumentRoot}>
+                    {#each $availableDocumentRoots as dirname (dirname)}
+                        <option value={dirname}>{dirname}</option>
+                    {/each}
+                </select>
+                <select
+                    class="style-input-text font-mono"
+                    bind:value={$selectedFrontController}>
+                    {#each $availableFrontControllers as basename (basename)}
+                        <option value={basename}>{basename}</option>
+                    {/each}
+                </select>
+            </div>
+        </div>
     </div>
 {/if}

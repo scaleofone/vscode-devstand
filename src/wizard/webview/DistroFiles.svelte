@@ -19,8 +19,7 @@
 
 </script>
 
-<br>
-<div class="settings-row-bg px-6 py-6">
+<div class="settings-row-padding settings-row-bg">
 
     <div class="bold fg-headerForeground mb-half">Writable directories</div>
 
@@ -37,7 +36,7 @@
     ></textarea>
 </div>
 
-<div class="settings-row-bg px-6 py-6">
+<div class="settings-row-padding settings-row-bg">
 
     <div class="bold fg-headerForeground mb-half">Dockerignore</div>
 

@@ -1,3 +1,6 @@
+.settings-row-padding {
+    padding: calc(3 * var(--input-padding-vertical));
+}
 .settings-row-bg:hover {
     background-color: var(--vscode-settings-rowHoverBackground);
 }
