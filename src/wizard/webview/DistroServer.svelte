@@ -14,7 +14,7 @@
 
 </script>
 
-<div class="settings-row-padding settings-row-bg">
+<div class="settings-row-padding settings-row-bg" tabindex="0">
 
     <div class="bold fg-headerForeground">Application server</div>
 
@@ -60,7 +60,8 @@
 </div>
 
 {#if askDocumentRootAndFrontController}
-    <div class="settings-row-padding settings-row-bg">
+    <div class="settings-row-padding settings-row-bg" tabindex="0">
+
         <div class="bold fg-headerForeground">Document root and Front controller</div>
         <br>
         <div>
@@ -81,5 +82,6 @@
                 </select>
             </div>
         </div>
+
     </div>
 {/if}

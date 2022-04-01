@@ -14,7 +14,8 @@
 
 </script>
 
-<div class="settings-row-padding settings-row-bg">
+<div class="settings-row-padding settings-row-bg" tabindex="0">
+
     <div class="bold fg-headerForeground mb-quaterAndHalf">PHP modules</div>
 
 <div>

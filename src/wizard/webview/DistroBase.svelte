@@ -9,7 +9,8 @@
 
 </script>
 
-<div class="settings-row-padding settings-row-bg">
+<div class="settings-row-padding settings-row-bg" tabindex="0">
+
 <div>
     PHP version
     <br>

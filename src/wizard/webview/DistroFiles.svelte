@@ -19,7 +19,7 @@
 
 </script>
 
-<div class="settings-row-padding settings-row-bg">
+<div class="settings-row-padding settings-row-bg" tabindex="0">
 
     <div class="bold fg-headerForeground mb-half">Writable directories</div>
 
@@ -34,9 +34,10 @@
         bind:value={$writablesAsText}
         bind:this={writablesTextareaElement}
     ></textarea>
+
 </div>
 
-<div class="settings-row-padding settings-row-bg">
+<div class="settings-row-padding settings-row-bg" tabindex="0">
 
     <div class="bold fg-headerForeground mb-half">Dockerignore</div>
 

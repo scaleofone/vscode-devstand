@@ -6,5 +6,5 @@
 }
 .settings-row-bg:focus-within {
     background-color: var(--vscode-settings-rowHoverBackground);
-    outline: 1px solid var(--vscode-settings-focusedRowBorder);
+    outline: 1px solid var(--vscode-settings-focusedRowBorder) !important;
 }
