@@ -16,34 +16,47 @@
 
 <div class="settings-row-padding settings-row-bg" tabindex="0">
 
-    <div class="bold fg-headerForeground mb-quaterAndHalf">PHP modules</div>
+    <div class="bold fg-headerForeground">PHP modules</div>
 
-<div>
+<div class="mt-quaterAndHalf">
+
+
+
+
+
+
+    <div class="flex items-center">
     <label class="input-checkbox cursor-not-allowed">
         <input type="checkbox" checked disabled id="cbx_builtinModules">
         {@html iconCheckbox}
     </label>
-    <label for="cbx_builtinModules">
+    <label class="pl-half cursor-pointer" for="cbx_builtinModules">
         Builtin modules preinstalled with PHP {$selectedBase.phpVersion} in {$selectedBase.caption} {$selectedBase.tag}
     </label>
+    </div>
 
-    <div class="comma-list font-family-mono">
+    <div class="ml-checkbox pl-half comma-list font-family-mono">
         {#each $builtinModules as m } <span>{m}</span> {/each}
     </div>
 
 </div>
 
+
+
+
 <br>
 <div>
+    <div class="flex items-center">
     <label class="input-checkbox cursor-pointer">
         <input type="checkbox" checked id="cbx_composerModules">
         {@html iconCheckbox}
     </label>
-    <label for="cbx_composerModules">
+    <label class="pl-half cursor-pointer" for="cbx_composerModules">
         Required by dependencies in your <span class="font-mono">composer.json</span>
     </label>
+    </div>
 
-    <div class="comma-list font-family-mono">
+    <div class="ml-checkbox pl-half comma-list font-family-mono">
         {#each $detectedComposerModules as m } <span>{m}</span> {/each}
     </div>
 
@@ -51,31 +64,35 @@
 
 <br>
 <div>
+    <div class="flex items-center">
     <label class="input-checkbox cursor-pointer">
         <input type="checkbox" checked id="cbx_manualModules">
         {@html iconCheckbox}
     </label>
-    <label for="cbx_manualModules">
+    <label class="pl-half cursor-pointer" for="cbx_manualModules">
         Manually selected
     </label>
+    </div>
 
-    <div class="comma-list font-family-mono">
+    <div class="ml-checkbox pl-half comma-list font-family-mono">
         {#each $manualModules as m } <span>{m}</span> {/each}
     </div>
 
 </div>
 
 <br>
-<div>
+<div style="margin-left: 2px;">
     {#if modulesManualSelectionVisible}
-        <span class="fg-link cursor-pointer"
+        <span class="fg-link cursor-pointer inline-flex items-center"
             on:click={() => modulesManualSelectionVisible = false }>
-            {@html iconChevronUp} Hide modules list
+            {@html iconChevronUp}
+            <span class="pl-half">Hide modules list</span>
         </span>
     {:else}
-        <span class="fg-link cursor-pointer"
+        <span class="fg-link cursor-pointer inline-flex items-center"
             on:click={() => modulesManualSelectionVisible = true }>
-            {@html iconChevronDown} Manually select PHP modules
+            {@html iconChevronDown}
+            <span class="pl-half">Manually select PHP modules</span>
         </span>
     {/if}
 </div>

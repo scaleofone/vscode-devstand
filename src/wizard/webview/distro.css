@@ -8,3 +8,11 @@
     background-color: var(--vscode-settings-rowHoverBackground);
     outline: 1px solid var(--vscode-settings-focusedRowBorder) !important;
 }
+
+
+.show-when-settings-row-focus-within {
+    visibility: hidden;
+}
+.settings-row-bg:focus-within .show-when-settings-row-focus-within {
+    visibility: visible;
+}

@@ -39,9 +39,9 @@
 
 <div class="settings-row-padding settings-row-bg" tabindex="0">
 
-    <div class="bold fg-headerForeground mb-half">Dockerignore</div>
+    <div class="bold fg-headerForeground">Dockerignore</div>
 
-    <div class="mb-quaterAndHalf">
+    <div class="mt-half mb-quaterAndHalf">
     Files to exclude from the sources during build process to keep container image size lightweight and prevent undesired info leaks. <br>
     In case running build process on a local machine, to prevent accidental bloat you should
     <span class="fg-link cursor-pointer"

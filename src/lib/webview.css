@@ -66,7 +66,12 @@ textarea.font-mono {
     padding-right: calc(1px * var(--editorSettings-quaterFontSize));
 }
 
+
+.mt-half { margin-top: calc(1px * var(--editorSettings-halfFontSize)); }
 .mb-half { margin-bottom: calc(1px * var(--editorSettings-halfFontSize)); }
+.mt-quater { margin-top: calc(1px * var(--editorSettings-quaterFontSize)); }
+.mb-quater { margin-bottom: calc(1px * var(--editorSettings-quaterFontSize)); }
+.mt-quaterAndHalf { margin-top: calc(1px * (var(--editorSettings-quaterFontSize) + var(--editorSettings-halfFontSize))); }
 .mb-quaterAndHalf { margin-bottom: calc(1px * (var(--editorSettings-quaterFontSize) + var(--editorSettings-halfFontSize))); }
 .py-6 { padding-top: calc(1.5 * var(--vscode-font-size)); padding-bottom: calc(1.5 * var(--vscode-font-size)); }
 .px-6 { padding-left: calc(1.5 * var(--vscode-font-size)); padding-right: calc(1.5 * var(--vscode-font-size)); }
@@ -113,6 +118,10 @@ textarea.font-mono {
 .items-center   { align-items: center; }
 .items-baseline { align-items: baseline; }
 .items-stretch  { align-items: stretch; }
+
+.gap-x-0 { column-gap: 0px; }
+.gap-x-1\/2 { column-gap: calc(1px * var(--editorSettings-halfFontSize)); }
+.gap-x-one { column-gap: var(--vscode-font-size); }
 
 .fg-icon { color: var(--vscode-icon-foreground); }
 .fg-link { color: var(--vscode-textLink-activeForeground); }

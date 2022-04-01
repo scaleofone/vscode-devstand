@@ -45,3 +45,6 @@ label.input-radio input:checked + svg {
 label.input-checkbox input:disabled + svg {
     color: var(--vscode-checkbox-border);
 }
+
+.ml-radio { margin-left: 16px; }
+.ml-checkbox { margin-left: 18px; }

@@ -18,17 +18,21 @@
 
     <div class="bold fg-headerForeground">Application server</div>
 
-    <br>
-    <div>
+    <div class="flex gap-x-one mt-quaterAndHalf">
     {#each $availableServers as server (server)}
+    <div class="flex items-center">
+
         <label class="input-radio cursor-pointer">
             <input type="radio" bind:group={$selectedServerPackage} value={server.package} id={`serverPackage_${server.package}`}>
             {@html iconRadio}
         </label>
-        <label for={`serverPackage_${server.package}`}>{server.caption}</label>
+        <label class="pl-half cursor-pointer" for={`serverPackage_${server.package}`}>{server.caption}</label>
+
+    </div>
     {/each}
 
     <span class="fg-link cursor-pointer"
+        hidden
         on:click={() => serverDescriptionsVisible = ! serverDescriptionsVisible}
     >What's the difference?</span>
 
@@ -37,21 +41,23 @@
 
 
 {#if serverDescriptionsVisible}
-    <br>
+
     <div>
+        <br>
 
         {#each $availableServers as server (server)}
-            <div>
+
+            <div class="flex items-center mt-half">
                 <label class="input-radio cursor-pointer">
                     <input type="radio" bind:group={$selectedServerPackage} value={server.package} id={`serverPackage_${server.package}`}>
                     {@html iconRadio}
                 </label>
-                <label for={`serverPackage_${server.package}`}>{server.caption}</label>
+                <label class="pl-half cursor-pointer" for={`serverPackage_${server.package}`}>{server.caption}</label>
                 {#if server.recommended}
-                    <span style="color:green">Recommended</span>
+                    <span class="pl-half" style="color:green">Recommended</span>
                 {/if}
             </div>
-            <div>{@html server.description}</div>
+            <div class="mt-quater ml-radio pl-half">{@html server.description}</div>
         {/each}
 
     </div>
@@ -63,8 +69,8 @@
     <div class="settings-row-padding settings-row-bg" tabindex="0">
 
         <div class="bold fg-headerForeground">Document root and Front controller</div>
-        <br>
-        <div>
+
+        <div class="mt-quaterAndHalf">
             <div class="inline-flex">
                 <select
                     class="style-input-text font-mono"
