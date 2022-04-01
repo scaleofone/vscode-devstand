@@ -3,7 +3,7 @@ import { derived, Readable, readable, Writable, writable, get } from 'svelte/sto
 import { selectedBase } from './base'
 import { allModules } from './dictionaries'
 
-export const builtinModules: Readable<string[]> = derived(selectedBase, ($selectedBase) => $selectedBase.builtinModules)
+export const builtinModules: Readable<string[]> = derived(selectedBase, ($selectedBase) => $selectedBase?.builtinModules || [])
 
 export const detectedComposerModules: Writable<string[]> = writable(['dom','fileinfo','json','libxml','mbstring','openssl','pcre','simplexml','tokenizer'])
 

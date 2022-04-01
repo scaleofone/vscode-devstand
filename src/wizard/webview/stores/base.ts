@@ -20,3 +20,8 @@ export const availableBaseTags: Readable<string[]> = derived([selectedPhpVersion
 export const selectedBase: Readable<Base> = derived([selectedPhpVersion, selectedBaseCaption, selectedBaseTag], ([$selectedPhpVersion, $selectedBaseCaption, $selectedBaseTag]) => {
     return bases.find(b => b.phpVersion == $selectedPhpVersion && b.caption == $selectedBaseCaption && b.tag == $selectedBaseTag)
 })
+
+// DEMO
+selectedPhpVersion.set(bases[0].phpVersion)
+selectedBaseCaption.set(bases[0].caption)
+selectedBaseTag.set(bases[0].tag)
