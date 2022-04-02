@@ -8,6 +8,7 @@
     import DistroModules from './DistroModules.svelte'
     import DistroServer from './DistroServer.svelte'
     import DistroFiles from './DistroFiles.svelte'
+    import DistroSave from './DistroSave.svelte'
 
     onMount(() => setTimeout(() => messengerReady(true), 10))
 
@@ -24,6 +25,8 @@
         <DistroServer />
 
         <DistroFiles />
+
+        <DistroSave />
 
     {/if}
 

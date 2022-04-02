@@ -3,6 +3,7 @@ import { Messenger } from '../../lib/ExtensionMessenger'
 import saveSnippets from './saveSnippets'
 import requestListing from './operations/requestListing'
 import requestFindFiles from './operations/requestFindFiles'
+import * as payloads from '../TransportPayloads'
 
 let messenger: Messenger
 
@@ -12,6 +13,9 @@ const webview = {
     },
     async getFileContent(filename: string): Promise<string> {
         return messenger.postRequestPayload('getFileContent', filename)
+    },
+    setOpenedFromFolder(payload: payloads.SetOpenedFromFolder): void {
+        messenger.postVoidPayload('setOpenedFromFolder', payload)
     },
 }
 

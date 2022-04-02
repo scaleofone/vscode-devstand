@@ -7,6 +7,8 @@ import { getFileContent, filesToSave } from './stores/snippets.js'
 import { get_store_value } from 'svelte/internal'
 import { AbortablePromise } from '../../lib/AbortablePromise.js'
 
+import { openedFromFolderPath, workspaceFolderPath } from './stores/distro'
+
 const messenger = new Messenger()
 
 const extension = {
@@ -30,6 +32,10 @@ const webview = {
     },
     getFileContent(filename: string): Promise<string> {
         return Promise.resolve(getFileContent(filename))
+    },
+    setOpenedFromFolder(payload: payloads.SetOpenedFromFolder): void {
+        openedFromFolderPath.set(payload.path)
+        workspaceFolderPath.set(payload.workspaceFolderPath)
     },
 }
 

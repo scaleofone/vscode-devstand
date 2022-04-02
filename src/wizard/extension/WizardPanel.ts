@@ -42,6 +42,15 @@ class WizardPanel {
         return this
     }
 
+    setOpenedFromFolder(folderFromContextMenu: vscode.Uri): WizardPanel {
+        let folder = vscode.workspace.workspaceFolders[0]
+        webview.setOpenedFromFolder({
+            path: folderFromContextMenu.path,
+            workspaceFolderPath: folder.uri.path,
+        })
+        return this
+    }
+
     private getHtmlForWebview(webview: vscode.Webview): string {
         const cspHeader = `default-src 'self' ${webview.cspSource}; `
                         + `style-src 'self' 'unsafe-inline' ${webview.cspSource}; `

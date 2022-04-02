@@ -9,6 +9,11 @@ export function activate(context: vscode.ExtensionContext) {
         })
     )
     context.subscriptions.push(
+        vscode.commands.registerCommand('KitchenSink.openWizardFromFolder', (folderFromContextMenu: vscode.Uri) => {
+            WizardPanel.instance(context.extensionUri).reveal().setOpenedFromFolder(folderFromContextMenu)
+        })
+    )
+    context.subscriptions.push(
         vscode.commands.registerCommand('KitchenSink.openWithBreadboardEditor', (fileFromContextMenu: vscode.Uri) => {
             vscode.commands.executeCommand('vscode.openWith', fileFromContextMenu, BreadboardEditorProvider.viewType)
         })

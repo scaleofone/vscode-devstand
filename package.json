@@ -12,6 +12,11 @@
     "menus": {
       "explorer/context": [
         {
+          "command": "KitchenSink.openWizardFromFolder",
+          "group": "2_workspace",
+          "when": "explorerResourceIsFolder"
+        },
+        {
           "command": "KitchenSink.openWithBreadboardEditor",
           "group": "navigation",
           "when": "resourceFilename =~ /breadboard\\.jsonnet$/"
@@ -32,6 +37,11 @@
     ],
     "commands": [
       {
+        "command": "KitchenSink.openWizardFromFolder",
+        "title": "Create Dockerfile",
+        "category": "Kitchen Sink"
+      },
+      {
         "command": "KitchenSink.openWithBreadboardEditor",
         "title": "Open with Breadboard editor",
         "category": "Kitchen Sink"
@@ -45,6 +55,7 @@
   },
   "activationEvents": [
     "onCustomEditor:KitchenSink.BreadboardEditorProvider",
+    "onCommand:KitchenSink.openWizardFromFolder",
     "onCommand:KitchenSink.openWithBreadboardEditor",
     "onCommand:KitchenSink.wizardOpen"
   ],
