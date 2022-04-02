@@ -3,8 +3,6 @@ import vscodeApi from '../../lib/vscodeApi.js'
 import { Messenger } from '../../lib/WebviewMessenger'
 import * as payloads from '../TransportPayloads'
 
-import { getFileContent, filesToSave } from './stores/snippets.js'
-import { get_store_value } from 'svelte/internal'
 import { AbortablePromise } from '../../lib/AbortablePromise.js'
 
 import { openedFromFolderPath, workspaceFolderPath } from './stores/distro'
@@ -14,9 +12,6 @@ const messenger = new Messenger()
 const extension = {
     showMessage(text: string): void {
         messenger.postVoidPayload('showMessage', text)
-    },
-    saveSnippets(): void {
-        messenger.postVoidPayload('saveSnippets', null)
     },
     requestListing(payload: payloads.RequestListing): AbortablePromise<string[]> {
         return messenger.postRequestPayload('requestListing', payload)
@@ -33,12 +28,6 @@ const extension = {
 }
 
 const webview = {
-    getFilesToSave(): Promise<string[]> {
-        return Promise.resolve(get_store_value(filesToSave))
-    },
-    getFileContent(filename: string): Promise<string> {
-        return Promise.resolve(getFileContent(filename))
-    },
     setOpenedFromFolder(payload: payloads.SetOpenedFromFolder): void {
         openedFromFolderPath.set(payload.path)
         workspaceFolderPath.set(payload.workspaceFolderPath)

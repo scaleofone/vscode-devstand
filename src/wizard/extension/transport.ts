@@ -1,6 +1,5 @@
 import vscode from 'vscode'
 import { Messenger } from '../../lib/ExtensionMessenger'
-import saveSnippets from './saveSnippets'
 import requestListing from './operations/requestListing'
 import requestFindFiles from './operations/requestFindFiles'
 import createFiles from './operations/createFiles'
@@ -10,12 +9,6 @@ import * as payloads from '../TransportPayloads'
 let messenger: Messenger
 
 const webview = {
-    async getFilesToSave(): Promise<string[]> {
-        return messenger.postRequestPayload('getFilesToSave', null)
-    },
-    async getFileContent(filename: string): Promise<string> {
-        return messenger.postRequestPayload('getFileContent', filename)
-    },
     setOpenedFromFolder(payload: payloads.SetOpenedFromFolder): void {
         messenger.postVoidPayload('setOpenedFromFolder', payload)
     },
@@ -25,7 +18,6 @@ const extension = {
     showMessage(payload: string): void {
         vscode.window.showInformationMessage(payload)
     },
-    saveSnippets,
     requestListing,
     requestFindFiles,
     createFiles,
