@@ -12,7 +12,7 @@
 
     let modulesManualSelectionVisible = false
 
-    let sectionCollapsed = false
+    let sectionCollapsed = true
 
 </script>
 

@@ -12,7 +12,7 @@
 
     let serverDescriptionsVisible = false
 
-    let docrootCollapsed = false
+    let docrootCollapsed = true
 
 </script>
 

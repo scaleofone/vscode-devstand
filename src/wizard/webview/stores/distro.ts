@@ -3,3 +3,7 @@ import { derived, Readable, readable, Writable, writable, get } from 'svelte/sto
 export const workspaceFolderPath: Writable<string> = writable(undefined)
 
 export const openedFromFolderPath: Writable<string> = writable(undefined)
+
+export function performSave() {
+    console.log('Saving!!!')
+}

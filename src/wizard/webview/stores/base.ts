@@ -24,5 +24,5 @@ export const selectedBase: Readable<Base> = derived([selectedPhpVersion, selecte
 
 // DEMO
 selectedPhpVersion.set('7.4')
-// selectedBaseCaption.set(bases[0].caption)
-// selectedBaseTag.set(bases[0].tag)
+selectedBaseCaption.set(bases[0].caption)
+selectedBaseTag.set(bases[0].tag)
