@@ -24,6 +24,12 @@ const extension = {
     requestFindFiles(payload: payloads.RequestFindFiles): AbortablePromise<string[]> {
         return messenger.postRequestPayload('requestFindFiles', payload)
     },
+    createFiles(payload: payloads.CreateFile[]): AbortablePromise<void> {
+        return messenger.postRequestPayload('createFiles', payload)
+    },
+    notifyFilesCreated(payload: payloads.NotifyFilesCreated): void {
+        messenger.postVoidPayload('notifyFilesCreated', payload)
+    },
 }
 
 const webview = {

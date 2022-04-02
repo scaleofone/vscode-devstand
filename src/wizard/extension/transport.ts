@@ -3,6 +3,8 @@ import { Messenger } from '../../lib/ExtensionMessenger'
 import saveSnippets from './saveSnippets'
 import requestListing from './operations/requestListing'
 import requestFindFiles from './operations/requestFindFiles'
+import createFiles from './operations/createFiles'
+import notifyFilesCreated from './operations/notifyFilesCreated'
 import * as payloads from '../TransportPayloads'
 
 let messenger: Messenger
@@ -26,6 +28,8 @@ const extension = {
     saveSnippets,
     requestListing,
     requestFindFiles,
+    createFiles,
+    notifyFilesCreated,
 }
 
 let invokedBefore = -1

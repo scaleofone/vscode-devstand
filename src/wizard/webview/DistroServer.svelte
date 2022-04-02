@@ -8,7 +8,7 @@
 
     import iconRadio from '@vscode/codicons/src/icons/circle-filled.svg'
 
-    $: askDocumentRootAndFrontController = $selectedServerPackage && ['apache', 'unit'].includes($selectedServerPackage)
+    $: askDocumentRootAndFrontController = true
 
     let serverDescriptionsVisible = false
 

@@ -11,3 +11,14 @@ export interface SetOpenedFromFolder {
     path: string
     workspaceFolderPath: string
 }
+
+export interface CreateFile {
+    dirname: string
+    basename: string
+    contents?: string
+}
+
+export interface NotifyFilesCreated {
+    message: string
+    filesToOpenOnClick: CreateFile[]
+}

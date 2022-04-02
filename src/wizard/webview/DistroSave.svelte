@@ -1,12 +1,9 @@
 <script>
 
     import {
-        openedFromFolderPath, workspaceFolderPath,
+        dirname,
         performSave,
     } from './stores/distro'
-
-    $: showLocation = $workspaceFolderPath && $workspaceFolderPath != $openedFromFolderPath
-    $: locationToShow = showLocation ? $openedFromFolderPath.replace($workspaceFolderPath, '.') : $workspaceFolderPath
 
 </script>
 
@@ -18,9 +15,9 @@
             >Create Dockerfile</button>
         </div>
 
-        {#if showLocation}
+        {#if $dirname}
             <div>
-                <span>in this directory: <span class="font-family-mono">{locationToShow}</span></span>
+                <span>in this directory: <span class="font-family-mono">{$dirname}</span></span>
             </div>
         {/if}
     </div>
