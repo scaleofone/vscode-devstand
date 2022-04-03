@@ -62,3 +62,5 @@ availableFrontControllers.subscribe($availableFrontControllers => {
         }
     }
 })
+
+export const exposedPort: Writable<number> = writable(8080)

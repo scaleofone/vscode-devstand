@@ -4,15 +4,19 @@
         availableServers, selectedServerPackage,
         availableDocumentRoots, availableFrontControllers,
         selectedDocumentRoot, selectedFrontController,
+        exposedPort,
     } from './stores/server'
 
     import iconRadio from '@vscode/codicons/src/icons/circle-filled.svg'
 
-    $: askDocumentRootAndFrontController = true
+    $: askDocumentRootAndFrontController = !! $selectedServerPackage
+    $: askPort = !! $selectedServerPackage
 
     let serverDescriptionsVisible = false
 
     let docrootCollapsed = true
+
+    let portCollapsed = false
 
 </script>
 
@@ -66,6 +70,25 @@
 {/if}
 
 </div>
+
+{#if askPort}
+    <div class="settings-row-padding settings-row-bg" tabindex="0">
+
+        <div class="bold fg-headerForeground"
+            class:settings-row-header--collapsed={portCollapsed}
+            on:click={() => portCollapsed = false}
+            >Exposed port</div>
+
+        <div class="mt-quaterAndHalf" hidden={portCollapsed} >
+            <div class="inline-flex">
+                <input type="number"
+                    bind:value={$exposedPort}
+                >
+            </div>
+        </div>
+
+    </div>
+{/if}
 
 {#if askDocumentRootAndFrontController}
     <div class="settings-row-padding settings-row-bg" tabindex="0">
