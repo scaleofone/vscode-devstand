@@ -2,6 +2,12 @@ import vscode from 'vscode'
 import { NotifyFilesCreated } from '../../TransportPayloads'
 
 export default async function(payload: NotifyFilesCreated): Promise<void> {
+
+    if (payload.filesToOpenOnClick.length == 0) {
+        vscode.window.showInformationMessage(payload.message)
+        return
+    }
+
     if (! Array.isArray(vscode.workspace.workspaceFolders)) {
         throw new Error('No folders open in the workspace')
     }
