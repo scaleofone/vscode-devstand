@@ -67,6 +67,9 @@
     }
 
     $: canAddInsideScope = record.identifier == 'env'
+
+    $: isUnderlined = false && ! record.inSchema
+
 </script>
 
 
@@ -112,7 +115,7 @@
                     on:dblclick={()=> { autofocusOnModifyForm(); setModifyFormVisible(true); }}
                     >
 
-                    <span class:underline-dotted={! record.inSchema}
+                    <span class:underline-dotted={isUnderlined}
                         >{#if record.shortScope}{record.shortScope}.{/if}{record.identifier}</span>
 
                     <span class="pr-half">:</span>
