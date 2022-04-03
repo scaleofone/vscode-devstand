@@ -35,9 +35,24 @@ async function scaffoldBreadboardFolder (folderFromContextMenu: vscode.Uri): Pro
     )
 
     let gitignoreLines = ['jsonnetpkg']
+    const gitignoreUri = vscode.Uri.joinPath(folderFromContextMenu, '.gitignore')
+    let gitignoreExists = undefined
+    let gitignoreText = ''
+    try {
+        let stat = await vscode.workspace.fs.stat(gitignoreUri)
+        if (typeof stat == 'object' && stat && stat.type == vscode.FileType.File) {
+            gitignoreExists = true
+            gitignoreText = (await vscode.workspace.fs.readFile(gitignoreUri)).toString() + '\n'
+        } else {
+            gitignoreExists = false
+        }
+    } catch (err) {
+        gitignoreExists = false
+    }
+
     await vscode.workspace.fs.writeFile(
-        vscode.Uri.joinPath(folderFromContextMenu, '.gitignore'),
-        (new TextEncoder().encode(gitignoreLines.join('\n')))
+        gitignoreUri,
+        (new TextEncoder().encode(gitignoreText + gitignoreLines.join('\n')))
     )
 
     child_process.execSync('devstand fetch', { encoding: 'utf8', cwd: folderFromContextMenu.path })
