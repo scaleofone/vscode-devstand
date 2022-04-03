@@ -49,6 +49,7 @@
         })
     }
 
+    let enableHelpOnHover = false
     let helpTitle
     let helpDescription
     let helpOffsetTop = 0
@@ -69,7 +70,7 @@
     <summary class="button-with-icon cursor-pointer svg-rotate-90">{@html iconSchema}</summary>
     <div class="menu menu--vertical-padding widget-shadow" style="max-width:300px">
 
-        {#if (helpTitle || helpDescription)}
+        {#if enableHelpOnHover && (helpTitle || helpDescription)}
             <div class="menu__help" style={'top: '+ helpOffsetTop +'px'}>
                 <div class="menu__help-inner">
                     {#if helpTitle}<div class="menu__help-title">{ helpTitle }</div>{/if}
