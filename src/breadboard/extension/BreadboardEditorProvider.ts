@@ -76,6 +76,17 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
                     viewColumn: ('viewColumn' in payload ? vscode.ViewColumn[payload.viewColumn] : undefined),
                 })
             },
+            actionDeployButton() {
+                let workspaceFolder = vscode.workspace.workspaceFolders[0]
+                let documentRelativePath = document.uri.path.replace(workspaceFolder.uri.path + '/', '')
+                let terminalText = `devstand manifests ${ documentRelativePath } | kubectl apply -f - `
+                let terminal = vscode.window.createTerminal()
+                terminal.show()
+                setTimeout(() => {
+                    vscode.commands.executeCommand('workbench.action.terminal.focus')
+                    terminal.sendText(terminalText, false)
+                }, 1000)
+            },
             slowOperation(): Promise<string> {
                 return new Promise((resolve, reject) => {
                     setTimeout(() => { resolve('howdy!') }, 5000)

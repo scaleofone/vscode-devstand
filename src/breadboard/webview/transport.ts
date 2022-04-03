@@ -43,6 +43,9 @@ const extension = {
     actionCreateComponent(payload: payloads.NewComponentGeometry): void {
         messenger.postVoidPayload('actionCreateComponent', payload)
     },
+    actionDeployButton(): void {
+        messenger.postVoidPayload('actionDeployButton', null)
+    },
     mutateComponentGeometry(payload: payloads.MutateComponentGeometry): void {
         messenger.postVoidPayload('mutateComponentGeometry', payload)
     }

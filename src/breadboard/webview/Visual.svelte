@@ -47,11 +47,17 @@
 
 <div style="position: fixed; --scrollbar-width: 10px; bottom: var(--scrollbar-width); right: var(--scrollbar-width); padding: var(--scrollbar-width); background-color: var(--vscode-editor-background)">
     <div class="flex" style="gap: 5px; --button-size: 40px">
+        <!--
         <Zoomer />
+        -->
         <button
-            style="height: var(--button-size); padding-left: 1.5rem; padding-right: 1.5rem"
+            style="height: var(--button-size); padding-left: 1.5rem; padding-right: 1.5rem; white-space: nowrap;"
             on:click={() => { extension.actionCreateComponent(guessGeometryForNewComponent()) }}
         >Add component</button>
+        <button
+            style="height: var(--button-size); padding-left: 1.5rem; padding-right: 1.5rem"
+            on:click={() => { extension.actionDeployButton() }}
+        >Deploy</button>
     </div>
 
 </div>
