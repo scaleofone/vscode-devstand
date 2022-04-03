@@ -200,3 +200,20 @@ svg path.animated {
 .show-record-addInsideScope-button-on-hover:hover .record-addInsideScope-button {
     opacity: 1;
 }
+
+
+.hide-arrows .map-surface > svg {
+    opacity: 0 !important;
+}
+.hide-dots .bg-dots {
+    background-image: none !important;
+}
+.hide-square-shadows .shadow-square {
+    box-shadow: none !important;
+}
+.make-bg-green .map-surface-container {
+    background-color: lightgreen !important;
+}
+.hide-component-dropdown .role-component-header .dropdown {
+    display: none !important;
+}
