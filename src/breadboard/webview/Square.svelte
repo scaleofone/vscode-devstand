@@ -13,7 +13,7 @@
 </script>
 
 <div bind:this={squareElement}
-    class="square"
+    class="square shadow-square"
     data-component-identifier={component.identifier}
     class:is-grabbing={ $grabbingSquareUuid === component.identifier || $justCreatedComponentIdentifiers.includes(component.identifier) }
     class:square--dragover={ $dragoverComponentIdentifier === component.identifier }
