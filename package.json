@@ -33,7 +33,7 @@
             "filenamePattern": "*breadboard.jsonnet"
           }
         ],
-        "priority": "default"
+        "priority": "option"
       }
     ],
     "commands": [

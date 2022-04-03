@@ -62,4 +62,6 @@
 
 </div>
 
+<!--
 <StorePreview />
+-->

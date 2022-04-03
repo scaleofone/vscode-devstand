@@ -26,7 +26,7 @@
     ].filter(n=>n).join(';')}
     >
 
-    {#if ! record.persisted }
+    {#if false && ! record.persisted }
         <div class="shrink relative height-mono" style="width: 0;">
             <div class="absolute height-mono" style="right: 1rem; color: red; line-height: var(--height-mono);">!persisted</div>
         </div>
