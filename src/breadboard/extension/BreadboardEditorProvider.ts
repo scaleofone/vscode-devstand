@@ -26,7 +26,7 @@ import * as payloads from '../TransportPayloads'
 import { shouldReportError, ValidationError } from '../../lib/errorHandling'
 
 class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
-    public static readonly viewType = 'KitchenSink.BreadboardEditorProvider'
+    public static readonly viewType = 'DevStand.BreadboardEditorProvider'
     public static singleton: BreadboardEditorProvider | undefined
     private readonly extensionUri: vscode.Uri
 

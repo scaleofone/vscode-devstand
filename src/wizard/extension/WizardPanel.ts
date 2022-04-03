@@ -2,7 +2,7 @@ import vscode from 'vscode'
 import { setup as setupTransport, teardown as teardownTransport, webview } from './transport'
 
 class WizardPanel {
-    public static readonly viewType = 'KitchenSink.WizardPanel'
+    public static readonly viewType = 'DevStand.WizardPanel'
     public static singleton: WizardPanel | undefined
 
     private readonly panel: vscode.WebviewPanel
