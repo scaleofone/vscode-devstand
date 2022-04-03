@@ -18,6 +18,11 @@
           "when": "explorerResourceIsFolder"
         },
         {
+          "command": "DevStand.scaffoldBreadboardFolder",
+          "group": "2_workspace",
+          "when": "explorerResourceIsFolder && !isWeb"
+        },
+        {
           "command": "DevStand.openWithBreadboardEditor",
           "group": "navigation",
           "when": "resourceFilename =~ /breadboard\\.jsonnet$/"
@@ -43,6 +48,11 @@
         "category": "DevStand"
       },
       {
+        "command": "DevStand.scaffoldBreadboardFolder",
+        "title": "Scaffold breadboard directory",
+        "category": "DevStand"
+      },
+      {
         "command": "DevStand.openWithBreadboardEditor",
         "title": "Open with Breadboard editor",
         "category": "DevStand"
@@ -57,6 +67,7 @@
   "activationEvents": [
     "onCustomEditor:DevStand.BreadboardEditorProvider",
     "onCommand:DevStand.openWizardFromFolder",
+    "onCommand:DevStand.scaffoldBreadboardFolder",
     "onCommand:DevStand.openWithBreadboardEditor",
     "onCommand:DevStand.wizardOpen"
   ],

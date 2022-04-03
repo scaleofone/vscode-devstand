@@ -1,6 +1,7 @@
 import vscode from 'vscode'
 import WizardPanel from './wizard/extension/WizardPanel'
 import BreadboardEditorProvider from './breadboard/extension/BreadboardEditorProvider'
+import scaffoldBreadboardFolder from './lib/operations/scaffoldBreadboardFolder'
 
 export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(
@@ -11,6 +12,14 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(
         vscode.commands.registerCommand('DevStand.openWizardFromFolder', (folderFromContextMenu: vscode.Uri) => {
             WizardPanel.instance(context.extensionUri).reveal().setOpenedFromFolder(folderFromContextMenu)
+        })
+    )
+    context.subscriptions.push(
+        vscode.commands.registerCommand('DevStand.scaffoldBreadboardFolder', async (folderFromContextMenu: vscode.Uri) => {
+            const breadbordFileTopOpen = await scaffoldBreadboardFolder(folderFromContextMenu)
+            if (breadbordFileTopOpen) {
+                vscode.commands.executeCommand('DevStand.openWithBreadboardEditor', breadbordFileTopOpen)
+            }
         })
     )
     context.subscriptions.push(
