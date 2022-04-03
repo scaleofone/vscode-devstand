@@ -40,17 +40,17 @@
       {
         "command": "DevStand.openWizardFromFolder",
         "title": "Create Dockerfile",
-        "category": "Kitchen Sink"
+        "category": "DevStand"
       },
       {
         "command": "DevStand.openWithBreadboardEditor",
         "title": "Open with Breadboard editor",
-        "category": "Kitchen Sink"
+        "category": "DevStand"
       },
       {
         "command": "DevStand.wizardOpen",
         "title": "Open wizard",
-        "category": "Kitchen Sink"
+        "category": "DevStand"
       }
     ]
   },
