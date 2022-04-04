@@ -42,7 +42,7 @@
 
 svg path.animated {
     stroke-dasharray: 5;
-    animation: dashdraw 0.2s linear infinite;
+    /* animation: dashdraw 0.2s linear infinite; */
 }
 @keyframes dashdraw {
     0% {
