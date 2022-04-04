@@ -238,7 +238,7 @@ svg path.animated {
     --vscode-scrollbarSlider-background: transparent !important;
 }
 .smaller-bottom-action-area .bottom-action-area {
-    --scrollbar-width: 2px !important;
+    --scrollbar-width: 3px !important;
     --button-size: auto !important;
     --button-padding-x: 1rem !important;
 }
