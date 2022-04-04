@@ -35,7 +35,22 @@
         let trailingRecord = multipleRecords[multipleRecords.length-1]
         recordPathsBeingEdited.update((paths) => [...paths, trailingRecord.path])
         focusedEditorRecordPath.set(trailingRecord.path)
-        records.update((recs) => [...recs, ...multipleRecords])
+        records.update((recs) => {
+            let updRecs = []
+            let otherComponentsRecords = recs.filter(r => r.componentIdentifier != component.identifier)
+            updRecs.push(...otherComponentsRecords)
+            let componentRecords = recs.filter(r => r.componentIdentifier == component.identifier)
+            let indexOfEnv = componentRecords.findIndex(r => r.identifier == 'env')
+            if (indexOfEnv == -1) {
+                updRecs.push(...componentRecords)
+                updRecs.push(...multipleRecords)
+            } else {
+                updRecs.push(...componentRecords.slice(0, indexOfEnv))
+                updRecs.push(...multipleRecords)
+                updRecs.push(...componentRecords.slice(indexOfEnv, componentRecords.length))
+            }
+            return updRecs
+        })
     }
 
     let canDelete = true
