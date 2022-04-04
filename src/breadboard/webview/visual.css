@@ -220,3 +220,7 @@ svg path.animated {
 .hide-scrollbars {
     --vscode-scrollbarSlider-background: transparent !important;
 }
+
+.unreferenced-component-identifier {
+    opacity: 0.8;
+}

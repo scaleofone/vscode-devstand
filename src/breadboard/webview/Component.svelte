@@ -46,7 +46,7 @@
 
             <div class="flex items-center height-mono pl-half pr-quater" style="background-color: var(--square-section-color);">
 
-                <div class="font-mono" class:square-color-foreground={componentWasReferenced} style="font-weight: bold;">{component.identifier}</div>
+                <div class="font-mono" class:square-color-foreground={componentWasReferenced} class:unreferenced-component-identifier={!componentWasReferenced} style="font-weight: bold;">{component.identifier}</div>
 
                 <div class="grow height-mono cursor-grab" style="min-width: 1rem"
                     on:pointerdown={forwardPointerEventToSquareKnob}
