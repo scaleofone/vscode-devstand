@@ -16,7 +16,7 @@
     import StorePreview from './StorePreview.svelte'
 
     onMount(() => setTimeout(() => messengerReady(true), 10))
-    // onMount(() => document.documentElement.classList.add('hide-arrows', 'hide-dots', 'hide-square-shadows', 'make-bg-green', 'hide-component-dropdown'))
+    // onMount(() => document.documentElement.classList.add('hide-scrollbars', 'hide-arrows', 'hide-dots', 'hide-square-shadows', 'make-bg-green', 'hide-component-dropdown'))
 </script>
 
 
