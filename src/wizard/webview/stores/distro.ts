@@ -1,6 +1,6 @@
 import { derived, Readable, readable, Writable, writable, get } from 'svelte/store'
 import { extension } from '../transport'
-import { writablesAsText, ignoredAsText } from './files'
+import { dockerfileAsText, dockerignoreAsText, entrypointAsText } from './dummy'
 import { CreateFile } from '../../TransportPayloads'
 
 export const workspaceFolderPath: Writable<string> = writable(undefined)
@@ -21,27 +21,27 @@ export function performSave() {
     let filesToOpenOnClick: CreateFile[] = []
 
     let $dirname = get(dirname)
-    let $writablesAsText = get(writablesAsText)
-    let $ignoredAsText = get(ignoredAsText)
 
-    if ($writablesAsText.length) {
-        filesToCreate.push({
-            dirname: $dirname,
-            basename: 'writables.txt',
-            contents: $writablesAsText,
-        })
-        filesToOpenOnClick.push({
-            dirname: $dirname,
-            basename: 'writables.txt',
-        })
-    }
-    if ($ignoredAsText.length) {
-        filesToCreate.push({
-            dirname: $dirname,
-            basename: 'ignored.txt',
-            contents: $ignoredAsText,
-        })
-    }
+    filesToCreate.push({
+        dirname: '',
+        basename: '.dockerignore',
+        contents: dockerignoreAsText,
+    })
+    filesToCreate.push({
+        dirname: $dirname,
+        basename: 'entrypoint.sh',
+        contents: entrypointAsText,
+    })
+    filesToCreate.push({
+        dirname: $dirname,
+        basename: 'Dockerfile',
+        contents: dockerfileAsText,
+    })
+    filesToOpenOnClick.push({
+        dirname: $dirname,
+        basename: 'Dockerfile',
+    })
+
 
     if (filesToCreate.length == 0) {
         extension.showMessage('No files to save')

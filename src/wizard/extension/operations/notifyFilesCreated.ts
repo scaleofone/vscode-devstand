@@ -28,7 +28,7 @@ export default async function(payload: NotifyFilesCreated): Promise<void> {
                     vscode.window.showTextDocument(uri, {
                         preserveFocus: false,
                         preview: false,
-                        viewColumn: vscode.ViewColumn.Seven,
+                        viewColumn: vscode.ViewColumn.Active,
                     })
                 }
             }
