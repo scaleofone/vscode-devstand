@@ -77,11 +77,8 @@ RUN mkdir tests \
 FROM base
 
 COPY --from=composer /app       /dist
-COPY unit.conf.json             /var/lib/unit/conf.json
-COPY entrypoint.sh              /entrypoint.sh
 
 RUN chown -R appuser \\
-    /var/lib/unit/conf.json \\
     bootstrap/cache storage public/uploads
 
 USER appuser
