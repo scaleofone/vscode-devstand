@@ -52,7 +52,8 @@
         <Zoomer />
         -->
         <button
-            style="height: var(--button-size); padding-left: 1.5rem; padding-right: 1.5rem; white-space: nowrap;"
+            class="nowrap"
+            style="height: var(--button-size); padding-left: 1.5rem; padding-right: 1.5rem;"
             on:click={() => { extension.actionCreateComponent(guessGeometryForNewComponent()) }}
         >Add component</button>
         <button
