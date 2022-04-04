@@ -1,6 +1,7 @@
 import { Writable, writable } from 'svelte/store'
 
 export interface EditorSettings {
+    themeIsDark?: 1 | 0,
     fontSize: number
     lineHeight: number,
     lineHeightFraction: number,
@@ -9,6 +10,7 @@ export interface EditorSettings {
 }
 
 export const editorSettings: Writable<EditorSettings> = writable({
+    themeIsDark: 0,
     fontSize: 12,
     halfFontSize: 6,
     quaterFontSize: 3,

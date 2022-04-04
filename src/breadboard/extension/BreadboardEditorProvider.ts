@@ -240,7 +240,11 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
         })
 
         const _onDidChangeConfiguration = vscode.workspace.onDidChangeConfiguration(event => {
-            if (event.affectsConfiguration('editor')) {
+            if (
+                event.affectsConfiguration('editor.fontSize')
+                || event.affectsConfiguration('editor.lineHeight')
+                || event.affectsConfiguration('workbench.colorTheme')
+            ) {
                 sendEditorSettings()
             }
         })

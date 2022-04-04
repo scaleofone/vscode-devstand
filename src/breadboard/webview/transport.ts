@@ -74,6 +74,7 @@ const webview = {
         initialHydrationHappened = true
     },
     editorSettings(payload: EditorSettings): void {
+        payload.themeIsDark = ([0, 1].includes(payload.themeIsDark)) ? payload.themeIsDark : (Array.from(document.body.classList).includes('vscode-dark') ? 1 : 0)
         editorSettings.set(payload)
     },
 }

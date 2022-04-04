@@ -1,9 +1,13 @@
 import { Writable, writable, derived, get } from 'svelte/store'
 import { mutateComponentGeometry, components } from './breadboard'
 import { findBrickCoordinatesBelowPointer } from './arrows'
+import { editorSettings } from '../../../lib/editorSettings'
 import { Record } from '../../BreadboardTypes'
 
-export const colors: Writable<string[]> = writable(['#ee5396', '#00bcd4', '#8a3ffc', '#ffc107', '#03a9f4', '#8bc34a', '#ff9800', '#009688'])
+const colorsLight = ['#f9429a', '#6c6cdc', '#0071af', '#009bab', '#008763', '#2ba800', '#e76c00', '#e0310e']
+const colorsDark = ['#ffb3ce', '#d3cdff', '#a1d2ff', '#3feaff', '#00e5ab', '#8df66a', '#ffb98b', '#ffbba5']
+export const colors: Writable<string[]> = writable(get(editorSettings).themeIsDark ? colorsDark : colorsLight)
+editorSettings.subscribe($editorSettings => colors.set($editorSettings.themeIsDark ? colorsDark : colorsLight))
 
 export const usedColorIndexes = derived(components, ($components) => {
     return $components.map(component => component.colorIndex).filter((v, i, a) => a.indexOf(v) === i)
