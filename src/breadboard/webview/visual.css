@@ -201,6 +201,23 @@ svg path.animated {
     opacity: 1;
 }
 
+.bottom-action-area {
+    --button-size: 40px;
+    --button-padding-x: 1rem;
+    --scrollbar-width: 10px;
+    position: fixed;
+    bottom: var(--scrollbar-width);
+    right: var(--scrollbar-width);
+    padding: var(--scrollbar-width);
+    background-color: var(--vscode-editor-background);
+}
+
+.bottom-action-button {
+    height: var(--button-size);
+    padding-left: var(--button-padding-x);
+    padding-right: var(--button-padding-x);
+}
+
 
 .hide-arrows .map-surface > svg {
     opacity: 0 !important;
@@ -220,6 +237,14 @@ svg path.animated {
 .hide-scrollbars {
     --vscode-scrollbarSlider-background: transparent !important;
 }
+.smaller-bottom-action-area .bottom-action-area {
+    --scrollbar-width: 2px !important;
+    --button-size: auto !important;
+    --button-padding-x: 1rem !important;
+}
+
+
+
 
 .unreferenced-component-identifier {
     opacity: 0.8;

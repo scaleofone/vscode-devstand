@@ -16,7 +16,7 @@
     import StorePreview from './StorePreview.svelte'
 
     onMount(() => setTimeout(() => messengerReady(true), 10))
-    // onMount(() => document.documentElement.classList.add('hide-scrollbars', 'hide-arrows', 'hide-dots', 'hide-square-shadows', 'make-bg-green', 'hide-component-dropdown'))
+    // onMount(() => document.documentElement.classList.add('hide-scrollbars', 'hide-arrows', 'hide-dots', 'smaller-bottom-action-area', 'hide-square-shadows', 'make-bg-green', 'hide-component-dropdown'))
 </script>
 
 
@@ -46,18 +46,19 @@
     {/each}
 </Surface>
 
-<div style="position: fixed; --scrollbar-width: 10px; bottom: var(--scrollbar-width); right: var(--scrollbar-width); padding: var(--scrollbar-width); background-color: var(--vscode-editor-background)">
-    <div class="flex" style="gap: 5px; --button-size: 40px">
+<div class="bottom-action-area">
+    <div class="flex" style="gap: 5px">
         <!--
         <Zoomer />
         -->
         <button
-            class="nowrap"
-            style="height: var(--button-size); padding-left: 1.5rem; padding-right: 1.5rem;"
+            class="bottom-action-button nowrap"
+            style="padding-left: 1rem; padding-right: 1rem;"
             on:click={() => { extension.actionCreateComponent(guessGeometryForNewComponent()) }}
         >Add component</button>
         <button
-            style="height: var(--button-size); padding-left: 1.5rem; padding-right: 1.5rem"
+            class="bottom-action-button nowrap"
+            style="padding-left: 1rem; padding-right: 1rem"
             on:click={() => { extension.actionDeployButton() }}
         >Deploy</button>
     </div>
