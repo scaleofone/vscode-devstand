@@ -156,7 +156,7 @@
                 </div>
             {/if}
 
-            <div class="shrink-0 record-dropdown-button">
+            <div class="shrink-0 record-dropdown-button summary-color-dimmed">
                 <RecordDropdown
                     record={record}
                     on:addInsideScope={() => addInsideScope()}

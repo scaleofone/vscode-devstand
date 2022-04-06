@@ -52,11 +52,11 @@
                     on:pointerdown={forwardPointerEventToSquareKnob}
                 ></div>
 
-                <div class="font-mono pr-quater cursor-grab" style="opacity: 0.5;"
+                <div class="font-mono pr-quater cursor-grab color-dimmed"
                     on:pointerdown={forwardPointerEventToSquareKnob}
                 >{component.templateImportVariableName}</div>
 
-                <div class="shrink-0">
+                <div class="shrink-0 summary-color-dimmed">
                     <ComponentSchemaDropdown
                         component={component}
                         on:delete={handleDeleteComponent}

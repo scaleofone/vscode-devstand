@@ -2,7 +2,7 @@
     import { createEventDispatcher } from 'svelte'
     const dispatch = createEventDispatcher()
     import DetailDropdown from './../../lib/DetailDropdown'
-    import iconDropdown from '@vscode/codicons/src/icons/ellipsis.svg'
+    import iconDropdown from '@vscode/codicons/src/icons/kebab-vertical.svg'
 
     import { extension } from './transport'
 
@@ -23,7 +23,7 @@
 </script>
 
 <details use:DetailDropdown class="dropdown select-none">
-    <summary class="button-with-icon cursor-pointer svg-rotate-90">{@html iconDropdown}</summary>
+    <summary class="button-with-icon cursor-pointer">{@html iconDropdown}</summary>
     <div class="menu menu--vertical-padding widget-shadow" style="max-width:300px">
         <div class="menu__item" on:click="{()=>dispatch('rename')}"><span class="grow truncate">Rename</span></div>
         {#if canReveal}

@@ -7,7 +7,7 @@
     import { makeUnPersistedRecordsForSchema } from './stores/persist'
     import { focusedEditorRecordPath } from './stores/visual'
     import DetailDropdown from './../../lib/DetailDropdown'
-    import iconSchema from '@vscode/codicons/src/icons/ellipsis.svg'
+    import iconSchema from '@vscode/codicons/src/icons/kebab-vertical.svg'
 
     import { extension } from './transport'
 
@@ -82,7 +82,7 @@
 </script>
 
 <details use:DetailDropdown class="dropdown select-none">
-    <summary class="button-with-icon cursor-pointer svg-rotate-90">{@html iconSchema}</summary>
+    <summary class="button-with-icon cursor-pointer">{@html iconSchema}</summary>
     <div class="menu menu--vertical-padding widget-shadow" style="max-width:300px">
 
         {#if enableHelpOnHover && (helpTitle || helpDescription)}

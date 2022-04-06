@@ -193,3 +193,10 @@ textarea.font-mono {
 .comma-list > *:not(:last-child):after {
     content: ', ';
 }
+
+.color-dimmed {
+    color: var(--vscode-editorHint-foreground);
+}
+.summary-color-dimmed summary {
+    color: var(--vscode-editorHint-foreground);
+}

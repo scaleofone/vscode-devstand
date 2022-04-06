@@ -2,7 +2,7 @@
     import { createEventDispatcher } from 'svelte'
     const dispatch = createEventDispatcher()
 
-    import iconDropdown from '@vscode/codicons/src/icons/ellipsis.svg'
+    import iconDropdown from '@vscode/codicons/src/icons/kebab-vertical.svg'
     import DetailDropdown from './../../lib/DetailDropdown'
 
     import { extension } from './transport'
@@ -29,7 +29,7 @@
 </script>
 
 <details use:DetailDropdown class="dropdown select-none">
-    <summary class="button-with-icon cursor-pointer svg-rotate-90">{@html iconDropdown}</summary>
+    <summary class="button-with-icon cursor-pointer">{@html iconDropdown}</summary>
     <div class="menu menu--vertical-padding widget-shadow">
         {#if canAddRecordInsideScope}
             <div class="menu__item" on:click="{()=>dispatch('addInsideScope')}"><span class="grow truncate">Add env variable</span></div>
