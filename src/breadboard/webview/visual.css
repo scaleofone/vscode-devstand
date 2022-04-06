@@ -29,9 +29,10 @@
     outline: 1px solid var(--square-border-color);
     background: white;
     transition: transform 0.3s, box-shadow 0.3s;
+    border-radius: 1px;
 }
 .shadow-square {
-    box-shadow: 1px 2px 2px 0px rgba(0,0,0,0.3);
+    /* box-shadow: 1px 2px 2px 0px rgba(0,0,0,0.3); */
 }
 
 .square.is-grabbing {
@@ -41,7 +42,7 @@
 
 
 svg path.animated {
-    stroke-dasharray: 5;
+    stroke-dasharray: 3;
     /* animation: dashdraw 0.2s linear infinite; */
 }
 @keyframes dashdraw {
@@ -238,9 +239,15 @@ svg path.animated {
     --vscode-scrollbarSlider-background: transparent !important;
 }
 .smaller-bottom-action-area .bottom-action-area {
-    --scrollbar-width: 3px !important;
+    /* --scrollbar-width: 3px !important; */
     --button-size: auto !important;
     --button-padding-x: 1rem !important;
+}
+.hide-deploy-button .bottom-action-area button:last-child {
+    display: none;
+}
+.teal-buttons button {
+    background-color: #009bab;
 }
 
 

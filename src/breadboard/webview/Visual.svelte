@@ -16,7 +16,7 @@
     import StorePreview from './StorePreview.svelte'
 
     onMount(() => setTimeout(() => messengerReady(true), 10))
-    // onMount(() => document.documentElement.classList.add('hide-scrollbars', 'hide-arrows', 'hide-dots', 'smaller-bottom-action-area', 'hide-square-shadows', 'make-bg-green', 'hide-component-dropdown'))
+    // onMount(() => document.documentElement.classList.add('hide-scrollbars', 'hide-arrows', 'hide-dots', 'smaller-bottom-action-area', 'hide-deploy-button', 'teal-buttons', 'hide-square-shadows', 'make-bg-green', 'hide-component-dropdown'))
 </script>
 
 
@@ -53,12 +53,10 @@
         -->
         <button
             class="bottom-action-button nowrap"
-            style="padding-left: 1rem; padding-right: 1rem;"
             on:click={() => { extension.actionCreateComponent(guessGeometryForNewComponent()) }}
         >Add component</button>
         <button
             class="bottom-action-button nowrap"
-            style="padding-left: 1rem; padding-right: 1rem"
             on:click={() => { extension.actionDeployButton() }}
         >Deploy</button>
     </div>

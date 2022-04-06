@@ -7,7 +7,7 @@
 
     --height-mono: calc(var(--editorSettings-lineHeight) * 1px);
 
-    --square-section-color: var(--vscode-button-secondaryBackground); /* --vscode-dropdown-border */
+    --square-section-color: var(--vscode-sideBar-background);
     --square-border-color: var(--vscode-input-border);
     --knob-size: 16px;
     --knob-color: var(--vscode-editor-background);
@@ -188,6 +188,9 @@ textarea.font-mono {
     background-position: top left;
     background-repeat: repeat;
     background-size: 100px;
+}
+.vscode-dark .bg-dots {
+    background-image: url("static/dots-dark.png");
 }
 
 .comma-list > *:not(:last-child):after {
