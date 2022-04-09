@@ -149,15 +149,6 @@
             }
         },
         {
-            "type": "npm",
-            "script": "standalone-build",
-            "presentation": {
-                "close": true,
-                "revealProblems": "onProblem"
-            },
-            "problemMatcher": "$tsc",
-        },
-        {
             "label": "task-terminate-all-vscode-tasks",
             "command": "echo ${input:terminate}",
             "type": "shell",

@@ -77,7 +77,6 @@
     "extension-web-build": "node esbuild-extension.js --web",
     "extension-web-watch": "node esbuild-extension.js --web --watch --sourcemap",
     "extension-build-prod": "node esbuild-extension.js --minify && node esbuild-extension.js --noclean --web --minify",
-    "standalone-build": "mkdir -p dist/standalone && rm -rf dist/standalone/* && cp -r src/standalone/* dist/standalone",
     "webview-build": "node esbuild-webview.js",
     "webview-watch": "node esbuild-webview.js --watch --sourcemap"
   },
