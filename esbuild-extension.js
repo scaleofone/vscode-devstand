@@ -39,10 +39,10 @@ esbuild
                 if (error) {
                     error.errors.forEach(error => console.error(`> ${error.location.file}:${error.location.line}:${error.location.column}: error: ${error.text}`))
                 } else {
-                    console.log('[watch] build sucessfull')
+                    console.log('[watch] build finished')
                 }
             },
         } : false),
     })
-    .then(() => options.watch && console.log('[watch] build sucessfull'))
+    .then(() => options.watch && console.log('[watch] build finished'))
     .catch(() => process.exit(1))
