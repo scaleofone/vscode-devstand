@@ -7,7 +7,7 @@
   "main": "./dist/extension/extension.cjs",
   "browser": "./dist/extension/extension.js",
   "engines": {
-    "vscode": "^1.60.0"
+    "vscode": "^1.66.0"
   },
   "contributes": {
     "menus": {
@@ -81,13 +81,13 @@
     "webview-watch": "node esbuild-webview.js --watch --sourcemap"
   },
   "devDependencies": {
-    "@types/vscode": "^1.60.0",
-    "@vscode/codicons": "^0.0.27",
-    "esbuild": "^0.12.25",
+    "@types/vscode": "1.66.0",
+    "@vscode/codicons": "0.0.27",
+    "esbuild": "0.12.29",
     "heptio-vscode-jsonnet": "https://codeload.github.com/scaleofone/vscode-jsonnet/legacy.tar.gz/master",
-    "jsonschema": "^1.4.0",
-    "svelte": "^3.42.4",
-    "svelte-forms": "^2.2.1",
-    "throttle-debounce": "^3.0.1"
+    "jsonschema": "1.4.0",
+    "svelte": "3.44.2",
+    "svelte-forms": "2.2.1",
+    "throttle-debounce": "3.0.1"
   }
 }
