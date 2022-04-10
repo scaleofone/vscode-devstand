@@ -1,11 +1,10 @@
 import esbuild from 'esbuild'
 
-import { parseCliParams } from './esbuild.tools.js'
+import { parseCliParams } from './esbuild.tools.mjs'
 const { options } = parseCliParams()
 
 esbuild
     .build({
-        outdir: 'dist/extension/',
         entryPoints: [
             'src/extension.ts'
         ],
@@ -13,21 +12,21 @@ esbuild
             options.web ? {
                 platform: 'browser',
                 format: 'cjs',
+                outfile: 'dist/extension/browser.js',
             } : {
                 platform: 'node',
                 format: 'cjs',
-                outExtension: {
-                    '.js': '.cjs'
-                },
+                outfile: 'dist/extension/main.js',
             }
         ),
         external: [
-            'vscode'
+            'vscode',
+            'child_process',
         ],
         bundle: true,
         minify: !! options.minify,
         splitting: false,
-        sourcemap: !! options.sourcemap,
+        sourcemap: options.sourcemap ? 'inline' : false,
         metafile: true,
         watch: (options.watch ? {
             onRebuild(error, result) {

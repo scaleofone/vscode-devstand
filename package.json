@@ -2,10 +2,8 @@
   "private": true,
   "name": "devstand",
   "displayName": "DevStand",
-  "version": "0.0.1",
-  "type": "module",
-  "main": "./dist/extension/extension.cjs",
-  "browser": "./dist/extension/extension.js",
+  "main": "./dist/extension/main.js",
+  "browser": "./dist/extension/browser.js",
   "engines": {
     "vscode": "^1.66.0"
   },
@@ -72,13 +70,13 @@
     "onCommand:DevStand.wizardOpen"
   ],
   "scripts": {
-    "extension-build": "node esbuild-extension.js",
-    "extension-watch": "node esbuild-extension.js --watch --sourcemap",
-    "extension-web-build": "node esbuild-extension.js --web",
-    "extension-web-watch": "node esbuild-extension.js --web --watch --sourcemap",
-    "extension-build-prod": "node esbuild-extension.js --minify && node esbuild-extension.js --web --minify",
-    "webview-build": "node esbuild-webview.js",
-    "webview-watch": "node esbuild-webview.js --watch --sourcemap"
+    "extension-build": "node esbuild-extension.mjs",
+    "extension-watch": "node esbuild-extension.mjs --watch --sourcemap",
+    "extension-web-build": "node esbuild-extension.mjs --web",
+    "extension-web-watch": "node esbuild-extension.mjs --web --watch --sourcemap",
+    "extension-build-prod": "node esbuild-extension.mjs --minify && node esbuild-extension.mjs --web --minify",
+    "webview-build": "node esbuild-webview.mjs",
+    "webview-watch": "node esbuild-webview.mjs --watch --sourcemap"
   },
   "devDependencies": {
     "@types/vscode": "1.66.0",

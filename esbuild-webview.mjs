@@ -1,5 +1,5 @@
 import esbuild from 'esbuild'
-import { parseCliParams, sveltePlugin } from './esbuild.tools.js'
+import { parseCliParams, sveltePlugin } from './esbuild.tools.mjs'
 const { options } = parseCliParams()
 
 esbuild
