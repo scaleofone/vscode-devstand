@@ -82,34 +82,8 @@ const noopPlugin = () => ({
     setup(build) {},
 })
 
-// taken from here: https://github.com/mrDarcyMurphy/node-rmrf/blob/master/index.js
-const rmrf = (dirPath, removeDirectoryItself) => {
-    if (fs.existsSync(dirPath)) {
-        let files = fs.readdirSync(dirPath)
-        if (files && files.length > 0) {
-            for (let i = 0; i < files.length; i++) {
-                let filePath = dirPath + '/' + files[i]
-                if (fs.lstatSync(filePath).isDirectory()) {
-                    rmrf(filePath)
-                } else {
-                    fs.unlinkSync(filePath)
-                }
-            }
-        }
-        if (removeDirectoryItself) {
-            fs.rmdirSync(dirPath)
-        }
-    }
-}
-
-const cleanDir = (dirPath) => {
-    rmrf(dirPath, false)
-}
-
 export {
     sveltePlugin,
     noopPlugin,
     parseCliParams,
-    rmrf,
-    cleanDir,
 }

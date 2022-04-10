@@ -76,7 +76,7 @@
     "extension-watch": "node esbuild-extension.js --watch --sourcemap",
     "extension-web-build": "node esbuild-extension.js --web",
     "extension-web-watch": "node esbuild-extension.js --web --watch --sourcemap",
-    "extension-build-prod": "node esbuild-extension.js --minify && node esbuild-extension.js --noclean --web --minify",
+    "extension-build-prod": "node esbuild-extension.js --minify && node esbuild-extension.js --web --minify",
     "webview-build": "node esbuild-webview.js",
     "webview-watch": "node esbuild-webview.js --watch --sourcemap"
   },
