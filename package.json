@@ -1,7 +1,8 @@
 {
-  "private": true,
-  "name": "devstand",
+  "name": "vscode-devstand",
   "displayName": "DevStand",
+  "version": "0.1.0",
+  "description": "DevStand extension for Visual Studio Code",
   "main": "./dist/extension/main.js",
   "browser": "./dist/extension/browser.js",
   "engines": {
@@ -74,9 +75,14 @@
     "extension-watch": "node esbuild-extension.mjs --watch --sourcemap",
     "extension-web-build": "node esbuild-extension.mjs --web",
     "extension-web-watch": "node esbuild-extension.mjs --web --watch --sourcemap",
-    "extension-build-prod": "node esbuild-extension.mjs --minify && node esbuild-extension.mjs --web --minify",
     "webview-build": "node esbuild-webview.mjs",
-    "webview-watch": "node esbuild-webview.mjs --watch --sourcemap"
+    "webview-watch": "node esbuild-webview.mjs --watch --sourcemap",
+    "dist": "node esbuild-extension.mjs --minify && node esbuild-extension.mjs --web --minify && node esbuild-webview.mjs --minify"
+  },
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/scaleofone/vscode-devstand.git"
   },
   "devDependencies": {
     "@types/vscode": "1.66.0",

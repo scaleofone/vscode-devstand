@@ -1,1 +1,1 @@
-# VsCode extension kitchen-sink
+# DevStand extension for Visual Studio Code
