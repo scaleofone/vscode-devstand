@@ -79,6 +79,10 @@
     "dist": "rm -rf ./dist && node esbuild-webview.mjs --minify && node esbuild-extension.mjs --minify"
   },
   "license": "Apache-2.0",
+  "author": {
+    "email": "max@scaleofone.com",
+    "name": "Maksim Pshenichnikov"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/scaleofone/vscode-devstand.git"
