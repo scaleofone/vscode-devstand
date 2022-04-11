@@ -281,8 +281,8 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
         const cspHeader = `default-src 'self' ${webview.cspSource}; `
                         + `style-src 'self' 'unsafe-inline' ${webview.cspSource}; `
                         + `img-src 'self' data: ${webview.cspSource}; `
-        const styleHref = webview.asWebviewUri(vscode.Uri.joinPath(this.extensionUri, 'dist/webview/breadboard/webview/visual.css'))
-        const scriptHref = webview.asWebviewUri(vscode.Uri.joinPath(this.extensionUri, 'dist/webview/breadboard/webview/visual.js'))
+        const styleHref = webview.asWebviewUri(vscode.Uri.joinPath(this.extensionUri, 'dist/webview/breadboard/webview/index.css'))
+        const scriptHref = webview.asWebviewUri(vscode.Uri.joinPath(this.extensionUri, 'dist/webview/breadboard/webview/index.js'))
         return [
             '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">',
             '<meta name="viewport" content="width=device-width, initial-scale=1.0">',
