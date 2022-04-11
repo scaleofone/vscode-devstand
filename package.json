@@ -4,7 +4,6 @@
   "version": "0.1.0",
   "description": "DevStand extension for Visual Studio Code",
   "main": "./dist/extension/main.js",
-  "browser": "./dist/extension/browser.js",
   "engines": {
     "vscode": "^1.61.0"
   },
@@ -77,7 +76,7 @@
     "extension-web-watch": "node esbuild-extension.mjs --web --watch --sourcemap",
     "webview-build": "node esbuild-webview.mjs",
     "webview-watch": "node esbuild-webview.mjs --watch --sourcemap",
-    "dist": "node esbuild-extension.mjs --minify && node esbuild-extension.mjs --web --minify && node esbuild-webview.mjs --minify"
+    "dist": "rm -rf ./dist && node esbuild-webview.mjs --minify && node esbuild-extension.mjs --minify"
   },
   "license": "Apache-2.0",
   "repository": {
