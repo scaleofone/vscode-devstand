@@ -6,7 +6,7 @@
   "main": "./dist/extension/main.js",
   "browser": "./dist/extension/browser.js",
   "engines": {
-    "vscode": "^1.66.0"
+    "vscode": "^1.61.0"
   },
   "contributes": {
     "menus": {
@@ -85,7 +85,7 @@
     "url": "git+https://github.com/scaleofone/vscode-devstand.git"
   },
   "devDependencies": {
-    "@types/vscode": "1.66.0",
+    "@types/vscode": "1.61.0",
     "@vscode/codicons": "0.0.27",
     "esbuild": "0.12.29",
     "heptio-vscode-jsonnet": "https://codeload.github.com/scaleofone/vscode-jsonnet/legacy.tar.gz/master",
