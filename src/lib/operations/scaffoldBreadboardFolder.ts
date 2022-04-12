@@ -1,5 +1,5 @@
 import vscode from 'vscode'
-import child_process from 'child_process'
+import execSync from '../shim/execSync'
 
 export default async function (folderFromContextMenu: vscode.Uri): Promise<vscode.Uri | undefined> {
     try {
@@ -55,7 +55,7 @@ async function scaffoldBreadboardFolder (folderFromContextMenu: vscode.Uri): Pro
         (new TextEncoder().encode(gitignoreText + gitignoreLines.join('\n')))
     )
 
-    child_process.execSync('devstand fetch', { encoding: 'utf8', cwd: folderFromContextMenu.path })
+    execSync('devstand fetch', { encoding: 'utf8', cwd: folderFromContextMenu.path })
 
     return vscode.Uri.joinPath(folderFromContextMenu, breadboardJsonnetBasename)
 }
