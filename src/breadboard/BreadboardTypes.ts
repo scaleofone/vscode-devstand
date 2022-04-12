@@ -1,4 +1,5 @@
 export interface TemplateSchemaDictionaryItem {
+    possibleVariableName?: string,
     targetFile: string,
     targetIdentifier: string,
     schema: TemplateSchema,

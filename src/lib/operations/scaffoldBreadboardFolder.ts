@@ -17,9 +17,7 @@ async function scaffoldBreadboardFolder (folderFromContextMenu: vscode.Uri): Pro
 
     let jsonnetpkgJson = { deps: { } }
     jsonnetpkgJson.deps['github.com/jsonnet-libs/k8s-libsonnet'] = 'github.com/jsonnet-libs/k8s-libsonnet/1.19'
-    jsonnetpkgJson.deps['github.com/jsonnet-libs/docsonnet/doc-util'] = 'github.com/jsonnet-libs/docsonnet/doc-util#HEAD'
-    jsonnetpkgJson.deps['bitbucket.org/maxbublik/templates-jsonnet-apps'] = 'bitbucket.org/maxbublik/templates-jsonnet-apps#v0.0.4'
-    jsonnetpkgJson.deps['bitbucket.org/maxbublik/templates-jsonnet-services'] = 'bitbucket.org/maxbublik/templates-jsonnet-services#v0.0.3'
+    jsonnetpkgJson.deps['github.com/scaleofone/libsonnet'] = 'github.com/scaleofone/libsonnet#main'
 
     await vscode.workspace.fs.writeFile(
         vscode.Uri.joinPath(folderFromContextMenu, 'jsonnetpkg.json'),

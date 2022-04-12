@@ -25,11 +25,13 @@ export default async function(): Promise<TemplateSchemaDictionaryItem[]> {
                     typeof templateJson == 'object' && templateJson
                     && 'file' in templateJson && typeof templateJson.file == 'string'
                     && 'template' in templateJson && typeof templateJson.template == 'string'
+                    && 'variable' in templateJson && typeof templateJson.variable == 'string'
                     && 'schema' in templateJson && isValidJsonSchema(templateJson.schema)
                 ) {
                     result.push({
                         targetFile: foundFileUri.path.replace(/^.*\/jsonnetpkg*\//, '').replace(/breadboard-meta\.json$/, templateJson.file),
                         targetIdentifier: templateJson.template,
+                        possibleVariableName: templateJson.variable,
                         schema: templateJson.schema,
                     })
                 }

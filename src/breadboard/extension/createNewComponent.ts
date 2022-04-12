@@ -4,10 +4,6 @@ import { TemplateImport, Component } from '../BreadboardTypes'
 
 export default async function(): Promise<{ templateImport:TemplateImport, component:Component }> {
     let templates = await findAvailableTemplates()
-    let postgres1 = templates.shift()
-    let postgres2 = templates.shift()
-    postgres1.schema.title = 'PostgreSQL database'
-    templates.push(postgres1)
 
     let quickPickItems = templates.map((template, index) => {
         return {
@@ -18,17 +14,10 @@ export default async function(): Promise<{ templateImport:TemplateImport, compon
             // detail: template.schema?.description,
         }
     })
-    let dummyTemplates = [
-        'MySQL database',
-        'Redis database',
-        'S3 files storage',
-        'SMTP relay',
-    ]
-    dummyTemplates.forEach((label, i) => quickPickItems.push({ label, index: i+templates.length }))
 
     let selectedQuickPickItem = await vscode.window.showQuickPick(quickPickItems, { title: 'Select template' })
     const selectedTemplate = templates[selectedQuickPickItem.index]
-    let variableName = selectedTemplate.targetIdentifier.startsWith('Postgres') ? 'Postgres' : selectedTemplate.targetIdentifier
+    let variableName = selectedTemplate.possibleVariableName
     let templateImport = {
         targetFile: selectedTemplate.targetFile,
         targetIdentifier: selectedTemplate.targetIdentifier,
