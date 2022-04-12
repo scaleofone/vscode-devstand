@@ -167,7 +167,7 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
             },
 
             async actionCreateComponent(payload?: payloads.NewComponentGeometry): Promise<void> {
-                let result = await createNewComponent()
+                let result = await createNewComponent(document)
 
                 let breadboard = await parseDocument(document)
                 const alreadyPresentTemplateImport = breadboard.templateImports.find(ti => (

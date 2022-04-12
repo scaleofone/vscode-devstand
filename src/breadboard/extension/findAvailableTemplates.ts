@@ -1,17 +1,19 @@
 import vscode from 'vscode'
 import { TemplateSchemaDictionaryItem } from '../BreadboardTypes'
 
-export default async function(): Promise<TemplateSchemaDictionaryItem[]> {
+export default async function(documentUri: vscode.Uri): Promise<TemplateSchemaDictionaryItem[]> {
 
     if (! Array.isArray(vscode.workspace.workspaceFolders) || vscode.workspace.workspaceFolders.length == 0) {
         return Promise.resolve([])
     }
     const workspaceFolder: vscode.WorkspaceFolder = vscode.workspace.workspaceFolders[0]
 
+    const documentFolderUri = dirnameUri(documentUri)
+
     const foundFiles: vscode.Uri[] = []
     for (let uri of [
-        vscode.Uri.joinPath(workspaceFolder.uri, '.devstand', 'jsonnetpkg'),
-        vscode.Uri.joinPath(workspaceFolder.uri, 'jsonnetpkg'),
+        vscode.Uri.joinPath(documentFolderUri, 'jsonnetpkg'),
+        vscode.Uri.joinPath(documentFolderUri, 'vendor'),
     ]) {
         foundFiles.push(...await vscode.workspace.findFiles(new vscode.RelativePattern(uri, '**/breadboard-meta.json'), null, 100))
     }
@@ -54,4 +56,10 @@ function isValidJsonSchema(o: any): boolean {
     if ('description' in o && typeof o.description != 'string') { return false }
     if ('required' in o && ! Array.isArray(o.required)) { return false }
     return true
+}
+
+function dirnameUri(fileUri: vscode.Uri): vscode.Uri {
+    let split = fileUri.path.split('/')
+    split.pop()
+    return fileUri.with({ path: split.join('/') })
 }

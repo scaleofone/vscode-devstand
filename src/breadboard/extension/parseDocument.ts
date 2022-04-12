@@ -1,5 +1,5 @@
 import vscode from 'vscode'
-import { Breadboard, TemplateSchema } from '../../BreadboardTypes'
+import { Breadboard, TemplateSchema } from '../BreadboardTypes'
 import * as parser from './jsonnet/JsonnetParser'
 import * as converter from './jsonnet/BreadbordConverter'
 import findAvailableTemplates from './findAvailableTemplates'
@@ -14,7 +14,7 @@ export default async function(document: vscode.TextDocument): Promise<Breadboard
         )
         // PERF do not look up (and then parse) every available template
         // define paths of `breadboard-meta.json` files based on `breadboard.templateImports.map(ti => ti.targetFile)`
-        let availableTemplates = await findAvailableTemplates()
+        let availableTemplates = await findAvailableTemplates(document.uri)
         breadboard.schemaDictionary = availableTemplates.filter(dictItem => (
             breadboard.templateImports.findIndex(ti => (
                 ti.targetFile == dictItem.targetFile && ti.targetIdentifier == dictItem.targetIdentifier

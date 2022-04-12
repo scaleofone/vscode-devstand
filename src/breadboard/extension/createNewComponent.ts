@@ -2,8 +2,8 @@ import vscode from 'vscode'
 import findAvailableTemplates from './findAvailableTemplates'
 import { TemplateImport, Component } from '../BreadboardTypes'
 
-export default async function(): Promise<{ templateImport:TemplateImport, component:Component }> {
-    let templates = await findAvailableTemplates()
+export default async function(document: vscode.TextDocument): Promise<{ templateImport:TemplateImport, component:Component }> {
+    let templates = await findAvailableTemplates(document.uri)
 
     let quickPickItems = templates.map((template, index) => {
         return {
