@@ -1,7 +1,10 @@
 import esbuild from 'esbuild'
+import { copyFileSync } from 'fs'
 
 import { parseCliParams } from './esbuild.tools.mjs'
 const { options } = parseCliParams()
+
+copyFileSync('media/icon-256x256.png', 'dist/icon-256x256.png')
 
 esbuild
     .build({

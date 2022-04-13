@@ -3,7 +3,7 @@
   "displayName": "DevStand",
   "version": "0.1.0",
   "description": "DevStand extension for Visual Studio Code",
-  "main": "./dist/extension/main.js",
+  "main": "dist/extension/main.js",
   "engines": {
     "vscode": "^1.61.0"
   },
@@ -83,9 +83,14 @@
     "email": "max@scaleofone.com",
     "name": "Maksim Pshenichnikov"
   },
+  "icon": "dist/icon-256x256.png",
+  "galleryBanner": {
+    "color": "#022240",
+    "theme": "dark"
+  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/scaleofone/vscode-devstand.git"
+    "url": "https://github.com/scaleofone/vscode-devstand.git"
   },
   "devDependencies": {
     "@types/vscode": "1.61.0",
