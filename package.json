@@ -2,7 +2,7 @@
   "name": "vscode-devstand",
   "displayName": "DevStand",
   "version": "0.1.0",
-  "description": "DevStand extension for Visual Studio Code",
+  "description": "Visualise microservices and deploy to Kubernetes from a single file",
   "main": "dist/extension/main.js",
   "engines": {
     "vscode": "^1.61.0"
@@ -91,6 +91,10 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/scaleofone/vscode-devstand.git"
+  },
+  "bugs": {
+    "email": "max@scaleofone.com",
+    "url": "https://github.com/scaleofone/vscode-devstand/issues"
   },
   "devDependencies": {
     "@types/vscode": "1.61.0",
