@@ -78,6 +78,7 @@
     "webview-watch": "node esbuild-webview.mjs --watch --sourcemap",
     "dist": "rm -rf ./dist && node esbuild-webview.mjs --minify && node esbuild-extension.mjs --minify"
   },
+  "homepage": "https://devstand.app",
   "license": "Apache-2.0",
   "author": {
     "email": "max@scaleofone.com",
