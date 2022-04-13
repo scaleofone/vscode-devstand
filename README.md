@@ -5,7 +5,7 @@
    - `Background worker`
    - `SQL database`
    - `S3 file storage`
-2. Links microservices to each other, set ENV variables and public URLs;
+2. Link microservices to each other, set ENV variables and public URLs;
 3. Transform to full and lengthy Kubernetes manifests ready to deploy!
 
 <br>
