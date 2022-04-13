@@ -9,9 +9,9 @@
 3. Transform to full and lengthy Kubernetes manifests ready to deploy!
 
 <br>
-<img src="https://github.com/scaleofone/vscode-devstand/raw/media/media/breadboard.gif" width="500">
+<img src="https://github.com/scaleofone/vscode-devstand/raw/media/media/breadboard.gif" width="550">
 
----
+<br>
 
 ## Features
 
