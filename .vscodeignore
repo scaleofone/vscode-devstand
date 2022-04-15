@@ -1,0 +1,8 @@
+.vscode/
+node_modules/
+src/
+media/
+tmp/
+.gitignore
+*.vsix
+esbuild*

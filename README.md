@@ -9,7 +9,7 @@
 3. Transform to full and lengthy Kubernetes manifests ready to deploy!
 
 <br>
-<img src="https://devstand.app/video/breadboard.gif" width="550">
+<img src="https://scaleofone.com/video/breadboard.gif" width="550">
 
 <br>
 

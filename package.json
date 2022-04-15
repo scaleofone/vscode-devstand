@@ -1,6 +1,7 @@
 {
   "name": "vscode-devstand",
   "displayName": "DevStand",
+  "publisher": "scaleofone",
   "version": "0.0.1",
   "description": "Visualise microservices and deploy to Kubernetes from a single file",
   "main": "dist/extension/main.js",
