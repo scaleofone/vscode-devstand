@@ -76,6 +76,20 @@ class BreadboardEditorProvider implements vscode.CustomTextEditorProvider {
                     viewColumn: ('viewColumn' in payload ? vscode.ViewColumn[payload.viewColumn] : undefined),
                 })
             },
+            async actionDeployMenu() {
+                let deployChoise = await vscode.window.showQuickPick([
+                    { index: 0, label: 'View manifests'},
+                    { index: 1, label: 'Pipe to kubectl'}
+                ])
+                if (! (typeof deployChoise == 'object')) { return }
+                if (deployChoise.index == 1) {
+                    extension.actionDeployButton()
+                } else if (deployChoise.index == 0) {
+                    const uri = vscode.Uri.parse('devstand-cli:manifests '+document.uri.path+'.yaml')
+                    const doc = await vscode.workspace.openTextDocument(uri)
+                    await vscode.window.showTextDocument(doc, { preview: true, viewColumn: vscode.ViewColumn.Beside })
+                }
+            },
             actionDeployButton() {
                 let workspaceFolder = vscode.workspace.workspaceFolders[0]
                 let documentRelativePath = document.uri.path.replace(workspaceFolder.uri.path + '/', '')

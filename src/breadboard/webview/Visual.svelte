@@ -58,7 +58,7 @@
         >Add component</button>
         <button
             class="bottom-action-button nowrap"
-            on:click={() => { extension.actionDeployButton() }}
+            on:click={() => { extension.actionDeployMenu() }}
         >Deploy</button>
     </div>
 

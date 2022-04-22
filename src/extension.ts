@@ -2,6 +2,7 @@ import vscode from 'vscode'
 import WizardPanel from './wizard/extension/WizardPanel'
 import BreadboardEditorProvider from './breadboard/extension/BreadboardEditorProvider'
 import scaffoldBreadboardFolder from './lib/operations/scaffoldBreadboardFolder'
+import { DevstandCliDocumentProvider, scheme } from './lib/operations/DevstandCliDocumentProvider'
 
 export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(
@@ -29,6 +30,9 @@ export function activate(context: vscode.ExtensionContext) {
     )
     context.subscriptions.push(
         vscode.window.registerCustomEditorProvider(BreadboardEditorProvider.viewType, BreadboardEditorProvider.instance(context.extensionUri))
+    )
+    context.subscriptions.push(
+        vscode.workspace.registerTextDocumentContentProvider(scheme, new DevstandCliDocumentProvider())
     )
 }
 
